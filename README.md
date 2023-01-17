@@ -2,22 +2,22 @@
 
 # TODO List
 
-# au lancement du serveur ecouter sur le port passé en argument
+au lancement du serveur ecouter sur le port passé en argument
 
-# a la connexion d'un utilisateur lui attribuer un socket/fd (a determiner) propre
+a la connexion d'un utilisateur lui attribuer un socket/fd (a determiner) propre
 
-# continuer a ecouter sur le port de "connexion" et ecouter les commandes des clients déja connectés
+continuer a ecouter sur le port de "connexion" et ecouter les commandes des clients déja connectés
 
 # Liste des commandes
 
-# /SERVER [serveur IRC] [port]
+/SERVER [serveur IRC] [port]
 
-# /NICK Votre_identifiant
+/NICK Votre_identifiant
 
-# /JOIN #Nom_du_canal
+/JOIN #Nom_du_canal
 
-# /PART #Nom_du_canal
+/PART #Nom_du_canal
 
-# /PART #Nom_du_canal [fin]
+/PART #Nom_du_canal [fin]
 
-# /LIST [#chaine][-min #][-MAX #]
+/LIST [#chaine][-min #][-MAX #]
