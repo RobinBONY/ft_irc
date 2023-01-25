@@ -6,16 +6,20 @@
 #    By: rbony <rbony@corobizar.com>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 21:28:58 by rbony             #+#    #+#              #
-#    Updated: 2023/01/17 21:29:44 by rbony            ###   ########lyon.fr    #
+#    Updated: 2023/01/25 13:39:05 by rbony            ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ircserv
 
-SRCS =	Server.cpp \
+SRCS =	Channel.cpp \
+		User.cpp \
+		Server.cpp \
 		main.cpp
 
-HEADERS =	Server.hpp
+HEADERS =	Channel.hpp \
+			User.hpp \
+			Server.hpp
 
 CC = c++
 RM = rm -f

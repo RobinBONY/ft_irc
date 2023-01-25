@@ -6,11 +6,13 @@
 /*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:39 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/18 13:23:05 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/01/25 14:26:11 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-User::User(int sockfd, const std::string &host, std::string &servername) : sockfd(sockfd), hostname(host), servername(servername), registrationTime(time(0)), flags(RECEIVENOTICE)
+#include "User.hpp"
+
+User::User(int sockfd, const std::string &host, std::string &servername) : sockfd(sockfd), hostname(host), servername(servername), registrationTime(time(0)), status(RECEIVENOTICE)
 {}
 
 User::~User()
@@ -18,22 +20,27 @@ User::~User()
 
 int		User::getSockfd() const
 {
-	return sockfd;
+	return this->sockfd;
 }
 
 const std::string	&User::getUsername() const
 {
-	return username;
+	return this->username;
+}
+
+const std::vector<const Channel *>	&User::getChannels() const
+{
+	return channels;
 }
 
 const time_t	&User::getTimeOfLastMessage() const
 {
-	return timeOfLastMessage;
+	return this->timeOfLastMessage;
 }
 
 const time_t	&User::getTimeAfterPing() const
 {
-	return timeAfterPing;
+	return this->timeAfterPing;
 }
 
 void	User::sendMessage(const std::string &msg) const
@@ -47,14 +54,14 @@ void	User::setUsername(const std::string &username)
 	this->username = username;
 }
 
-void	User::setStatus(unsigned char flag)
+void	User::setStatus(unsigned int status)
 {
-	status = flag;
+	this->status = status;
 }
 
-unsigned char	User::getStatus() const
+unsigned int	User::getStatus() const
 {
-	return status;
+	return this->status;
 }
 
 void	User::updateTimeOfLastMessage()

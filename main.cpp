@@ -6,7 +6,7 @@
 /*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 04:14:22 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/17 22:14:58 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/01/25 14:30:41 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,9 @@ int main(int argc, char **argv)
 	while (run)
 	{
 		server.grabConnection();
+		
+		server.checkConnectionWithUsers();
+
+		server.deleteBrokenConnections();
 	}
 }

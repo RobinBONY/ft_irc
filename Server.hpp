@@ -6,11 +6,12 @@
 /*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:39:19 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/18 12:51:50 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/01/25 13:27:35 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 class User;
+class Channel;
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -24,26 +25,35 @@ class User;
 #include <vector>
 #include <poll.h>
 #include <string>
-#include "User.hpp"
 
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+#include "User.hpp"
+#include "Channel.hpp"
+
 #define MAXINACTIVETIMEOUT	120
 #define MAXRESPONSETIMEOUT	60
+
+#ifdef __APPLE__
+#define IRC_NOSIGNAL SO_NOSIGPIPE
+#else
+#define IRC_NOSIGNAL MSG_NOSIGNAL
+#endif
 
 class Server
 {
 
 private:
-    std::string                 name;
-    int			                port;
-	const id_t	                timeout;
-    std::string	                password;
-    int			                sockfd;
-	sockaddr_in	                sockaddr;
-    std::vector<struct pollfd>  userFDs;
-    std::vector<User *>         connectedUsers;
+    std::string                         name;
+    int			                        port;
+	const id_t	                        timeout;
+    std::string	                        password;
+    int			                        sockfd;
+	sockaddr_in	                        sockaddr;
+    std::vector<struct pollfd>          userFDs;
+    std::vector<User *>                 connectedUsers;
+    std::map<std::string, Channel *>    channels;
 
     Server();
     Server(const Server &form);
