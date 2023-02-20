@@ -6,13 +6,13 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:16:02 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:44:29 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-Server::Server(int port, const std::string &password) : _name("ircserv"), _port(port), _timeout(1), _password(password)
+Server::Server(int port, const std::string &password) : _name("ircserv"), _port(port), _timeout(1), _password(password), _debug(1)
 {}
 
 Server::~Server()
@@ -30,10 +30,12 @@ void	Server::createSocket()
 	this->_sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (this->_sockfd == -1)
 	{
-		std::cout << "Failed to create socket. errno: " << errno << std::endl;
+		std::cerr << "Failed to create socket. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	printf("create");
+	//printf("create\n");
+	if (this->_debug)
+		std::cout << "[DEBUG]" << "New socket created (" << this->_sockfd << ")" << std::endl;
 }
 
 void	Server::bindSocket()
@@ -49,27 +51,29 @@ void	Server::bindSocket()
 	this->_sockaddr.sin_port = htons(this->_port);
 	if (bind(this->_sockfd, (struct sockaddr*)&this->_sockaddr, sizeof(this->_sockaddr)) < 0)
 	{
-		std::cout << "Failed to bind to port " << this->_port << ". errno: " << errno << std::endl;
+		std::cerr << "Failed to bind to port " << this->_port << ". errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	printf("bind");
+	//printf("bind\n");
+	if (this->_debug)
+		std::cout << "[DEBUG]" << "Socket binded (" << this->_sockfd << ")" << std::endl;
 }
 
 void	Server::listenSocket()
 {
 	if (listen(this->_sockfd, 128) < 0)
 	{
-		std::cout << "Failed to listen on socket. errno: " << errno << std::endl;
+		std::cerr << "Failed to listen on socket. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	fcntl(this->_sockfd, F_SETFL, O_NONBLOCK);
-	printf("listen");
+	//printf("listen\n");
+	if (this->_debug)
+		std::cout << "[DEBUG]" << "Listening on socket (" << this->_sockfd << ")" << std::endl;
 }
 
 void	Server::grabConnection()
 {
-	//std::cout<< connectedUsers.size() << std::endl;
-
 	size_t addrlen = sizeof(this->_sockaddr);
 	int connection = accept(this->_sockfd, (struct sockaddr*)&this->_sockaddr, (socklen_t*)&addrlen);
 	if (connection >= 0)
@@ -82,7 +86,7 @@ void	Server::grabConnection()
 		pfd.revents = 0;
 		this->_userFDs.push_back(pfd);
 		this->_connectedUsers.push_back(new User(connection, host, this->_name));
-		printf("grab");
+		//printf("grab");
 	}
 }
 

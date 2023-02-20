@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 04:14:22 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/25 14:30:41 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/02/20 12:43:12 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ int main(int argc, char **argv)
 	server.bindSocket();
 	server.listenSocket();
 
-	signal(SIGINT, sigHandler);
+	signal(SIGINT, sigHandler); //listening for kill command 
+	//?(tous les signaux écoutés ?)
 
 	while (run)
 	{
 		server.grabConnection();
-		
 		server.checkConnectionWithUsers();
-
 		server.deleteBrokenConnections();
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:37 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/25 13:34:33 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/02/20 12:48:02 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ class Channel;
 class User
 {
 private:
-	int								sockfd;
-	std::string						username;
-	std::string						hostname;
-	const std::string				&servername;
-	time_t							registrationTime;
-	time_t							timeOfLastMessage;
-	time_t							timeAfterPing;
-	unsigned int					status;
-	std::vector<const Channel *>	channels;
+	int								_sockfd;
+	std::string						_username;
+	std::string						_hostname;
+	const std::string				&_servername;
+	time_t							_registrationTime;
+	time_t							_timeOfLastMessage;
+	time_t							_timeAfterPing;
+	unsigned int					_status;
+	std::vector<const Channel *>	_channels;
 
     User();
 	User(const User& copy);

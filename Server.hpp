@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:39:19 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:16:41 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:36:56 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ private:
     std::vector<struct pollfd>          _userFDs;
     std::vector<User *>                 _connectedUsers;
     std::map<std::string, Channel *>    _channels;
+    int                                 _debug;
 
     Server();
     Server(const Server &form);

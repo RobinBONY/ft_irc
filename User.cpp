@@ -3,73 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:39 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/25 14:26:11 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/02/20 12:53:27 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
 
-User::User(int sockfd, const std::string &host, std::string &servername) : sockfd(sockfd), hostname(host), servername(servername), registrationTime(time(0)), status(RECEIVENOTICE)
+User::User(int sockfd, const std::string &host, std::string &servername) 
+: _sockfd(sockfd), _username("NOUSERNAME"), _hostname(host), _servername(servername), _registrationTime(time(0)),
+_timeOfLastMessage(NULL), _timeAfterPing(NULL), _status(RECEIVENOTICE)
 {}
+//_channels uninitialized
 
 User::~User()
 {}
 
 int		User::getSockfd() const
 {
-	return this->sockfd;
+	return this->_sockfd;
 }
 
 const std::string	&User::getUsername() const
 {
-	return this->username;
+	return this->_username;
 }
 
 const std::vector<const Channel *>	&User::getChannels() const
 {
-	return channels;
+	return this->_channels;
 }
 
 const time_t	&User::getTimeOfLastMessage() const
 {
-	return this->timeOfLastMessage;
+	return this->_timeOfLastMessage;
 }
 
 const time_t	&User::getTimeAfterPing() const
 {
-	return this->timeAfterPing;
+	return this->_timeAfterPing;
 }
 
 void	User::sendMessage(const std::string &msg) const
 {
 	if (msg.size() > 0)
-		send(sockfd, msg.c_str(), msg.size(), IRC_NOSIGNAL);
+		send(_sockfd, msg.c_str(), msg.size(), IRC_NOSIGNAL);
 }
 
 void	User::setUsername(const std::string &username)
 {
-	this->username = username;
+	this->_username = username;
 }
 
 void	User::setStatus(unsigned int status)
 {
-	this->status = status;
+	this->_status = status;
 }
 
 unsigned int	User::getStatus() const
 {
-	return this->status;
+	return this->_status;
 }
 
 void	User::updateTimeOfLastMessage()
 {
-	this->timeOfLastMessage = time(0);
+	this->_timeOfLastMessage = time(0);
 }
 
 void	User::updateTimeAfterPing()
 {
-	this->timeAfterPing = time(0);
+	this->_timeAfterPing = time(0);
 }
