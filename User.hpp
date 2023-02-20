@@ -6,12 +6,15 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:37 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:48:02 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:02:31 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 class Server;
 class Channel;
+
+#ifndef USER_HPP
+#define USER_HPP
 
 #include <string>
 #include <time.h>
@@ -24,9 +27,6 @@ class Channel;
 #include <sys/socket.h>
 #include <algorithm>
 #include <fcntl.h>
-
-#ifndef USER_HPP
-#define USER_HPP
 
 #include "Server.hpp"
 #include "Channel.hpp"

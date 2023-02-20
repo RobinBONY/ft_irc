@@ -6,12 +6,15 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:39:19 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:36:56 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:55:34 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 class User;
 class Channel;
+
+#ifndef SERVER_HPP
+#define SERVER_HPP
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -25,9 +28,6 @@ class Channel;
 #include <vector>
 #include <poll.h>
 #include <string>
-
-#ifndef SERVER_HPP
-#define SERVER_HPP
 
 #include "User.hpp"
 #include "Channel.hpp"

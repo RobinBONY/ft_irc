@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:44:29 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:15:05 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	Server::createSocket()
 		std::cerr << "Failed to create socket. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	//printf("create\n");
 	if (this->_debug)
 		std::cout << "[DEBUG]" << "New socket created (" << this->_sockfd << ")" << std::endl;
 }
@@ -54,7 +53,6 @@ void	Server::bindSocket()
 		std::cerr << "Failed to bind to port " << this->_port << ". errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	//printf("bind\n");
 	if (this->_debug)
 		std::cout << "[DEBUG]" << "Socket binded (" << this->_sockfd << ")" << std::endl;
 }
@@ -67,11 +65,16 @@ void	Server::listenSocket()
 		exit(EXIT_FAILURE);
 	}
 	fcntl(this->_sockfd, F_SETFL, O_NONBLOCK);
-	//printf("listen\n");
 	if (this->_debug)
 		std::cout << "[DEBUG]" << "Listening on socket (" << this->_sockfd << ")" << std::endl;
 }
 
+/**
+ * @brief 
+ * checks if a user is trying to connect to the server
+ * 
+ * server-scope join
+ */
 void	Server::grabConnection()
 {
 	size_t addrlen = sizeof(this->_sockaddr);
@@ -86,10 +89,16 @@ void	Server::grabConnection()
 		pfd.revents = 0;
 		this->_userFDs.push_back(pfd);
 		this->_connectedUsers.push_back(new User(connection, host, this->_name));
-		//printf("grab");
+		if (this->_debug)
+			std::cout << "[DEBUG]" << "New client connected (" << this->_connectedUsers.back()->getUsername() << ")" << std::endl;
 	}
 }
 
+/**
+ * @brief 
+ * give BREAKCONNECTION status to a must-be-kickedoff user
+ * if the user did not respond to the ping commmand response delay on time
+ */
 void	Server::checkConnectionWithUsers()
 {
 	for (size_t i = 0; i < this->_connectedUsers.size(); i++)
@@ -109,6 +118,14 @@ void	Server::checkConnectionWithUsers()
 	}
 }
 
+/**
+ * @brief 
+ * kicks of the users flagged with the BREAKCONNECTION status,
+ * notify all channels where the user is present
+ * 
+ * channel-scope kick
+ * server-scope kick
+ */
 void	Server::deleteBrokenConnections()
 {
 	for (size_t i = 0; i < this->_connectedUsers.size(); ++i)
@@ -131,6 +148,11 @@ void	Server::deleteBrokenConnections()
 	}
 }
 
+/**
+ * @brief 
+ * sends a message to all channels where the user is present
+ * the user is the sender
+ */
 void	Server::notifyUsers(User &user, const std::string &notification)
 {
 	const std::vector<const Channel *> chans = user.getChannels();

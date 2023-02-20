@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:39 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:53:27 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:01:51 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ const time_t	&User::getTimeAfterPing() const
 void	User::sendMessage(const std::string &msg) const
 {
 	if (msg.size() > 0)
-		send(_sockfd, msg.c_str(), msg.size(), IRC_NOSIGNAL);
+		send(this->_sockfd, msg.c_str(), msg.size(), IRC_NOSIGNAL);
 }
 
 void	User::setUsername(const std::string &username)
