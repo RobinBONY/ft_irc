@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:39:19 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/25 13:27:35 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/02/20 12:16:41 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ class Server
 {
 
 private:
-    std::string                         name;
-    int			                        port;
-	const id_t	                        timeout;
-    std::string	                        password;
-    int			                        sockfd;
-	sockaddr_in	                        sockaddr;
-    std::vector<struct pollfd>          userFDs;
-    std::vector<User *>                 connectedUsers;
-    std::map<std::string, Channel *>    channels;
+    std::string                         _name;
+    int			                        _port;
+	const id_t	                        _timeout;
+    std::string	                        _password;
+    int			                        _sockfd;
+	sockaddr_in	                        _sockaddr;
+    std::vector<struct pollfd>          _userFDs;
+    std::vector<User *>                 _connectedUsers;
+    std::map<std::string, Channel *>    _channels;
 
     Server();
     Server(const Server &form);

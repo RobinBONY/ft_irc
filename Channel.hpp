@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:03:08 by rbony             #+#    #+#             */
-/*   Updated: 2023/01/25 14:24:09 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/02/20 12:27:46 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ class User;
 class Channel
 {
 private:
-    std::string                 name;
-    std::string                 password;
-    std::vector<const User *>   users;
-    std::vector<const User *>   operators;
+    std::string                 _name;
+    std::string                 _password;
+    std::vector<const User *>   _users;
+    std::vector<const User *>   _operators;
     
     Channel();
 	Channel(const Channel& copy);
