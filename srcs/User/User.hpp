@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:37 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 23:02:31 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:09:13 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,7 @@ class Channel;
 #ifndef USER_HPP
 #define USER_HPP
 
-#include <string>
-#include <time.h>
-#include <iostream>
-#include <sstream>
-#include <unistd.h>
-#include <vector>
-#include <queue>
-#include <set>
-#include <sys/socket.h>
-#include <algorithm>
-#include <fcntl.h>
-
-#include "Server.hpp"
-#include "Channel.hpp"
+#include "../../includes/Irc.hh"
 
 #define REGISTERED		1
 #define INVISIBLE		2

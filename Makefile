@@ -3,23 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbony <rbony@corobizar.com>                +#+  +:+       +#+         #
+#    By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 21:28:58 by rbony             #+#    #+#              #
-#    Updated: 2023/01/25 13:39:05 by rbony            ###   ########lyon.fr    #
+#    Updated: 2023/02/21 10:58:36 by vducoulo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ircserv
 
-SRCS =	Channel.cpp \
-		User.cpp \
-		Server.cpp \
+SRCS =	srcs/Channel/Channel.cpp \
+		srcs/User/User.cpp \
+		srcs/Server/Server.cpp \
 		main.cpp
 
-HEADERS =	Channel.hpp \
-			User.hpp \
-			Server.hpp
+HEADERS =	srcs/Channel/Channel.hpp \
+			srcs/User/User.hpp \
+			srcs/Server/Server.hpp
 
 CC = c++
 RM = rm -f

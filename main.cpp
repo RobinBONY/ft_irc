@@ -6,14 +6,11 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 04:14:22 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 22:23:34 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:09:50 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string>
-#include <fcntl.h>
-#include "Server.hpp"
-#include <csignal>
+#include "includes/Irc.hh"
 
 bool	g_run = true;
 

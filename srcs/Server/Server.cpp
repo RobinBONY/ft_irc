@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 23:15:05 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/20 23:33:06 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,8 @@ void	Server::deleteBrokenConnections()
 			this->_connectedUsers.erase(this->_connectedUsers.begin() + i);
 			this->_userFDs.erase(this->_userFDs.begin() + i);
 			--i;
-			printf("erase");
+			if (this->_debug)
+				std::cout << "[DEBUG]" << "kicked-off (" << this->_connectedUsers[i]->getUsername() << ")" << std::endl;
 		}
 	}
 }

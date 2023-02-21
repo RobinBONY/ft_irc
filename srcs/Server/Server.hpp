@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 20:39:19 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 14:55:34 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:07:30 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,7 @@ class Channel;
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <iostream>
-#include <unistd.h>
-#include <cstdlib>
-#include <errno.h>
-#include <fcntl.h>
-#include <fstream>
-#include <vector>
-#include <poll.h>
-#include <string>
-
-#include "User.hpp"
-#include "Channel.hpp"
+#include "../../includes/Irc.hh"
 
 #define MAXINACTIVETIMEOUT	120
 #define MAXRESPONSETIMEOUT	60

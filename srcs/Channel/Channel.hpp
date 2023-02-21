@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:03:08 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 14:54:58 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:06:13 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,7 @@ class User;
 #ifndef CHANNEL_HPP
 #define CHANNEL_HPP
 
-#include <string>
-#include <vector>
-#include <map>
-#include <ctime>
-
-#include "User.hpp"
-#include "Server.hpp"
+#include "../../includes/Irc.hh"
 
 class Channel
 {
