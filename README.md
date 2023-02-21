@@ -8,6 +8,9 @@ a la connexion d'un utilisateur lui attribuer un socket/fd (a determiner) propre
 
 continuer a ecouter sur le port de "connexion" et ecouter les commandes des clients déja connectés
 
+//totor
+vérifier que le port est disponible sur le serveur
+ 
 # Liste des commandes
 
 /SERVER [serveur IRC] [port]

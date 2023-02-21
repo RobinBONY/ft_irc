@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 22:22:37 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/21 11:09:13 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:11:46 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ class Channel;
 class User
 {
 private:
-	int								_sockfd;
+	int								_sockfd; //socket personnel de l'user
 	std::string						_username;
-	std::string						_hostname;
-	const std::string				&_servername;
+	std::string						_hostname; //ip serveur en human readable ex : 127.0.0.1
+	const std::string				&_servername; //nom du serveur ex : foo
 	time_t							_registrationTime;
 	time_t							_timeOfLastMessage;
 	time_t							_timeAfterPing;
-	unsigned int					_status;
+	unsigned int					_status; //les defines au-dessus
 	std::vector<const Channel *>	_channels;
 
     User();

@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 23:33:06 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:44:13 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,21 @@ void	Server::createSocket()
 		std::cout << "[DEBUG]" << "New socket created (" << this->_sockfd << ")" << std::endl;
 }
 
+/**
+ * @brief 
+ * set socket options
+ * join the socket to the server listenning adress
+ * 
+ */
 void	Server::bindSocket()
 {
 	const int trueFlag = 1;
-	if (setsockopt(this->_sockfd, SOL_SOCKET, SO_REUSEADDR, &trueFlag, sizeof(int)) < 0)
+	if (setsockopt(this->_sockfd, SOL_SOCKET, SO_REUSEADDR, &trueFlag, sizeof(int)) < 0) //SO_REUSEPORT pour ne pas fail en cas de port déjà écouté
 	{
 		std::cout << "setsockopt failed" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	this->_sockaddr.sin_addr.s_addr = INADDR_ANY;
+	this->_sockaddr.sin_addr.s_addr = INADDR_ANY; //INADDR_LOOPBACK possible sur localhost uniquement -> sec
 	this->_sockaddr.sin_family = AF_INET;
 	this->_sockaddr.sin_port = htons(this->_port);
 	if (bind(this->_sockfd, (struct sockaddr*)&this->_sockaddr, sizeof(this->_sockaddr)) < 0)
@@ -59,12 +65,12 @@ void	Server::bindSocket()
 
 void	Server::listenSocket()
 {
-	if (listen(this->_sockfd, 128) < 0)
+	if (listen(this->_sockfd, 128) < 0) //mode écoute sur le socket, max 128 connections
 	{
 		std::cerr << "Failed to listen on socket. errno: " << errno << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	fcntl(this->_sockfd, F_SETFL, O_NONBLOCK);
+	fcntl(this->_sockfd, F_SETFL, O_NONBLOCK); //attributs du socket_fd
 	if (this->_debug)
 		std::cout << "[DEBUG]" << "Listening on socket (" << this->_sockfd << ")" << std::endl;
 }
@@ -78,16 +84,17 @@ void	Server::listenSocket()
 void	Server::grabConnection()
 {
 	size_t addrlen = sizeof(this->_sockaddr);
-	int connection = accept(this->_sockfd, (struct sockaddr*)&this->_sockaddr, (socklen_t*)&addrlen);
+	int connection = accept(this->_sockfd, (struct sockaddr*)&this->_sockaddr, (socklen_t*)&addrlen); //retourne un fd sur le socket de l'utilisateur
 	if (connection >= 0)
 	{
 		char	host[INET_ADDRSTRLEN];
-		inet_ntop(AF_INET, &(this->_sockaddr.sin_addr), host, INET_ADDRSTRLEN);
+		inet_ntop(AF_INET, &(this->_sockaddr.sin_addr), host, INET_ADDRSTRLEN); //convert binary server addr to human-readable 
 		struct pollfd	pfd;
-		pfd.fd = connection;
-		pfd.events = POLLIN;
-		pfd.revents = 0;
+		pfd.fd = connection; //user fd
+		pfd.events = POLLIN; //spécifie données en attente de lecture sur le pollfd //événenments attendus
+		pfd.revents = 0; //éléments détectés
 		this->_userFDs.push_back(pfd);
+		std::cout << this->_name << std::endl;
 		this->_connectedUsers.push_back(new User(connection, host, this->_name));
 		if (this->_debug)
 			std::cout << "[DEBUG]" << "New client connected (" << this->_connectedUsers.back()->getUsername() << ")" << std::endl;

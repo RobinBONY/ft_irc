@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:02:09 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/02/21 11:08:47 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:12:28 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #include <sstream>
 #include <set>
 #include <algorithm>
+#include <csignal>
 
 // std
 
