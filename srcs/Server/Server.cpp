@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/21 21:44:13 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/22 09:49:54 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void	Server::grabConnection()
 		inet_ntop(AF_INET, &(this->_sockaddr.sin_addr), host, INET_ADDRSTRLEN); //convert binary server addr to human-readable 
 		struct pollfd	pfd;
 		pfd.fd = connection; //user fd
+		std::cout << "new user fd : " << pfd.fd << std::endl;
 		pfd.events = POLLIN; //spécifie données en attente de lecture sur le pollfd //événenments attendus
 		pfd.revents = 0; //éléments détectés
 		this->_userFDs.push_back(pfd);
-		std::cout << this->_name << std::endl;
 		this->_connectedUsers.push_back(new User(connection, host, this->_name));
 		if (this->_debug)
 			std::cout << "[DEBUG]" << "New client connected (" << this->_connectedUsers.back()->getUsername() << ")" << std::endl;
