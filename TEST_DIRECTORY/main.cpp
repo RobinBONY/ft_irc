@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:18:29 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/02/24 18:14:45 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/24 18:41:56 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,46 @@ class cmdPass : public Command
 {
 	public : 
 		cmdPass(bool needLogin) : Command(needLogin){};
-		~cmdPass();
+		~cmdPass() {};
 		void launch(std::vector<std::string> params)
 		{
 			std::cout << "CMD PASS EXECUTED" << std::endl;
-		}
+		};
 };
 
 class cmdUser : public Command
 {
 	public : 
 		cmdUser(bool needLogin) : Command(needLogin){};
-		~cmdUser();
+		~cmdUser() {};
 		void launch(std::vector<std::string> params)
 		{
 			std::cout << "CMD USER EXECUTED" << std::endl;
-		}
+		};
 };
 
 class cmdNick : public Command
 {
 	public : 
 		cmdNick(bool needLogin) : Command(needLogin){};
-		~cmdNick();
+		~cmdNick() {};
 		void launch(std::vector<std::string> params)
 		{
 			std::cout << "CMD NICK EXECUTED" << std::endl;
-		}
+		};
+};
+
+class cmdCAP : public Command
+{
+	public : 
+		
+		cmdCAP(bool needLogin) : Command(needLogin){};
+		~cmdCAP() {};
+		void launch(std::vector<std::string> params)
+		{
+			std::cout << "CMD CAP EXECUTED" << std::endl;
+		};
+
 };
 
 class commandProxy {
@@ -79,6 +92,7 @@ public:
 		_commands["PASS"] = new cmdPass(false);
 		_commands["NICK"] = new cmdNick(false);
 		_commands["USER"] = new cmdUser(false);
+		_commands["CAP"] = new cmdCAP(false);
 	}
 	~commandProxy() {};
 
@@ -147,7 +161,7 @@ void setMsgStructValues(std::string message)
 			std::cout << "parameters = " << *iter << std::endl;
 	std::cout << "cmd :" << msg.cmd << std::endl;
 	commandProxy cmdprox;
-	cmdprox.callCommand(msg.cmd, msg.params);
+	cmdprox.callCommand(msg.prefix, msg.params);
 }
 
 void interpretMsg(char msgbuff[513])
