@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:18:29 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/02/24 18:41:56 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/24 18:57:47 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,30 @@
 # define USR_HANDSHAKE 128
 # define USR_LIVE 256
 # define USR_TOKILL 512
+# define USR_ACCEPTED 1024
+# define SERVERPASS "TEST"
+
+void welcomeUser(void);
+
+struct testmessage {
+	std::string 				prefix;
+	std::vector<std::string>	params;
+	std::string 				cmd;
+};
+
+struct testuser {
+	int sock_fd;
+	int state;
+};
+
+struct testserver {
+	int 							sock_fd;
+	std::vector<pollfd>				pfds;
+	sockaddr_in 					sockaddr;
+};
+testserver server;
+testuser usr;
+testmessage msg;
 
 class Command {
 	
@@ -42,6 +66,8 @@ class cmdPass : public Command
 		~cmdPass() {};
 		void launch(std::vector<std::string> params)
 		{
+			if (params[0] == SERVERPASS)
+				usr.state = USR_ACCEPTED;
 			std::cout << "CMD PASS EXECUTED" << std::endl;
 		};
 };
@@ -65,6 +91,7 @@ class cmdNick : public Command
 		void launch(std::vector<std::string> params)
 		{
 			std::cout << "CMD NICK EXECUTED" << std::endl;
+			welcomeUser();
 		};
 };
 
@@ -104,25 +131,15 @@ public:
 	}
 };
 
-struct testmessage {
-	std::string 				prefix;
-	std::vector<std::string>	params;
-	std::string 				cmd;
-};
+void welcomeUser(void)
+{
+	if (usr.state == USR_ACCEPTED)
+	{
+		usr.state = USR_LIVE;
 
-struct testuser {
-	int sock_fd;
-	int state;
-};
-
-struct testserver {
-	int 							sock_fd;
-	std::vector<pollfd>				pfds;
-	sockaddr_in 					sockaddr;
-};
-testserver server;
-testuser usr;
-testmessage msg;
+		// TOCONTINUE
+	}
+}
 
 std::vector<std::string> split(std::string str, std::string delimiter)
 {
@@ -178,6 +195,7 @@ void interpretMsg(char msgbuff[513])
 		setMsgStructValues(message);
 	}
 }
+
 void receive_msg(int fd)
 {
 	char msgbuff[513];
