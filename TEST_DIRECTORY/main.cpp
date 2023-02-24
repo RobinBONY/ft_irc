@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:18:29 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/02/23 22:40:01 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/24 18:14:45 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,160 @@
 #include <unistd.h>
 #include <poll.h>
 #include <vector>
+#include <map>
 
-bool g_run = false;
+# define USR_HANDSHAKE 128
+# define USR_LIVE 256
+# define USR_TOKILL 512
+
+class Command {
+	
+	protected:
+	bool _needLogin;
+	
+	public:
+	
+	explicit Command(bool needLogin = true) : _needLogin(needLogin){};
+	virtual ~Command(){};
+	virtual void launch(std::vector<std::string> params) = 0;
+};
+
+class cmdPass : public Command
+{
+	public : 
+		cmdPass(bool needLogin) : Command(needLogin){};
+		~cmdPass();
+		void launch(std::vector<std::string> params)
+		{
+			std::cout << "CMD PASS EXECUTED" << std::endl;
+		}
+};
+
+class cmdUser : public Command
+{
+	public : 
+		cmdUser(bool needLogin) : Command(needLogin){};
+		~cmdUser();
+		void launch(std::vector<std::string> params)
+		{
+			std::cout << "CMD USER EXECUTED" << std::endl;
+		}
+};
+
+class cmdNick : public Command
+{
+	public : 
+		cmdNick(bool needLogin) : Command(needLogin){};
+		~cmdNick();
+		void launch(std::vector<std::string> params)
+		{
+			std::cout << "CMD NICK EXECUTED" << std::endl;
+		}
+};
+
+class commandProxy {
+
+	private:
+	std::map<std::string, Command *> _commands;
+
+public:
+	commandProxy()
+	{
+		_commands["PASS"] = new cmdPass(false);
+		_commands["NICK"] = new cmdNick(false);
+		_commands["USER"] = new cmdUser(false);
+	}
+	~commandProxy() {};
+
+
+	void callCommand(const std::string cmd, std::vector<std::string> params)
+	{
+		Command *command = _commands.at(cmd);
+		command->launch(params);
+	}
+};
+
+struct testmessage {
+	std::string 				prefix;
+	std::vector<std::string>	params;
+	std::string 				cmd;
+};
 
 struct testuser {
 	int sock_fd;
+	int state;
 };
 
 struct testserver {
-	int 				sock_fd;
+	int 							sock_fd;
 	std::vector<pollfd>				pfds;
-	sockaddr_in 		sockaddr;
+	sockaddr_in 					sockaddr;
 };
 testserver server;
 testuser usr;
+testmessage msg;
 
+std::vector<std::string> split(std::string str, std::string delimiter)
+{
+	std::vector<std::string> values = std::vector<std::string>();
+
+	size_t position;
+	while ((position = str.find(delimiter)) != std::string::npos)
+	{
+		values.push_back(str.substr(0, position));
+		str.erase(0, position + delimiter.length());
+	}
+	values.push_back(str);
+
+	return values;
+}
+
+void setMsgStructValues(std::string message)
+{
+	std::cout << std::endl << "new_msg =" << message << std::endl;
+	size_t pos;
+	if ((pos = message.find(std::string(":"))) && pos != std::string::npos)
+	{
+		std::string tmp = message.substr(0, pos);
+		message.erase(0, pos + 1);
+		msg.cmd = message;
+		message = tmp;
+	}
+
+	msg.params = split(message, " ");
+	msg.prefix = *(msg.params.begin());
+	msg.params.erase(msg.params.begin());
+
+	std::cout << "prefix =" << msg.prefix << std::endl;
+	for (std::vector<std::string>::iterator iter = msg.params.begin(); iter != msg.params.end(); iter++)
+		if (*iter != " ")
+			std::cout << "parameters = " << *iter << std::endl;
+	std::cout << "cmd :" << msg.cmd << std::endl;
+	commandProxy cmdprox;
+	cmdprox.callCommand(msg.cmd, msg.params);
+}
+
+void interpretMsg(char msgbuff[513])
+{
+	int pos;
+	std::string rawmessage(msgbuff);
+	std::cout << "rawmsg =" << rawmessage << "\\\\ENDOFMSG" << std::endl << std::endl;
+	while ((pos = rawmessage.find(std::string("\r\n"))) && pos != std::string::npos)
+	{
+		std::string message = rawmessage.substr(0, pos);
+		rawmessage.erase(0, pos + 2);
+		if (!message.length())
+			continue;
+		setMsgStructValues(message);
+	}
+}
 void receive_msg(int fd)
 {
 	char msgbuff[513];
 	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 	msgbuff[512] = 0;
-	std::cout << "msg (fd " << fd << ") =" << msgbuff << std::endl;
+	
+	interpretMsg(msgbuff);
 }
 
 int userHandshake()
@@ -49,10 +182,11 @@ int userHandshake()
 	{
 		usr.sock_fd = NewConnection;
 		userpfd.fd = NewConnection;
+		userpfd.revents = 0;
 		userpfd.events = POLLIN;
+		usr.state = USR_HANDSHAKE;
 		server.pfds.push_back(userpfd);
 		std::cout << "connection ! (" << NewConnection << ")" << std::endl;
-		g_run = true;
 		return (1);
 	}
 	return (0);
