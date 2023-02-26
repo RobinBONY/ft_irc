@@ -24,3 +24,12 @@ vérifier que le port est disponible sur le serveur
 /PART #Nom_du_canal [fin]
 
 /LIST [#chaine][-min #][-MAX #]
+
+
+//totor 
+
+OPTI 
+
+-> transformer le sock_pfd du serveyr en pollfd
+	-> poll ce pollfd à chaque nouvelle iteration de vie du serveur -> si revent en mode POLLIN, un utilisateur tente de se connecter (évite un appel à accept() qui retourne une erreur
+

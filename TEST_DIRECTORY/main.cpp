@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:18:29 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/02/24 18:57:47 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/26 18:15:15 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@
 # define USR_ACCEPTED 1024
 # define SERVERPASS "TEST"
 
+/*
+	see https://www.rfc-editor.org/rfc/rfc2812#section-1.1 page 43
+*/
+
+
+# define RPL_WELCOME(nick) "001 " + nick + " :Welcome " + nick + " to the ft_irc network"
+
+/*
+	END OF DEFINES 
+*/
+
 void welcomeUser(void);
 
 struct testmessage {
@@ -34,8 +45,11 @@ struct testmessage {
 };
 
 struct testuser {
-	int sock_fd;
-	int state;
+	int							sock_fd;
+	int 						state;
+	std::string					nickname;
+	std::string 				realname;
+	std::string					hostname;
 };
 
 struct testserver {
@@ -67,7 +81,7 @@ class cmdPass : public Command
 		void launch(std::vector<std::string> params)
 		{
 			if (params[0] == SERVERPASS)
-				usr.state = USR_ACCEPTED;
+				usr.state = USR_ACCEPTED;				// si vous voulez tester oubliez pas le champs -password=TEST dans /server add
 			std::cout << "CMD PASS EXECUTED" << std::endl;
 		};
 };
@@ -79,7 +93,9 @@ class cmdUser : public Command
 		~cmdUser() {};
 		void launch(std::vector<std::string> params)
 		{
+			usr.realname = params[0];
 			std::cout << "CMD USER EXECUTED" << std::endl;
+			welcomeUser();
 		};
 };
 
@@ -90,8 +106,8 @@ class cmdNick : public Command
 		~cmdNick() {};
 		void launch(std::vector<std::string> params)
 		{
+			usr.nickname = params[0];
 			std::cout << "CMD NICK EXECUTED" << std::endl;
-			welcomeUser();
 		};
 };
 
@@ -103,7 +119,7 @@ class cmdCAP : public Command
 		~cmdCAP() {};
 		void launch(std::vector<std::string> params)
 		{
-			std::cout << "CMD CAP EXECUTED" << std::endl;
+			std::cout << "CMD CAP EXECUTED" << std::endl; //sert à rien comme commande à part lister les possibilités du serveur, juste là pour pas lever d'outofboundary
 		};
 
 };
@@ -137,7 +153,10 @@ void welcomeUser(void)
 	{
 		usr.state = USR_LIVE;
 
-		// TOCONTINUE
+		std::string senderPrefix(":" + usr.nickname + "!" + usr.realname + "@" + usr.hostname + " ");
+		std::string message(senderPrefix + RPL_WELCOME(usr.nickname) + "\r\n");				
+		std::cout << "will respond :" << message << std::endl;			
+		send (usr.sock_fd, message.c_str(), message.length(), 0);
 	}
 }
 
@@ -213,6 +232,7 @@ int userHandshake()
 	if (NewConnection >= 0)
 	{
 		usr.sock_fd = NewConnection;
+		usr.hostname = "localhost";
 		userpfd.fd = NewConnection;
 		userpfd.revents = 0;
 		userpfd.events = POLLIN;
@@ -268,5 +288,4 @@ int main(void)
 	initTestServer();
 	while (serverRoutine())
 		usleep(10000);
-
 }
