@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 16:18:29 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/02/26 18:15:15 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/26 23:57:50 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ struct testuser {
 };
 
 struct testserver {
-	int 							sock_fd;
-	std::vector<pollfd>				pfds;
-	sockaddr_in 					sockaddr;
+	int 						sock_fd;
+	std::vector<pollfd>			pfds;
+	sockaddr_in 				sockaddr;
 };
+
 testserver server;
 testuser usr;
 testmessage msg;

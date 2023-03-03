@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/23 17:53:02 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/02/26 23:20:47 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	Server::grabConnection()
  * give BREAKCONNECTION status to a must-be-kickedoff user
  * if the user did not respond to the ping commmand response delay on time
  */
-void	Server::checkConnectionWithUsers()
+void	Server::checkConnectionWithUsers()     //pas obligé de PING tout le monde Revents retourne POLLHUP en cas de connexion brisée
 {
 	for (size_t i = 0; i < this->_connectedUsers.size(); i++)
 	{
