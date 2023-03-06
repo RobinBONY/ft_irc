@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/01 17:43:42 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/06 16:08:06 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,13 @@
 #include <vector>
 #include <map>
 
-# include "../srcs/server.hpp"
+
+/*
+	USER STATES DEFINES
+*/
+
+# define HANDSHAKING 2
+# define CONNECTED   4
+# define AWAY		 8
+
 #endif

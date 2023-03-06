@@ -6,11 +6,12 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:13:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/01 17:48:15 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:08:06 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/Irc.hh"
+#include "srcs/server.hpp"
 
 int main(int argc, char** argv)
 {
@@ -18,6 +19,7 @@ int main(int argc, char** argv)
 	{
 		try {
 			Server server(argv[1], argv[2]);
+			server.runLoop();
 		}
 		catch (const std::exception &e)
 		{

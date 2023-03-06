@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/01 17:46:52 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:40:36 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 # define CPP_SERVER_HPP
 
 # include "../includes/Irc.hh"
+# include "user.hpp"
 
 class Server
 {
 	private :
-		std::vector<pollfd> pfds;
+		bool					_active;
+		std::string				_password;
+		sockaddr_in				_server_sockaddr;
+
+		std::vector<pollfd> 	_pfds;
+		std::vector<User>		_users;
+
+		bool					_debug;
 		
 	public :
 		Server(char *port, char *pass);
+
+		int 					setSocketFd(int port);
+		void					runLoop(void);
+		void					userHandShake(void);
+		void					receiveMsg(int fd);
 };
 #endif
