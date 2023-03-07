@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 17:52:34 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:36:27 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Command
 	std::string 					_name;
 	bool							_auth_required;
 	std::vector<std::string>		_parameters;
+	User							_relative_user;
 	
 	void							cmdUser();
 	void							cmdCap();
@@ -33,10 +34,10 @@ class Command
 	
 	public :
 
-	Command(std::string name, const std::vector<std::string> params);
+	Command(std::string name, const std::vector<std::string> params, User relativeuser);
 	~Command();
 	
-	void execute() {(this->*_cmd_ptr[_name])(); };
+	void execute() {(this->*_cmd_ptr[_name])(); }
 };
 
 #endif

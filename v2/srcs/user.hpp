@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 15:02:02 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:30:40 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,14 @@ class User
 		User(int user_fd);
 		~User() {}
 
-		std::string getNickName() {return _nickname; }
-		int			getFd() {return _fd; }
+		std::string getNickName() const {return _nickname; }
+		std::string getRealName() const {return _realname; }
+		std::string getUserName() const {return _username; }
+		int			getFd()		  const {return _fd; }
+
+		void setNickName(std::string nick) {_nickname = nick; }
+		void setUserkName(std::string username) {_username = username; }
+		void setRealName(std::string realname) {_realname = realname; }
 };
 
 #endif

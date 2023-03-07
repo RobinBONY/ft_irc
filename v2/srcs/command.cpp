@@ -13,8 +13,8 @@
 #include "command.hpp"
 
 
-Command::Command(std::string name, std::vector<std::string> params)
-: _name(name), _parameters(params)
+Command::Command(std::string name, std::vector<std::string> params, User relativeuser)
+: _name(name), _parameters(params), _relative_user(relativeuser)
 {
 	_cmd_ptr["USER"] = &Command::cmdUser;
 	_cmd_ptr["CAP"] = &Command::cmdCap;
@@ -29,20 +29,23 @@ Command::~Command()
 
 void Command::cmdUser()
 {
-		std::cout << "new cmd USER called" << std::endl;
+	_relative_user.setUserkName(_parameters.front());
+	_relative_user.setRealName(_parameters.back());
 }
 
 void Command::cmdCap()
 {
-		std::cout << "new cmd CAP called" << std::endl;
+	/*
+		Not in use
+	*/
 }
 
 void Command::cmdPass()
 {
-		std::cout << "new cmd PASS called" << std::endl;
+	//if (_parameters.front() == )
 }
 
 void Command::cmdNick()
 {
-		std::cout << "new cmd Nick called" << std::endl;
+	_relative_user.setNickName(_parameters[0]);
 }

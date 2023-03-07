@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 15:09:26 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:30:24 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ class Server
 		void					commandHandler(std::string command, std::vector<std::string> parameters, User relative_user);
 
 		User					getRelativeUser(int fd);
+		std::string				getPassword(void) { return _password; }
 };
 #endif

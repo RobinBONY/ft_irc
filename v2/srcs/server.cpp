@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 17:45:57 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:30:12 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void Server::commandHandler(std::string command, std::vector<std::string> parame
 	// 		(*iter)->launch(parameters, relative_user);
 	// }
 
-	Command test(command, parameters);
+	Command test(command, parameters, relative_user);
 	test.execute();
 }
 
@@ -130,6 +130,8 @@ void Server::receiveMsg(int fd)
 	std::string 	raw_message(msgbuff);
 	raw_message.substr(0, raw_message.find("\r\n"));
 	
+	if (_debug)
+		std::cerr << "[DEBUG] " << "fd " << fd << " received " << raw_message << std::endl;
 	std::string command(raw_message.substr(0, raw_message.find(" ")));
 	raw_message.erase(0, command.length());
 	
