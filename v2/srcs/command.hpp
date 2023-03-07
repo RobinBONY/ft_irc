@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 15:08:22 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 17:52:34 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,23 @@ class Command
 {
 	private :
 
-	std::string 	_name;
-	bool			_auth_required;
+	typedef void 					(Command::* cmdPtr)();
+	std::map<std::string, cmdPtr> 	_cmd_ptr;
+	std::string 					_name;
+	bool							_auth_required;
+	std::vector<std::string>		_parameters;
+	
+	void							cmdUser();
+	void							cmdCap();
+	void							cmdNick();
+	void							cmdPass();
 	
 	public :
+
+	Command(std::string name, const std::vector<std::string> params);
+	~Command();
 	
-	Command(std::string name, bool authrequiered);
-	virtual ~Command();
-
-	std::string 	getName() { return (_name); }
-	virtual void	launch(std::vector<std::string> parmeters, User relative_user) = 0;
-};
-
-class cmdUser : public Command
-{
-	public : 
-		cmdUser(std::string name, bool authrequiered)
-		: Command(name, authrequiered){}
-		~cmdUser() {}
-		void launch(std::vector<std::string> params, User relative_user)
-		{
-			std::cout << "CMD USER EXECUTED" << std::endl;
-		};
+	void execute() {(this->*_cmd_ptr[_name])(); };
 };
 
 #endif

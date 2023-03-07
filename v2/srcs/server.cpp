@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 15:10:15 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 17:45:57 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,21 @@ Server::Server(char *port, char *pass)
 	servpfd.events = POLLIN;
 	servpfd.fd = this->setSocketFd(atoi(port));
 
-	_commands_array.push_back(new cmdUser("USER", false));
+	// _commands_array.push_back(new cmdUser("USER", false));
 	
 	_pfds.push_back(servpfd);
 }
 
 void Server::commandHandler(std::string command, std::vector<std::string> parameters, User relative_user)
 {
-	for (std::vector<Command *>::iterator iter = _commands_array.begin(); iter != _commands_array.end(); iter++)
-	{
-		if ((*iter)->getName() == command)
-			(*iter)->launch(parameters, relative_user);
-	}
+	// for (std::vector<Command *>::iterator iter = _commands_array.begin(); iter != _commands_array.end(); iter++)
+	// {
+	// 	if ((*iter)->getName() == command)
+	// 		(*iter)->launch(parameters, relative_user);
+	// }
+
+	Command test(command, parameters);
+	test.execute();
 }
 
 int Server::setSocketFd(int port)

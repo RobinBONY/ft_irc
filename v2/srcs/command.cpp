@@ -12,13 +12,37 @@
 
 #include "command.hpp"
 
-Command::Command(std::string name, bool authrequired)
-: _name(name), _auth_required(authrequired)
+
+Command::Command(std::string name, std::vector<std::string> params)
+: _name(name), _parameters(params)
 {
-	
+	_cmd_ptr["USER"] = &Command::cmdUser;
+	_cmd_ptr["CAP"] = &Command::cmdCap;
+	_cmd_ptr["PASS"] = &Command::cmdPass;
+	_cmd_ptr["NICK"] = &Command::cmdNick;
 }
 
 Command::~Command()
 {
 	
+}
+
+void Command::cmdUser()
+{
+		std::cout << "new cmd USER called" << std::endl;
+}
+
+void Command::cmdCap()
+{
+		std::cout << "new cmd CAP called" << std::endl;
+}
+
+void Command::cmdPass()
+{
+		std::cout << "new cmd PASS called" << std::endl;
+}
+
+void Command::cmdNick()
+{
+		std::cout << "new cmd Nick called" << std::endl;
 }
