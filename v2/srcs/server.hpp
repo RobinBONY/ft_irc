@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/06 17:40:36 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:09:26 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../includes/Irc.hh"
 # include "user.hpp"
+# include "command.hpp"
 
 class Server
 {
@@ -26,6 +27,8 @@ class Server
 		std::vector<pollfd> 	_pfds;
 		std::vector<User>		_users;
 
+		std::vector<Command *> 	_commands_array;
+
 		bool					_debug;
 		
 	public :
@@ -35,5 +38,8 @@ class Server
 		void					runLoop(void);
 		void					userHandShake(void);
 		void					receiveMsg(int fd);
+		void					commandHandler(std::string command, std::vector<std::string> parameters, User relative_user);
+
+		User					getRelativeUser(int fd);
 };
 #endif

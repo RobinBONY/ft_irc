@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/06 19:51:38 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:10:15 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,19 @@ Server::Server(char *port, char *pass)
 
 	servpfd.events = POLLIN;
 	servpfd.fd = this->setSocketFd(atoi(port));
+
+	_commands_array.push_back(new cmdUser("USER", false));
 	
 	_pfds.push_back(servpfd);
+}
+
+void Server::commandHandler(std::string command, std::vector<std::string> parameters, User relative_user)
+{
+	for (std::vector<Command *>::iterator iter = _commands_array.begin(); iter != _commands_array.end(); iter++)
+	{
+		if ((*iter)->getName() == command)
+			(*iter)->launch(parameters, relative_user);
+	}
 }
 
 int Server::setSocketFd(int port)
@@ -76,6 +87,18 @@ void Server::userHandShake(void)
 	}
 }
 
+User Server::getRelativeUser(int fd)
+{
+	std::vector<User>::iterator iter;
+
+	for (iter = _users.begin(); iter != _users.end(); iter++)
+	{
+		if ((*iter).getFd() == fd)
+			return *iter;
+	}
+	return NULL;
+}
+
 std::vector<std::string> getSplittedParams(std::string hay)
 {
 	std::string 				needle(" ");
@@ -96,6 +119,8 @@ void Server::receiveMsg(int fd)
 	char 			msgbuff[513];
 	int				pos;
 
+	User relative_user = getRelativeUser(fd);
+	
 	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 	msgbuff[512] = 0;
 
@@ -106,6 +131,8 @@ void Server::receiveMsg(int fd)
 	raw_message.erase(0, command.length());
 	
 	std::vector<std::string> parameters = getSplittedParams(raw_message);
+	
+	commandHandler(command, parameters, relative_user);
 }
 
 void Server::runLoop(void)

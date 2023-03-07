@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/06 16:08:19 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:02:02 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class User
 		~User() {}
 
 		std::string getNickName() {return _nickname; }
+		int			getFd() {return _fd; }
 };
 
 #endif
