@@ -14,7 +14,7 @@
 # include "user.hpp"
 
 
-Command::Command(std::string name, std::vector<std::string> params, User relativeuser, Server relativeserver)
+Command::Command(std::string name, std::vector<std::string> params, User &relativeuser, Server *relativeserver)
 : _name(name), _parameters(params), _relative_user(relativeuser), _relative_server(relativeserver)
 {
 	_cmd_ptr["USER"] = &Command::cmdUser;
@@ -29,7 +29,7 @@ Command::Command(std::string name, std::vector<std::string> params, User relativ
 	}
 	catch(const std::out_of_range& e)
 	{
-		_cmd_ptr[_name] = &Command::unknowCommand;
+		_cmd_ptr[_name] = &Command::errUnknowCommand;
 	}
 }
 
@@ -49,9 +49,18 @@ void Command::execute()
 }
 void Command::cmdUser()
 {
+	if (_relative_user.getState() == CONNECTED)
+		_relative_user.push(ERR_ALREADYREGISTERED(_relative_user.getNickName()));
+	if (_parameters.size() < 4)
+	{
+		errNeedMoreParams();
+		return;
+	}
+	
+	std::cerr << "nick executed tacking " << _relative_user.getNickName() << std::endl;
 	_relative_user.setUserkName(_parameters.front());
 	_relative_user.setRealName(_parameters.back());
-	if (_relative_user.getState() == HANDSHAKED || _relative_server.getPassword().empty())
+	if (_relative_user.getState() == HANDSHAKED || _relative_server->getPassword().empty())
 		_relative_user.welcomeToIrc();
 }
 
@@ -64,12 +73,12 @@ void Command::cmdCap()
 
 void Command::cmdPass()
 {
-	if (_relative_server.getPassword() == _parameters.front() || _relative_server.getPassword().empty())
+	if (_relative_server->getPassword() == _parameters.front() || _relative_server->getPassword().empty())
 	{
 		_relative_user.setState(HANDSHAKED);
 	}
 	else
-		std::cerr << "[INFO] User pass (" << _parameters.front() <<  ") doesn't match server pass (" << _relative_server.getPassword() << ")" << std::endl;
+		std::cerr << "[INFO] User pass (" << _parameters.front() <<  ") doesn't match server pass (" << _relative_server->getPassword() << ")" << std::endl;
 }
 
 void Command::cmdNick()
@@ -79,10 +88,22 @@ void Command::cmdNick()
 
 void Command::cmdJoin()
 {
+	if (_parameters.empty())
+	{
+		errNeedMoreParams();
+		return;
+	}
 
+	std::string channel_name(_parameters.front());
+	std::cerr << "User " << _relative_user.getNickName() << " is requesting access on chan " << channel_name << std::endl;
 }
 
-void Command::unknowCommand()
+void Command::errUnknowCommand()
 {
 	std::cerr << "unknow command" << std::endl;
+}
+
+void Command::errNeedMoreParams()
+{
+	_relative_user.push(ERR_NEEDMOREPARAMS(_relative_user.getNickName(), _name));
 }

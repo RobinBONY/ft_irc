@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 14:29:19 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:43:52 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class Server
 		void					userHandShake(void);
 		void					receiveMsg(int fd);
 
-		User					getRelativeUser(int fd);
+		User					&getRelativeUser(int fd);
 		std::string				getPassword(void) { return _password; }
 };
 #endif

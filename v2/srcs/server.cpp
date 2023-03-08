@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 14:39:15 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:44:02 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void Server::userHandShake(void)
 	}
 }
 
-User Server::getRelativeUser(int fd)
+User &Server::getRelativeUser(int fd)
 {
 	std::vector<User>::iterator iter;
 
@@ -110,8 +110,6 @@ void Server::receiveMsg(int fd)
 {
 	char 			msgbuff[513];
 	int				pos;
-
-	User relative_user = getRelativeUser(fd);
 	
 	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 	msgbuff[512] = 0;
@@ -126,7 +124,7 @@ void Server::receiveMsg(int fd)
 	
 	std::vector<std::string> parameters = getSplittedParams(raw_message);
 	
-	Command new_command(command, parameters, relative_user, *this);
+	Command new_command(command, parameters, getRelativeUser(fd), this);
 	new_command.execute();
 }
 

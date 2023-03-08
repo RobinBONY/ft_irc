@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 15:32:11 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:18:47 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,13 @@
 	IRC MESSAGES
 */
 
+# define RPL_NICK ""
 # define RPL_WELCOME(nick) "001 " + nick + " :Welcome " + nick + " to the irc network"
+
+/*
+	IRC ERRORS
+*/
+
+# define ERR_NEEDMOREPARAMS(nick, cmd_name) "461 " + nick + " " + cmd_name + " :Not enough parameters"
+# define ERR_ALREADYREGISTERED(nick) "462 " + nick + " :You may not reregister"
 #endif

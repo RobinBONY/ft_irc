@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 15:52:46 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 17:45:36 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,21 @@ class Command
 	std::string 					_name;
 	bool							_auth_required;
 	std::vector<std::string>		_parameters;
-	User							_relative_user;
-	Server							_relative_server;
+	User							&_relative_user;
+	Server							*_relative_server;
 	
 	void							cmdUser();
 	void							cmdCap();
 	void							cmdNick();
 	void							cmdPass();
 	void							cmdJoin();
-	void							unknowCommand();
+	
+	void							errUnknowCommand();
+	void							errNeedMoreParams();
 	
 	public :
 
-	Command(std::string name, const std::vector<std::string> params, User relativeuser, Server realtiveserver);
+	Command(std::string name, const std::vector<std::string> params, User &relativeuser, Server *realtiveserver);
 	~Command();
 	
 	void execute();
