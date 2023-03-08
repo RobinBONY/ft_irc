@@ -6,12 +6,13 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:13:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 19:35:55 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:00:58 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/Irc.hh"
 #include "srcs/server.hpp"
+// #include "srcs/server.hpp"
 
 int main(int argc, char** argv)
 {

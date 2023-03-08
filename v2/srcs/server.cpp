@@ -6,12 +6,13 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 19:30:12 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:39:15 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Irc.hh"
-#include "server.hpp"
+# include "../includes/Irc.hh"
+# include "server.hpp"
+# include "command.hpp"
 
 Server::Server(char *port, char *pass)
 : _active(1), _password(pass), _debug(1)
@@ -27,18 +28,6 @@ Server::Server(char *port, char *pass)
 	// _commands_array.push_back(new cmdUser("USER", false));
 	
 	_pfds.push_back(servpfd);
-}
-
-void Server::commandHandler(std::string command, std::vector<std::string> parameters, User relative_user)
-{
-	// for (std::vector<Command *>::iterator iter = _commands_array.begin(); iter != _commands_array.end(); iter++)
-	// {
-	// 	if ((*iter)->getName() == command)
-	// 		(*iter)->launch(parameters, relative_user);
-	// }
-
-	Command test(command, parameters, relative_user);
-	test.execute();
 }
 
 int Server::setSocketFd(int port)
@@ -99,7 +88,7 @@ User Server::getRelativeUser(int fd)
 		if ((*iter).getFd() == fd)
 			return *iter;
 	}
-	return NULL;
+	throw std::runtime_error("No such user"); // to change
 }
 
 std::vector<std::string> getSplittedParams(std::string hay)
@@ -128,16 +117,17 @@ void Server::receiveMsg(int fd)
 	msgbuff[512] = 0;
 
 	std::string 	raw_message(msgbuff);
-	raw_message.substr(0, raw_message.find("\r\n"));
+	raw_message = raw_message.substr(0, raw_message.find("\r\n"));
 	
 	if (_debug)
-		std::cerr << "[DEBUG] " << "fd " << fd << " received " << raw_message << std::endl;
+		std::cerr << "[DEBUG] " << "fd " << fd << " received " << raw_message << "\"" << std::endl;
 	std::string command(raw_message.substr(0, raw_message.find(" ")));
 	raw_message.erase(0, command.length());
 	
 	std::vector<std::string> parameters = getSplittedParams(raw_message);
 	
-	commandHandler(command, parameters, relative_user);
+	Command new_command(command, parameters, relative_user, *this);
+	new_command.execute();
 }
 
 void Server::runLoop(void)
@@ -146,7 +136,7 @@ void Server::runLoop(void)
 	
 	while (_active)
 	{
-		if(poll(&_pfds[0], _pfds.size(), 100) < 0)
+		if(poll(&_pfds[0], _pfds.size(), 500) < 0)
 			throw std::runtime_error("Can't poll");
 
 		if (_pfds[0].revents == POLLIN)

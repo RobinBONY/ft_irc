@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/07 19:35:31 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:32:16 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 	USER STATES DEFINES
 */
 
-# define HANDSHAKING 2
-# define CONNECTED   4
-# define AWAY		 8
+# define HANDSHAKING 	2
+# define HANDSHAKED 	4
+# define CONNECTED  	8
+# define AWAY			16
 
 #endif
