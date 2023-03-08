@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 14:44:38 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:24:03 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class User
 		void setState(int state)				{_state = state; }
 
 		void welcomeToIrc();
+		void push(std::string msg);
 };
 
 #endif

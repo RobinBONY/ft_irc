@@ -34,9 +34,7 @@ Command::Command(std::string name, std::vector<std::string> params, User relativ
 }
 
 Command::~Command()
-{
-	
-}
+{}
 
 void Command::execute()
 {
