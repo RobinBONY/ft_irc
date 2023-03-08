@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 17:44:02 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:29:41 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ int Server::setSocketFd(int port)
 	return (sock_fd);
 }
 
+Channel *Server::createChannel(std::string name, std::string pass)
+{
+	Channel channel(name, pass);
+	_channels.push_back(channel);
+	
+	return &_channels.back();
+}
+
 void Server::userHandShake(void)
 {
 	size_t addr_len = sizeof(_server_sockaddr);
@@ -89,6 +97,18 @@ User &Server::getRelativeUser(int fd)
 			return *iter;
 	}
 	throw std::runtime_error("No such user"); // to change
+}
+
+Channel *Server::getSetRelativeChannel(std::string name, std::string pass)
+{
+	std::vector<Channel>::iterator iter;
+	
+	for (iter = _channels.begin(); iter != _channels.end(); iter++)
+	{
+		if ((*iter).getName() == name)
+			return iter.base();
+	}
+	return createChannel(name, pass);
 }
 
 std::vector<std::string> getSplittedParams(std::string hay)

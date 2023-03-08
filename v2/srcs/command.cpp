@@ -94,8 +94,24 @@ void Command::cmdJoin()
 		return;
 	}
 
-	std::string channel_name(_parameters.front());
-	std::cerr << "User " << _relative_user.getNickName() << " is requesting access on chan " << channel_name << std::endl;
+	std::string channel_name;
+	std::string channel_pass;
+	Channel		*channel;
+
+	try
+	{	channel_pass = _parameters[2];	}
+	catch (const std::out_of_range &e)
+	{	channel_pass = "";				}
+	channel_name = _parameters.front();
+	
+	if (!(_relative_user.getChannel() == nullptr))
+	{
+		return (_relative_user.push(ERR_TOOMANYCHANNELS(_relative_user.getNickName(), channel_name)));
+	}
+	channel = _relative_server->getSetRelativeChannel(channel_name, channel_pass);
+	_relative_user.setChannel(channel);
+
+	// tofinish
 }
 
 void Command::errUnknowCommand()
