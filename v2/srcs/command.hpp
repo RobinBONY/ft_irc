@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 14:26:28 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:52:46 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ class Command
 	void							cmdCap();
 	void							cmdNick();
 	void							cmdPass();
+	void							cmdJoin();
+	void							unknowCommand();
 	
 	public :
 
 	Command(std::string name, const std::vector<std::string> params, User relativeuser, Server realtiveserver);
 	~Command();
 	
-	void execute() {(this->*_cmd_ptr[_name])(); }
+	void execute();
 };
 
 #endif

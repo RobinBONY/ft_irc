@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 14:32:16 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:32:11 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,9 @@
 # define CONNECTED  	8
 # define AWAY			16
 
+/*
+	IRC MESSAGES
+*/
+
+# define RPL_WELCOME(nick) "001 " + nick + " :Welcome " + nick + " to the irc network"
 #endif

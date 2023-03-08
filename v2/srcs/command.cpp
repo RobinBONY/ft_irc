@@ -21,6 +21,16 @@ Command::Command(std::string name, std::vector<std::string> params, User relativ
 	_cmd_ptr["CAP"] = &Command::cmdCap;
 	_cmd_ptr["PASS"] = &Command::cmdPass;
 	_cmd_ptr["NICK"] = &Command::cmdNick;
+	_cmd_ptr["JOIN"] = &Command::cmdJoin;
+	
+	try
+	{
+		_cmd_ptr.at(_name);
+	}
+	catch(const std::out_of_range& e)
+	{
+		_cmd_ptr[_name] = &Command::unknowCommand;
+	}
 }
 
 Command::~Command()
@@ -28,12 +38,23 @@ Command::~Command()
 	
 }
 
+void Command::execute()
+{
+	try
+	{
+		(this->*_cmd_ptr[_name])();
+	}
+	catch(const std::out_of_range& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
 void Command::cmdUser()
 {
 	_relative_user.setUserkName(_parameters.front());
 	_relative_user.setRealName(_parameters.back());
-	if (_relative_user.getState() == HANDSHAKED)
-		_relative_user.weclomeToIrc();
+	if (_relative_user.getState() == HANDSHAKED || _relative_server.getPassword().empty())
+		_relative_user.welcomeToIrc();
 }
 
 void Command::cmdCap()
@@ -56,4 +77,14 @@ void Command::cmdPass()
 void Command::cmdNick()
 {
 	_relative_user.setNickName(_parameters[0]);
+}
+
+void Command::cmdJoin()
+{
+
+}
+
+void Command::unknowCommand()
+{
+	std::cerr << "unknow command" << std::endl;
 }
