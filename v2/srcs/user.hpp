@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 19:35:06 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/09 10:43:14 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CPP_USER_HPP
 
 # include "../includes/Irc.hh"
+class User;
 # include "channel.hpp"
 
 class User

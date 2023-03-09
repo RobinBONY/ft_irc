@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:30:30 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 19:28:26 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:33:48 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,19 @@
 
 # include "../includes/Irc.hh"
 
+class Channel;
+
+#include "user.hpp"
+
 class Channel
 {
 	private : 
 
-	std::string		_name;
-	std::string		_password;
+	std::string			_name;
+	std::string			_password;
+
+	std::vector<User *> _users_ptr;
+	std::vector<User *> _banned_users_ptr;
 
 	public : 
 
@@ -28,6 +35,9 @@ class Channel
 	~Channel();
 
 	std::string getName(void)	{return _name; }
+
+	void		welcomeToChannel(User *user);
+	void		pushBroadcast(std::string msg);
 };
 
 #endif

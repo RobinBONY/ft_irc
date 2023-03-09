@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 19:29:41 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:47:41 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "command.hpp"
 
 Server::Server(char *port, char *pass)
-: _active(1), _password(pass), _debug(1)
+: _active(1), _password(pass)
 {
 	if (atoi(port) < 1024 || atoi(port) > 49151)
 		throw std::runtime_error("Bad port range");
@@ -82,7 +82,7 @@ void Server::userHandShake(void)
 		_pfds.push_back(user_pfd);
 		_users.push_back(new_user);
 
-		if (_debug)
+		if (DEBUG)
 			std::cerr << "[DEBUG] " << "new user just entered HANDSHAKE mode" << std::endl;
 	}
 }
@@ -137,8 +137,8 @@ void Server::receiveMsg(int fd)
 	std::string 	raw_message(msgbuff);
 	raw_message = raw_message.substr(0, raw_message.find("\r\n"));
 	
-	if (_debug)
-		std::cerr << "[DEBUG] " << "fd " << fd << " received " << raw_message << "\"" << std::endl;
+	if (DEBUG)
+		std::cerr << "<- [DEBUG] " << "fd " << fd << " received " << raw_message << "\"" << std::endl;
 	std::string command(raw_message.substr(0, raw_message.find(" ")));
 	raw_message.erase(0, command.length());
 	

@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:53 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 18:34:14 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:48:07 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ void User::push(std::string msg)
 	std::string senderPrefix(":" + _nickname + "!" + _realname + "@" + _hostname + " ");
 	std::string message(senderPrefix + msg + "\r\n");
 	send (_fd , message.c_str(), message.length(), 0);
+	if (DEBUG)
+		std::cerr << "->    [DEBUG] " << "server answered with =" << message.substr(0, message.length() - 2) << std::endl;
 }
 
 void User::welcomeToIrc(void)
 {
 	push(RPL_WELCOME(_nickname));
 	
-	std::cerr << std::endl << "[DEBUG] " << "server answered with " << RPL_WELCOME(_nickname) << std::endl; 
 	_state = CONNECTED;	
 }

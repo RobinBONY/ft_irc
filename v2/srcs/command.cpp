@@ -57,7 +57,6 @@ void Command::cmdUser()
 		return;
 	}
 	
-	std::cerr << "nick executed tacking " << _relative_user.getNickName() << std::endl;
 	_relative_user.setUserkName(_parameters.front());
 	_relative_user.setRealName(_parameters.back());
 	if (_relative_user.getState() == HANDSHAKED || _relative_server->getPassword().empty())
@@ -109,14 +108,12 @@ void Command::cmdJoin()
 		return (_relative_user.push(ERR_TOOMANYCHANNELS(_relative_user.getNickName(), channel_name)));
 	}
 	channel = _relative_server->getSetRelativeChannel(channel_name, channel_pass);
-	_relative_user.setChannel(channel);
-
-	// tofinish
+	channel->welcomeToChannel(&_relative_user);
 }
 
 void Command::errUnknowCommand()
 {
-	std::cerr << "unknow command" << std::endl;
+	std::cerr << "[ERROR] unknow command (" << _name << ")" << std::endl;
 }
 
 void Command::errNeedMoreParams()

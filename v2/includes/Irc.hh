@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/08 18:44:47 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:41:57 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,21 @@
 # define AWAY			16
 
 /*
+	DEFINE FOR SERVER DEBUG
+*/
+
+# define DEBUG 1
+
+/*
 	IRC MESSAGES
 */
 
 # define RPL_NICK ""
 # define RPL_WELCOME(nick) "001 " + nick + " :Welcome " + nick + " to the irc network"
+# define RPL_NAMREPLY(nick, chan, chan_users_nicks) "353 " + nick + " = " + chan + " :" + chan_users_nicks
+# define RPL_ENDOFNAMES(nick, chan)	"366 " + nick + " " + chan + " :End of /NAMES list."
+# define RPL_JOIN(nick, chan) ":" + nick + " JOIN :" + chan
+
 
 /*
 	IRC ERRORS
