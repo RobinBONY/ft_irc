@@ -1,0 +1,74 @@
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-B => /buflist toggle
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-OP => /bar scroll buflist * -100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-11~ => /bar scroll buflist * -100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-OQ => /bar scroll buflist * +100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-12~ => /bar scroll buflist * +100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-11^ => /bar scroll buflist * -100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-1;5P => /bar scroll buflist * -100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-12^ => /bar scroll buflist * +100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-1;5Q => /bar scroll buflist * +100%
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-meta-OP => /bar scroll buflist * b
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-meta2-11~ => /bar scroll buflist * b
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-1;3P => /bar scroll buflist * b
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-meta-OQ => /bar scroll buflist * e
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta-meta2-12~ => /bar scroll buflist * e
+2023-03-12 15:29:03		Nouvelle touche (contexte "default") : meta2-1;3Q => /bar scroll buflist * e
+2023-03-12 15:29:03		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-12 15:29:08		Pas de serveur
+2023-03-12 15:29:27		irc : serveur ajouté : b
+2023-03-12 15:31:12	=!=	irc : la commande "join" doit être exécutée sur un serveur irc connecté
+2023-03-12 15:32:33		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-12 18:38:10		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-12 18:40:25		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-12 18:40:46	=!=	Erreur avec la commande "/server irc.server.b.setrealname "vico2realname"" (aide sur la commande : /help server)
+2023-03-12 18:40:51		
+2023-03-12 18:40:51		[irc]  /server  list|listfull [<nom>]
+2023-03-12 18:40:51		                add <nom> <nom_machine>[/<port>] [-temp] [-<option>[=<valeur>]] [-no<option>]
+2023-03-12 18:40:51		                copy|rename <nom> <nouveau_nom>
+2023-03-12 18:40:51		                reorder <nom> [<nom>...]
+2023-03-12 18:40:51		                open <nom>|-all [<nom>...]
+2023-03-12 18:40:51		                del|keep <nom>
+2023-03-12 18:40:51		                deloutq|jump
+2023-03-12 18:40:51		                raw [<filtre>]
+2023-03-12 18:40:51		
+2023-03-12 18:40:51		lister, ajouter ou retirer des serveurs IRC
+2023-03-12 18:40:51		
+2023-03-12 18:40:51		       list : afficher les serveurs (sans paramètre, cette liste est affichée)
+2023-03-12 18:40:51		   listfull : afficher les serveurs avec de l'info détaillée pour chaque
+2023-03-12 18:40:51		        add : ajouter un nouveau serveur
+2023-03-12 18:40:51		        nom : nom du serveur, pour usage interne et affichage ; ce nom est utilisé pour se connecter au serveur (/connect nom) et pour définir les options du serveur : irc.server.name.xxx
+2023-03-12 18:40:51		nom_machine : nom ou adresse IP du serveur avec port en option (défaut : 6667), plusieurs adresses peuvent être séparées par une virgule
+2023-03-12 18:40:51		      -temp : ajouter un serveur temporaire (non sauvé)
+2023-03-12 18:40:51		     option : définir l'option pour le serveur (pour une option booléenne, la valeur peut être omise)
+2023-03-12 18:40:51		   nooption : définir l'option booléenne à 'off' (par exemple : -nossl)
+2023-03-12 18:40:51		       copy : dupliquer un serveur
+2023-03-12 18:40:51		     rename : renommer un serveur
+2023-03-12 18:40:51		    reorder : réordonner la liste des serveurs
+2023-03-12 18:40:51		       open : ouvrir le tampon du serveur sans s'y connecter
+2023-03-12 18:40:51		       keep : garder le serveur dans le fichier de configuration (pour les serveurs temporaires seulement)
+2023-03-12 18:40:51		        del : supprimer un serveur
+2023-03-12 18:40:51		    deloutq : supprimer la file d'attente des messages sortants pour tous les serveurs (tous les messages que WeeChat est actuellement en train d'envoyer)
+2023-03-12 18:40:51		       jump : sauter au tampon du serveur
+2023-03-12 18:40:51		        raw : ouvrir le tampon avec les données brutes IRC
+2023-03-12 18:40:51		     filtre : définir un nouveau filtre pour voir seulement les messages correspondants (ce filtre peut aussi être utilisé en entrée du tampon des données brutes) ; les formats autorisés sont :
+2023-03-12 18:40:51		                *      afficher tous les messages (pas de filtre)
+2023-03-12 18:40:51		                xxx    afficher seulement les messages contenant "xxx"
+2023-03-12 18:40:51		                s:xxx  afficher seulement les messages pour le serveur "xxx"
+2023-03-12 18:40:51		                f:xxx  afficher seulement les messages avec un drapeau : recv (message reçu), sent (message envoyé), modified (message modifié par un modificateur), redirected (message redirigé)
+2023-03-12 18:40:51		                m:xxx  afficher seulement les messages pour la commande IRC "xxx"
+2023-03-12 18:40:51		                c:xxx  afficher seulement les messages qui correspondent à la condition évaluée "xxx", en utilisant les variables suivantes : sortie de la fonction irc_message_parse (comme nick, command, channel, text, etc., voir la fonction info_get_hashtable dans la référence API extension pour la liste de toutes les variables), date (format : "yyyy-mm-dd hh:mm:ss"), server, recv, sent, modified, redirected
+2023-03-12 18:40:51		
+2023-03-12 18:40:51		Exemples :
+2023-03-12 18:40:51		  /server listfull
+2023-03-12 18:40:51		  /server add libera irc.libera.chat
+2023-03-12 18:40:51		  /server add libera irc.libera.chat/6697 -ssl -autoconnect
+2023-03-12 18:40:51		  /server add chatspike irc.chatspike.net/6667,irc.duckspike.net/6667
+2023-03-12 18:40:51		  /server copy libera libera-test
+2023-03-12 18:40:51		  /server rename libera-test libera2
+2023-03-12 18:40:51		  /server reorder libera2 libera
+2023-03-12 18:40:51		  /server del libera
+2023-03-12 18:40:51		  /server deloutq
+2023-03-12 18:40:51		  /server raw
+2023-03-12 18:40:51		  /server raw s:libera
+2023-03-12 18:40:51		  /server raw c:${recv} && ${command}==PRIVMSG && ${nick}==foo
+2023-03-12 18:53:16		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer

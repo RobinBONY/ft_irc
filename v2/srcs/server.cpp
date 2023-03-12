@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/09 11:47:41 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/12 18:51:46 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void Server::receiveMsg(int fd)
 {
 	char 			msgbuff[513];
 	int				pos;
+	User 			&relative_user = getRelativeUser(fd);
 	
 	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 	msgbuff[512] = 0;
@@ -144,7 +145,7 @@ void Server::receiveMsg(int fd)
 	
 	std::vector<std::string> parameters = getSplittedParams(raw_message);
 	
-	Command new_command(command, parameters, getRelativeUser(fd), this);
+	Command new_command(command, parameters, relative_user, this);
 	new_command.execute();
 }
 

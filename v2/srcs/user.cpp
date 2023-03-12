@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:53 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/09 11:48:07 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/12 19:51:28 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ User::User(int user_fd)
 
 void User::push(std::string msg)
 {
-	std::string senderPrefix(":" + _nickname + "!" + _realname + "@" + _hostname + " ");
+	std::string senderPrefix;
+	if (!(_username.empty()))
+		senderPrefix = ":" + _nickname + "!" + _username + "@" + _hostname + " ";
+	else
+		senderPrefix = ":" + _nickname + "@" + _hostname + " ";
+	
 	std::string message(senderPrefix + msg + "\r\n");
 	send (_fd , message.c_str(), message.length(), 0);
 	if (DEBUG)

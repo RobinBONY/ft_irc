@@ -22,6 +22,10 @@ Command::Command(std::string name, std::vector<std::string> params, User &relati
 	_cmd_ptr["PASS"] = &Command::cmdPass;
 	_cmd_ptr["NICK"] = &Command::cmdNick;
 	_cmd_ptr["JOIN"] = &Command::cmdJoin;
+	_cmd_ptr["MODE"] = &Command::cmdMode;
+	_cmd_ptr["PRIVMSG"] = &Command::cmdPrivmsg;
+	_cmd_ptr["PING"] = &Command::cmdPing;
+	_cmd_ptr["QUIT"] = &Command::cmdQuit;
 	
 	try
 	{
@@ -36,7 +40,7 @@ Command::Command(std::string name, std::vector<std::string> params, User &relati
 Command::~Command()
 {}
 
-void Command::execute()
+void Command::execute(void)
 {
 	try
 	{
@@ -47,15 +51,12 @@ void Command::execute()
 		std::cerr << e.what() << '\n';
 	}
 }
-void Command::cmdUser()
+void Command::cmdUser(void)
 {
 	if (_relative_user.getState() == CONNECTED)
 		_relative_user.push(ERR_ALREADYREGISTERED(_relative_user.getNickName()));
-	if (_parameters.size() < 4)
-	{
-		errNeedMoreParams();
+	if (errNeedMoreParams(4))
 		return;
-	}
 	
 	_relative_user.setUserkName(_parameters.front());
 	_relative_user.setRealName(_parameters.back());
@@ -63,14 +64,14 @@ void Command::cmdUser()
 		_relative_user.welcomeToIrc();
 }
 
-void Command::cmdCap()
+void Command::cmdCap(void)
 {
 	/*
 		Not in use
 	*/
 }
 
-void Command::cmdPass()
+void Command::cmdPass(void)
 {
 	if (_relative_server->getPassword() == _parameters.front() || _relative_server->getPassword().empty())
 	{
@@ -80,43 +81,91 @@ void Command::cmdPass()
 		std::cerr << "[INFO] User pass (" << _parameters.front() <<  ") doesn't match server pass (" << _relative_server->getPassword() << ")" << std::endl;
 }
 
-void Command::cmdNick()
+void Command::cmdNick(void)
 {
 	_relative_user.setNickName(_parameters[0]);
+
+	// maybe weechat need a response
 }
 
-void Command::cmdJoin()
+void Command::cmdJoin(void)
 {
-	if (_parameters.empty())
-	{
-		errNeedMoreParams();
+	if (errNeedMoreParams(1))
 		return;
-	}
 
-	std::string channel_name;
+	std::string channel_name(_parameters.front());
 	std::string channel_pass;
 	Channel		*channel;
 
+	try 
+	{	userCheck();					}
+	catch(const std::runtime_error &e)
+	{	return;							}
+
+	if (_relative_user.getChannel())
+		return (_relative_user.push(ERR_TOOMANYCHANNELS(_relative_user.getNickName(), channel_name)));
+	if (channel_name[0] != '#')
+		return (_relative_user.push(FTIRC_ERR_BADCHANNELNAME(_relative_user.getNickName(), channel_name)));
 	try
 	{	channel_pass = _parameters[2];	}
 	catch (const std::out_of_range &e)
 	{	channel_pass = "";				}
-	channel_name = _parameters.front();
 	
-	if (!(_relative_user.getChannel() == nullptr))
-	{
-		return (_relative_user.push(ERR_TOOMANYCHANNELS(_relative_user.getNickName(), channel_name)));
-	}
 	channel = _relative_server->getSetRelativeChannel(channel_name, channel_pass);
+	_relative_user.setChannel(channel);
 	channel->welcomeToChannel(&_relative_user);
 }
 
-void Command::errUnknowCommand()
+void Command::cmdMode(void)
+{
+	if (errNeedMoreParams(2))
+		return;
+	if (_parameters[0] != _relative_user.getChannel()->getName())
+		_relative_user.push(ERR_CHANOPRIVSNEEDED(_relative_user.getNickName(), _parameters[0]));
+}
+
+void Command::cmdPrivmsg(void)
+{
+	if (errNeedMoreParams(2))
+		return;
+	
+	std::vector<std::string>::iterator iter;
+	std::string message;
+
+	if (_parameters[1][0] == ':')
+		_parameters[1] = _parameters[1].substr(1, _parameters[0].length());
+	
+	for (iter = _parameters.begin() + 1; iter != _parameters.end(); iter++)
+		message += *iter;
+	std::cerr << "PRIVMSG WILL SEND =" << message << std::endl;
+
+	//tofinish
+
+}
+
+void Command::cmdPing(void)
+{
+	if (errNeedMoreParams(1))
+		return;
+	_relative_user.push(RPL_PING(_parameters.front())); //better with server_addr
+}
+
+void Command::cmdQuit(void)
+{
+	std::cerr << "QUIT COMMAND RECEIVED" << std::endl;
+}
+
+void Command::errUnknowCommand(void)
 {
 	std::cerr << "[ERROR] unknow command (" << _name << ")" << std::endl;
 }
 
-void Command::errNeedMoreParams()
+int Command::errNeedMoreParams(int minimalparameterscount)
 {
-	_relative_user.push(ERR_NEEDMOREPARAMS(_relative_user.getNickName(), _name));
+	if (_parameters.size() < minimalparameterscount)
+	{
+		_relative_user.push(ERR_NEEDMOREPARAMS(_relative_user.getNickName(), _name));
+		return 1;
+	}
+	return 0;
 }
