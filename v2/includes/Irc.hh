@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/12 18:36:52 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 00:51:01 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 
 # define ERR_NEEDMOREPARAMS(nick, cmd_name) "461 " + nick + " " + cmd_name + " :Not enough parameters"
 # define ERR_ALREADYREGISTERED(nick) "462 " + nick + " :You may not reregister"
+# define ERR_NOTREGISTERED(nick) "451 " + nick + " :You have not registered"
 # define ERR_TOOMANYCHANNELS(nick, chan_name) "405 " + nick + " " + chan_name + " :You have joined too many channels"
 # define ERR_CHANOPRIVSNEEDED(nick, chan_name)	"482 " + nick + " " + chan_name + " :You're not channel operator"
 

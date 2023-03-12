@@ -35,6 +35,11 @@ Command::Command(std::string name, std::vector<std::string> params, User &relati
 	{
 		_cmd_ptr[_name] = &Command::errUnknowCommand;
 	}
+	if ((_name != "PASS" && _name != "CAP" && _name != "QUIT") && relativeuser.getState() != CONNECTED)
+	{
+		_cmd_ptr[_name] = &Command::errNotRegistred;
+
+	}
 }
 
 Command::~Command()
@@ -172,4 +177,9 @@ int Command::errNeedMoreParams(int minimalparameterscount)
 		return 1;
 	}
 	return 0;
+}
+
+void Command::errNotRegistred(void)
+{
+	_relative_user.push(ERR_NOTREGISTERED(_relative_user.getNickName()));
 }

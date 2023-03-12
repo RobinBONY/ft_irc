@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 00:03:25 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 00:53:06 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ class Command
 	
 	void							errUnknowCommand();
 	int								errNeedMoreParams(int minimalparameterscount);
+	void							errNotRegistred();
 	
 	public :
 
