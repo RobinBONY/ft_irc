@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:53 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/12 19:51:28 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 00:35:41 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # include "user.hpp"
 
 User::User(int user_fd)
-: _fd(user_fd), _hostname("localhost"), _current_channel(nullptr)
+: _fd(user_fd), _hostname("localhost"), _current_channel(nullptr), _nickname("default" + std::to_string(user_fd))
 {
 	
 }

@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/09 11:42:57 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 00:28:49 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ class Server
 		std::string						getPassword(void) { return _password; };
 
 		int 							setSocketFd(int port);
+		void							deleteChannel(std::string chan_name);
 };
 #endif

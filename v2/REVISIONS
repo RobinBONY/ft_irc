@@ -1,3 +1,5 @@
 add force channel name with # at beginning
 server set admin in getnames
 set multiples channels options
+add proper rfc error in join
+add signal break control in listening

@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/12 18:51:46 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 00:38:01 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ Server::Server(char *port, char *pass)
 
 	servpfd.events = POLLIN;
 	servpfd.fd = this->setSocketFd(atoi(port));
-
-	// _commands_array.push_back(new cmdUser("USER", false));
-	
+		
 	_pfds.push_back(servpfd);
 }
 
@@ -111,6 +109,17 @@ Channel *Server::getSetRelativeChannel(std::string name, std::string pass)
 	return createChannel(name, pass);
 }
 
+void Server::deleteChannel(std::string chan_name)
+{
+	std::vector<Channel>::iterator iter;
+	
+	for (iter = _channels.begin(); iter != _channels.end(); iter++)
+	{
+		if ((*iter).getName() == chan_name)
+			_channels.erase(iter);
+	}
+}
+
 std::vector<std::string> getSplittedParams(std::string hay)
 {
 	std::string 				needle(" ");
@@ -155,7 +164,7 @@ void Server::runLoop(void)
 	
 	while (_active)
 	{
-		if(poll(&_pfds[0], _pfds.size(), 500) < 0)
+		if(poll(&_pfds[0], _pfds.size(), 100) < 0)
 			throw std::runtime_error("Can't poll");
 
 		if (_pfds[0].revents == POLLIN)

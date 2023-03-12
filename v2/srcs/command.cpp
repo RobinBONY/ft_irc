@@ -83,7 +83,7 @@ void Command::cmdPass(void)
 
 void Command::cmdNick(void)
 {
-	_relative_user.setNickName(_parameters[0]);
+	//_relative_user.setNickName(_parameters[0]);
 
 	// maybe weechat need a response
 }
@@ -97,11 +97,6 @@ void Command::cmdJoin(void)
 	std::string channel_pass;
 	Channel		*channel;
 
-	try 
-	{	userCheck();					}
-	catch(const std::runtime_error &e)
-	{	return;							}
-
 	if (_relative_user.getChannel())
 		return (_relative_user.push(ERR_TOOMANYCHANNELS(_relative_user.getNickName(), channel_name)));
 	if (channel_name[0] != '#')
@@ -111,9 +106,18 @@ void Command::cmdJoin(void)
 	catch (const std::out_of_range &e)
 	{	channel_pass = "";				}
 	
+	//add other RFC1459 relative error codes
 	channel = _relative_server->getSetRelativeChannel(channel_name, channel_pass);
-	_relative_user.setChannel(channel);
-	channel->welcomeToChannel(&_relative_user);
+
+	if (channel_pass == channel->getPassword())
+	{
+		_relative_user.setChannel(channel);
+		channel->welcomeToChannel(&_relative_user);
+	}
+	else if (channel->getUsersPtr().empty())
+	{
+		_relative_server->deleteChannel(channel_name);
+	}
 }
 
 void Command::cmdMode(void)
