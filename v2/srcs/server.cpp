@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 00:38:01 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:16:35 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void Server::userHandShake(void)
 	int NewConnection = accept(_pfds[0].fd, (struct sockaddr *)&_server_sockaddr, (socklen_t*)&addr_len);
 	if (NewConnection >= 0)
 	{
-		User	new_user(NewConnection);
+		User *new_user = new User(NewConnection);
 		pollfd 	user_pfd;
 	
 		user_pfd.fd = NewConnection;
@@ -85,13 +85,25 @@ void Server::userHandShake(void)
 	}
 }
 
-User &Server::getRelativeUser(int fd)
+User *Server::getRelativeUser(int fd)
 {
-	std::vector<User>::iterator iter;
+	std::vector<User *>::iterator iter;
 
 	for (iter = _users.begin(); iter != _users.end(); iter++)
 	{
-		if ((*iter).getFd() == fd)
+		if ((*iter)->getFd() == fd)
+			return *iter;
+	}
+	throw std::runtime_error("No such user"); // to change
+}
+
+User *Server::getReltiveUserPerNick(std::string usrnick)
+{
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users.begin(); iter != _users.end(); iter++)
+	{
+		if ((*iter)->getNickName() == usrnick)
 			return *iter;
 	}
 	throw std::runtime_error("No such user"); // to change
@@ -139,7 +151,7 @@ void Server::receiveMsg(int fd)
 {
 	char 			msgbuff[513];
 	int				pos;
-	User 			&relative_user = getRelativeUser(fd);
+	User 			*relative_user = getRelativeUser(fd);
 	
 	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 	msgbuff[512] = 0;
@@ -159,9 +171,7 @@ void Server::receiveMsg(int fd)
 }
 
 void Server::runLoop(void)
-{
-	//signal(SIGINT, Server::onSIGINT);
-	
+{	
 	while (_active)
 	{
 		if(poll(&_pfds[0], _pfds.size(), 100) < 0)
@@ -177,7 +187,7 @@ void Server::runLoop(void)
 			if ((*iter).revents == POLLIN)
 				receiveMsg((*iter).fd);
 			else if ((*iter).revents == POLLHUP)
-				std::cout << "user " << _users.at((*iter).fd).getNickName() << " is away, need to disconnect him " << std::endl;
+				std::cout << "user " << _users.at((*iter).fd)->getNickName() << " is away, need to disconnect him " << std::endl;
 		}
 	}
 }

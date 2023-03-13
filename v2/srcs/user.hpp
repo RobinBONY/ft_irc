@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/09 10:43:14 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 16:43:58 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ class User
 		int			getFd()		  const {return _fd; }
 		int			getState()	  const {return _state; }
 		Channel		*getChannel() const {return _current_channel; }
+		std::string getSenderPrefix() const;
 
 		void setNickName(std::string nick) 		{_nickname = nick; }
 		void setUserkName(std::string username) {_username = username; }
@@ -47,7 +48,7 @@ class User
 		void setChannel(Channel *chan)			{_current_channel = chan; }
 
 		void welcomeToIrc();
-		void push(std::string msg);
+		void push(std::string msg, bool raw = false);
 };
 
 #endif

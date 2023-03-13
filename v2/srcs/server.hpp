@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 00:28:49 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:05:38 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Server
 		sockaddr_in				_server_sockaddr;
 
 		std::vector<pollfd> 	_pfds;
-		std::vector<User>		_users;
+		std::vector<User *>		_users;
 		std::vector<Channel>	_channels;
 		
 		Channel					*createChannel(std::string name, std::string pass);
@@ -37,7 +37,8 @@ class Server
 		void							userHandShake(void);
 		void							receiveMsg(int fd);
 
-		User							&getRelativeUser(int fd);
+		User							*getRelativeUser(int fd);
+		User							*getReltiveUserPerNick(std::string usrnick);
 		Channel							*getSetRelativeChannel(std::string name, std::string pass);
 		std::string						getPassword(void) { return _password; };
 

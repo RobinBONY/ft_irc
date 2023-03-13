@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 00:51:01 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:32:46 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@
 
 # define RPL_NICK ""
 # define RPL_WELCOME(nick) "001 " + nick + " :Welcome " + nick + " to the irc network"
-# define RPL_NAMREPLY(nick, chan, chan_users_nicks) "353 " + nick + " = " + chan + " :" + chan_users_nicks
-# define RPL_ENDOFNAMES(nick, chan)	"366 " + nick + " " + chan + " :End of /NAMES list."
-# define RPL_JOIN(chan) " JOIN :" + chan
+# define RPL_NAMREPLY(nick, chan_name, chan_users_nicks) "353 " + nick + " = " + chan_name + " :" + chan_users_nicks
+# define RPL_ENDOFNAMES(nick, chan_name)	"366 " + nick + " " + chan_name + " :End of /NAMES list."
+# define RPL_JOIN(sender_prefix, chan_name) ":" + sender_prefix + " JOIN :" + chan_name
 # define RPL_PING(host) " PONG :" + host
-
-
+# define RPL_PRIVMSG(sender_prefix, send_to, message) ":" + sender_prefix + " PRIVMSG " + send_to + " :" + message
 
 /*
 	IRC ERRORS
@@ -59,6 +58,10 @@
 # define ERR_NOTREGISTERED(nick) "451 " + nick + " :You have not registered"
 # define ERR_TOOMANYCHANNELS(nick, chan_name) "405 " + nick + " " + chan_name + " :You have joined too many channels"
 # define ERR_CHANOPRIVSNEEDED(nick, chan_name)	"482 " + nick + " " + chan_name + " :You're not channel operator"
+# define ERR_BADCHANNELKEY(nick, chan_name) "475 " + nick + " " + chan_name + " :Cannot join channel (+k)"
+# define ERR_NOSUCHCHANNEL(nick, chan_name)	"403 " + nick + " " + chan_name + " :No such channel"
+# define ERR_NOSUCHNICK(nick, send_to) "401 " + nick + " " + send_to + " :No such nick/channel"
+
 
 /*
 	FT_IRC SPECIFIC ERRORS

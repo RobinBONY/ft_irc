@@ -1,0 +1,20 @@
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-B => /buflist toggle
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-OP => /bar scroll buflist * -100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-11~ => /bar scroll buflist * -100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-OQ => /bar scroll buflist * +100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-12~ => /bar scroll buflist * +100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-11^ => /bar scroll buflist * -100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-1;5P => /bar scroll buflist * -100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-12^ => /bar scroll buflist * +100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-1;5Q => /bar scroll buflist * +100%
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-meta-OP => /bar scroll buflist * b
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-meta2-11~ => /bar scroll buflist * b
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-1;3P => /bar scroll buflist * b
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-meta-OQ => /bar scroll buflist * e
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta-meta2-12~ => /bar scroll buflist * e
+2023-03-13 17:42:51		Nouvelle touche (contexte "default") : meta2-1;3Q => /bar scroll buflist * e
+2023-03-13 17:42:51		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-13 17:43:12		irc : serveur ajouté : a
+2023-03-13 17:52:05	=!=	irc : la commande "join" doit être exécutée sur un serveur irc connecté
+2023-03-13 18:00:14	=!=	irc : la commande "join" doit être exécutée sur un serveur irc connecté
+2023-03-13 19:07:16		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer

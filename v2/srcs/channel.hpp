@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:30:30 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 00:28:37 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:58:43 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Channel
 	std::vector<User *> 	getUsersPtr()	{return _users_ptr; }
 
 	void		welcomeToChannel(User *user);
-	void		pushBroadcast(std::string msg);
+	void		pushBroadcast(std::string msg, User *initiator = nullptr);
 };
 
 #endif
