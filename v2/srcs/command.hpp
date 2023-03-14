@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 18:36:07 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:20:44 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Command
 	void							cmdPrivmsg();
 	void							cmdPing();
 	void							cmdQuit();
+	void							cmdPart();
 	
 	void							errUnknowCommand();
 	int								errNeedMoreParams(int minimalparameterscount);

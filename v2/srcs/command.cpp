@@ -26,6 +26,7 @@ Command::Command(std::string name, std::vector<std::string> params, User *relati
 	_cmd_ptr["PRIVMSG"] = &Command::cmdPrivmsg;
 	_cmd_ptr["PING"] = &Command::cmdPing;
 	_cmd_ptr["QUIT"] = &Command::cmdQuit;
+	_cmd_ptr["PART"] = &Command::cmdPart;
 	
 	try
 	{
@@ -168,11 +169,7 @@ void Command::cmdPrivmsg(void)
 			return;
 		}
 		_relative_server->getReltiveUserPerNick(send_to)->push(RPL_PRIVMSG(_relative_user->getSenderPrefix() ,send_to, message), true);
-		//_relative_user->push(RPL_PRIVMSG(_relative_server->getReltiveUserPerNick(send_to).getNickName(), message));
 	}
-	
-	//tofinish
-
 }
 
 void Command::cmdPing(void)
@@ -185,6 +182,20 @@ void Command::cmdPing(void)
 void Command::cmdQuit(void)
 {
 	std::cerr << "QUIT COMMAND RECEIVED" << std::endl;
+}
+
+void Command::cmdPart(void)
+{
+	if (errNeedMoreParams(1))
+		return;
+	Channel *channel = _relative_user->getChannel();
+
+	if (!channel || channel->getName() != _parameters[0])
+		return (_relative_user->push(ERR_NOSUCHCHANNEL(_relative_user->getNickName(), _parameters[0])));
+	
+	channel->pushBroadcast(RPL_PART(_relative_user->getSenderPrefix(), _parameters[0]));
+	channel->quitChannel(_relative_user);
+	_relative_user->setChannel(nullptr);
 }
 
 void Command::errUnknowCommand(void)
