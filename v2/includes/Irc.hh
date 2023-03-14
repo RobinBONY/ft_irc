@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 19:26:48 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:30:10 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@
 # define RPL_JOIN(sender_prefix, chan_name) ":" + sender_prefix + " JOIN :" + chan_name
 # define RPL_PING(host) " PONG :" + host
 # define RPL_PRIVMSG(sender_prefix, send_to, message) ":" + sender_prefix + " PRIVMSG " + send_to + " :" + message
-#define RPL_PART(sender_prefix, chan_name) ":" + sender_prefix + " PART :" + chan_name
+# define RPL_PART(sender_prefix, chan_name) ":" + sender_prefix + " PART :" + chan_name
+# define RPL_QUIT(sender_prefix) ":" + sender_prefix + " QUIT :Quit: "
 
 /*
 	IRC ERRORS

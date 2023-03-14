@@ -181,7 +181,8 @@ void Command::cmdPing(void)
 
 void Command::cmdQuit(void)
 {
-	std::cerr << "QUIT COMMAND RECEIVED" << std::endl;
+	cmdPart();
+	_relative_user->push(RPL_QUIT(_relative_user->getSenderPrefix()));
 }
 
 void Command::cmdPart(void)
