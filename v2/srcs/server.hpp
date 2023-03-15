@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 19:05:38 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:23:15 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ class Server
 
 		void							runLoop(void);
 		void							userHandShake(void);
-		void							receiveMsg(int fd);
+		void							receiveMsgs(int fd);
+		void							executeMsgs(int fd);
 
 		User							*getRelativeUser(int fd);
 		User							*getReltiveUserPerNick(std::string usrnick);

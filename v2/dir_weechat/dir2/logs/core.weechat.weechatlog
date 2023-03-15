@@ -18,3 +18,5 @@
 2023-03-13 17:52:05	=!=	irc : la commande "join" doit être exécutée sur un serveur irc connecté
 2023-03-13 18:00:14	=!=	irc : la commande "join" doit être exécutée sur un serveur irc connecté
 2023-03-13 19:07:16		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-15 14:33:37		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-15 14:38:33		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer

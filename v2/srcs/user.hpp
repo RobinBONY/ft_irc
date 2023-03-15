@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/13 16:43:58 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:30:53 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ class User;
 class User
 {
 	private : 
-		int					_fd;
-		std::string		 	_hostname;
+		int							_fd;
+		std::string		 			_hostname;
+		std::vector<std::string> 	_msgs;
 
 		std::string			_nickname;
 		std::string			_username;
@@ -33,19 +34,21 @@ class User
 		User(int user_fd);
 		~User() {}
 
-		std::string getNickName() const {return _nickname; }
-		std::string getRealName() const {return _realname; }
-		std::string getUserName() const {return _username; }
-		int			getFd()		  const {return _fd; }
-		int			getState()	  const {return _state; }
-		Channel		*getChannel() const {return _current_channel; }
-		std::string getSenderPrefix() const;
+		std::string 				getNickName() const {return _nickname; }
+		std::string 				getRealName() const {return _realname; }
+		std::string 				getUserName() const {return _username; }
+		int							getFd()		  const {return _fd; }
+		int							getState()	  const {return _state; }
+		Channel						*getChannel() const {return _current_channel; }
+		std::vector<std::string> 	getMsgs()	  const {return _msgs ;}
+		std::string 				getSenderPrefix() const;
 
-		void setNickName(std::string nick) 		{_nickname = nick; }
-		void setUserkName(std::string username) {_username = username; }
-		void setRealName(std::string realname)	{_realname = realname; }
-		void setState(int state)				{_state = state; }
-		void setChannel(Channel *chan)			{_current_channel = chan; }
+		void setNickName(std::string nick) 			{_nickname = nick; }
+		void setUserkName(std::string username)		{_username = username; }
+		void setRealName(std::string realname)		{_realname = realname; }
+		void setState(int state)					{_state = state; }
+		void setChannel(Channel *chan)				{_current_channel = chan; }
+		void setMsgs(std::vector<std::string> msgs) {_msgs = msgs; }
 
 		void welcomeToIrc();
 		void push(std::string msg, bool raw = false);

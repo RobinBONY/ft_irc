@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/14 13:22:36 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:32:39 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,34 +147,62 @@ std::vector<std::string> getSplittedParams(std::string hay)
 	return res;
 }
 
-void Server::receiveMsg(int fd)
+void Server::receiveMsgs(int fd)
 {
 	char 			msgbuff[513];
 	int				pos;
 	User 			*relative_user = getRelativeUser(fd);
+	size_t			last_breaker_pos = 0;
 	
 	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
-	msgbuff[512] = 0;
+	msgbuff[MsgLen] = '\0';
 
-	std::string 	raw_message(msgbuff);
-	raw_message = raw_message.substr(0, raw_message.find("\r\n"));
+	std::vector<std::string> 	raw_msgs;
+	std::string 				raw_message(msgbuff);
 	
-	if (DEBUG)
-		std::cerr << "<- [DEBUG] " << "fd " << fd << " received " << raw_message << "\"" << std::endl;
-	std::string command(raw_message.substr(0, raw_message.find(" ")));
-	raw_message.erase(0, command.length());
+	while (last_breaker_pos != std::string::npos)
+	{
+		std::string cmd_str;
+		size_t		tmp_breaker_pos = 0;
+
+		std::cerr << std::endl;
+		tmp_breaker_pos = raw_message.find("\n", last_breaker_pos + 1);
+		if (tmp_breaker_pos < std::string::npos)
+		{
+				cmd_str = raw_message.substr(last_breaker_pos, tmp_breaker_pos - 1);
+				cmd_str = cmd_str.substr(0, cmd_str.find("\r\n"));
+				raw_msgs.push_back(cmd_str);
+				tmp_breaker_pos ++;
+				if (DEBUG)
+					std::cerr << "<- [DEBUG] " << "fd " << fd << " received " << cmd_str << "\"" << std::endl;
+		}
+		last_breaker_pos = tmp_breaker_pos;
+	}
+
+	relative_user->setMsgs(raw_msgs);
+}
+
+void Server::executeMsgs(int fd)
+{
+	User *relative_user = getRelativeUser(fd);
+	std::vector<std::string> msgs = relative_user->getMsgs();
+	std::vector<std::string>::iterator iter;
 	
-	std::vector<std::string> parameters = getSplittedParams(raw_message);
-	
-	Command new_command(command, parameters, relative_user, this);
-	new_command.execute();
+	for (iter = msgs.begin(); iter != msgs.end(); iter++)
+	{
+		std::string command((*iter).substr(0, (*iter).find(" ")));
+		std::vector<std::string> parameters = getSplittedParams((*iter).substr(command.length(), (*iter).length()));
+
+		Command new_command(command, parameters, relative_user, this);
+		new_command.execute();
+	}
 }
 
 void Server::runLoop(void)
 {	
 	while (_active)
 	{
-		if(poll(&_pfds[0], _pfds.size(), 100) < 0)
+		if(poll(&_pfds[0], _pfds.size(), 500) < 0)
 			throw std::runtime_error("Can't poll");
 
 		if (_pfds[0].revents == POLLIN)
@@ -185,7 +213,10 @@ void Server::runLoop(void)
 		for (std::vector<pollfd>::iterator iter = _pfds.begin(); iter != _pfds.end(); iter++)
 		{
 			if ((*iter).revents == POLLIN)
-				receiveMsg((*iter).fd);
+			{
+				receiveMsgs((*iter).fd);
+				executeMsgs((*iter).fd);
+			}
 			else if ((*iter).revents == POLLHUP)
 				std::cout << "user " << _users.at((*iter).fd)->getNickName() << " is away, need to disconnect him " << std::endl;
 		}
