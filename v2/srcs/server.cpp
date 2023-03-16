@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/15 15:32:39 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/15 16:19:34 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,16 +149,23 @@ std::vector<std::string> getSplittedParams(std::string hay)
 
 void Server::receiveMsgs(int fd)
 {
-	char 			msgbuff[513];
-	int				pos;
-	User 			*relative_user = getRelativeUser(fd);
-	size_t			last_breaker_pos = 0;
-	
-	size_t MsgLen = recv(fd, &msgbuff, 512, 0);
-	msgbuff[MsgLen] = '\0';
-
+	char 						msgbuff[513];
+	size_t						last_breaker_pos = 0;
+	std::string 				raw_message;
 	std::vector<std::string> 	raw_msgs;
-	std::string 				raw_message(msgbuff);
+	
+	while (raw_message.find("\r\n") == std::string::npos)
+	{
+		bzero(msgbuff, 513);
+		size_t MsgLen = recv(fd, &msgbuff, 512, 0);
+		if (MsgLen >= 0)
+		{
+			msgbuff[MsgLen] = '\0';
+			raw_message.append(msgbuff);
+		}
+		else
+			throw::std::runtime_error("Can't read buffer !");
+	}
 	
 	while (last_breaker_pos != std::string::npos)
 	{
@@ -179,7 +186,7 @@ void Server::receiveMsgs(int fd)
 		last_breaker_pos = tmp_breaker_pos;
 	}
 
-	relative_user->setMsgs(raw_msgs);
+	getRelativeUser(fd)->setMsgs(raw_msgs);
 }
 
 void Server::executeMsgs(int fd)

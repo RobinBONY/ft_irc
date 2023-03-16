@@ -23,10 +23,11 @@ Command::Command(std::string name, std::vector<std::string> params, User *relati
 	_cmd_ptr["NICK"] = &Command::cmdNick;
 	_cmd_ptr["JOIN"] = &Command::cmdJoin;
 	_cmd_ptr["MODE"] = &Command::cmdMode;
-	_cmd_ptr["PRIVMSG"] = &Command::cmdPrivmsg;
+	_cmd_ptr["KICK"] = &Command::cmdKick;
 	_cmd_ptr["PING"] = &Command::cmdPing;
 	_cmd_ptr["QUIT"] = &Command::cmdQuit;
 	_cmd_ptr["PART"] = &Command::cmdPart;
+	_cmd_ptr["PRIVMSG"] = &Command::cmdPrivmsg;
 	
 	try
 	{
@@ -36,7 +37,7 @@ Command::Command(std::string name, std::vector<std::string> params, User *relati
 	{
 		_cmd_ptr[_name] = &Command::errUnknowCommand;
 	}
-	if ((_name != "PASS" && _name != "CAP" && _name != "QUIT" && _name != "USER") && relativeuser->getState() != CONNECTED)
+	if ((_name != "PASS" && _name != "CAP" && _name != "NICK" && _name != "QUIT" && _name != "USER") && relativeuser->getState() != CONNECTED)
 	{
 		_cmd_ptr[_name] = &Command::errNotRegistred;
 
@@ -91,7 +92,6 @@ void Command::cmdNick(void)
 {
 	_relative_user->setNickName(_parameters[0]);
 
-	// maybe weechat need a response
 }
 
 void Command::cmdJoin(void)
