@@ -63,3 +63,23 @@
 2023-03-15 14:42:12	=!=	irc : impossible d'ajouter le serveur temporaire "n" car l'ajout de serveurs temporaires avec la commande /connect est actuellement désactivée
 2023-03-15 14:42:12	=!=	irc : si vous voulez ajouter un serveur standard, utilisez la commande "/server add" (voir /help server); si vous voulez vraiment ajouter un serveur temporaire (NON SAUVÉ), activez l'option irc.look.temporary_servers
 2023-03-15 14:45:46	=!=	irc : déjà connecté au serveur "b" !
+2023-03-16 10:35:01		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 10:35:11		
+2023-03-16 10:35:11		All servers:
+2023-03-16 10:35:11		   b
+2023-03-16 10:39:50		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 10:41:40		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 10:55:03	=!=	irc: command "msg" must be executed on connected irc server
+2023-03-16 11:12:44		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 11:19:50	=!=	Unknown command "/ncik" (type /help for help)
+2023-03-16 11:29:06	=!=	irc: unable to add temporary server "a" because the addition of temporary servers with command /connect is currently disabled
+2023-03-16 11:29:06	=!=	irc: if you want to add a standard server, use the command "/server add" (see /help server); if you really want to add a temporary server (NOT SAVED), turn on the option irc.look.temporary_servers
+2023-03-16 11:29:26		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 11:29:29	=!=	irc: unable to add temporary server "a" because the addition of temporary servers with command /connect is currently disabled
+2023-03-16 11:29:29	=!=	irc: if you want to add a standard server, use the command "/server add" (see /help server); if you really want to add a temporary server (NOT SAVED), turn on the option irc.look.temporary_servers
+2023-03-16 11:29:39		
+2023-03-16 11:29:39		All servers:
+2023-03-16 11:29:39		   b
+2023-03-16 12:00:10		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 12:24:59	=!=	irc: already connected to server "b"!
+2023-03-16 12:26:39		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer

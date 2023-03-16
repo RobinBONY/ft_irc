@@ -351,3 +351,17 @@
 2023-03-15 15:34:33	--	irc : connexion au serveur 127.0.0.1/8080...
 2023-03-15 15:34:33	=!=	irc : connexion refusée
 2023-03-15 15:34:33	--	irc : reconnexion au serveur dans 1 minute, 20 secondes
+2023-03-16 01:38:47	--	irc : connexion au serveur 127.0.0.1/8080...
+2023-03-16 01:38:47	--	irc : connecté à 127.0.0.1/8080 (127.0.0.1)
+2023-03-16 01:38:47	--	Welcome victorducoulombier to the irc network
+2023-03-16 01:39:05	--	Pseudos #bites : [victorducoulombier victorducoulombier]
+2023-03-16 01:39:05	--	#bites: End of /NAMES list.
+2023-03-16 01:39:44	=!=	irc : lecture de données sur le socket : erreur 54 Connection reset by peer
+2023-03-16 01:39:44	--	irc : déconnexion du serveur...
+2023-03-16 01:39:44	--	irc : déconnecté du serveur
+2023-03-16 01:39:44	--	irc : reconnexion au serveur dans 10 secondes
+2023-03-16 01:39:54	--	irc : reconnexion au serveur...
+2023-03-16 01:39:54	--	irc : connexion au serveur 127.0.0.1/8080...
+2023-03-16 01:39:54	--	irc : connecté à 127.0.0.1/8080 (127.0.0.1)
+2023-03-16 01:39:54	--	Welcome victorducoulombier to the irc network
+2023-03-16 01:39:54	--	#bites: End of /NAMES list.

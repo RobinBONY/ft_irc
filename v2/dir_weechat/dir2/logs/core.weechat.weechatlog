@@ -20,3 +20,9 @@
 2023-03-13 19:07:16		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
 2023-03-15 14:33:37		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
 2023-03-15 14:38:33		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 01:37:42		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 01:38:36	=!=	irc : impossible d'ajouter le serveur temporaire "b" car l'ajout de serveurs temporaires avec la commande /connect est actuellement désactivée
+2023-03-16 01:38:36	=!=	irc : si vous voulez ajouter un serveur standard, utilisez la commande "/server add" (voir /help server); si vous voulez vraiment ajouter un serveur temporaire (NON SAUVÉ), activez l'option irc.look.temporary_servers
+2023-03-16 01:38:44		
+2023-03-16 01:38:44		Tous les serveurs :
+2023-03-16 01:38:44		   a

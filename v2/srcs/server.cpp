@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/15 16:19:34 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/16 12:38:48 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,10 @@ void Server::deleteChannel(std::string chan_name)
 	for (iter = _channels.begin(); iter != _channels.end(); iter++)
 	{
 		if ((*iter).getName() == chan_name)
+		{
 			_channels.erase(iter);
+			return;
+		}
 	}
 }
 
@@ -160,7 +163,7 @@ void Server::receiveMsgs(int fd)
 		size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 		if (MsgLen >= 0)
 		{
-			msgbuff[MsgLen] = '\0';
+			msgbuff[MsgLen + 1] = '\0';
 			raw_message.append(msgbuff);
 		}
 		else
@@ -209,7 +212,7 @@ void Server::runLoop(void)
 {	
 	while (_active)
 	{
-		if(poll(&_pfds[0], _pfds.size(), 500) < 0)
+		if(poll(&_pfds[0], _pfds.size(), 100) < 0)
 			throw std::runtime_error("Can't poll");
 
 		if (_pfds[0].revents == POLLIN)

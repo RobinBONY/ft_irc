@@ -80,6 +80,10 @@ void Command::cmdCap(void)
 
 void Command::cmdPass(void)
 {
+	if (errNeedMoreParams(1))
+		return;
+	if (!(_relative_user->getState() == HANDSHAKING))
+		_relative_user->push(ERR_ALREADYREGISTERED(_relative_user->getNickName()));
 	if (_relative_server->getPassword() == _parameters.front() || _relative_server->getPassword().empty())
 	{
 		_relative_user->setState(HANDSHAKED);
@@ -90,8 +94,18 @@ void Command::cmdPass(void)
 
 void Command::cmdNick(void)
 {
-	_relative_user->setNickName(_parameters[0]);
-
+	if (errNeedMoreParams(1))
+		return;
+	try
+	{
+		_relative_server->getReltiveUserPerNick(_parameters[0]);
+		_relative_user->push(ERR_NICKNAMEINUSE(_relative_user->getNickName(), _parameters[0]));
+	}
+	catch (const std::exception &e)
+	{
+		_relative_user->push(RPL_NICK(_parameters[0]));
+		_relative_user->setNickName(_parameters[0]);
+	}
 }
 
 void Command::cmdJoin(void)
@@ -118,6 +132,11 @@ void Command::cmdJoin(void)
 	{
 		_relative_user->setChannel(channel);
 		channel->welcomeToChannel(_relative_user);
+		if (channel->getOperator() == nullptr)
+		{
+			channel->setOperator(_relative_user);
+			_relative_user->push(RPL_YOUREOPER(_relative_user->getNickName()));
+		}
 	}
 	else if (channel->getUsersPtr().empty())
 		_relative_server->deleteChannel(channel_name);
@@ -193,10 +212,29 @@ void Command::cmdPart(void)
 
 	if (!channel || channel->getName() != _parameters[0])
 		return (_relative_user->push(ERR_NOSUCHCHANNEL(_relative_user->getNickName(), _parameters[0])));
-	
+
+	if (channel->getOperator() == _relative_user && channel->getUsersPtr().size() > 1)
+	{
+		std::vector<User *> users = channel->getUsersPtr();
+		std::vector<User *>::iterator iter = users.begin();
+		User *new_operator = *(++iter);
+		channel->setOperator(new_operator);
+		new_operator->push(RPL_YOUREOPER(new_operator->getNickName()));
+	}
+	else
+	{
+		_relative_server->deleteChannel(channel->getName());
+		_relative_user->setChannel(nullptr);
+		return ;
+	}
 	channel->pushBroadcast(RPL_PART(_relative_user->getSenderPrefix(), _parameters[0]));
 	channel->quitChannel(_relative_user);
 	_relative_user->setChannel(nullptr);
+}
+
+void Command::cmdKick()
+{
+	//todo
 }
 
 void Command::errUnknowCommand(void)

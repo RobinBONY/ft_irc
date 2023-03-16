@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/14 11:30:10 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:46:14 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 	IRC MESSAGES
 */
 
-# define RPL_NICK ""
 # define RPL_WELCOME(nick) "001 " + nick + " :Welcome " + nick + " to the irc network"
 # define RPL_NAMREPLY(nick, chan_name, chan_users_nicks) "353 " + nick + " = " + chan_name + " :" + chan_users_nicks
 # define RPL_ENDOFNAMES(nick, chan_name)	"366 " + nick + " " + chan_name + " :End of /NAMES list."
@@ -50,7 +49,8 @@
 # define RPL_PRIVMSG(sender_prefix, send_to, message) ":" + sender_prefix + " PRIVMSG " + send_to + " :" + message
 # define RPL_PART(sender_prefix, chan_name) ":" + sender_prefix + " PART :" + chan_name
 # define RPL_QUIT(sender_prefix) ":" + sender_prefix + " QUIT :Quit: "
-
+# define RPL_NICK(newnick) " NICK " + newnick
+# define RPL_YOUREOPER(nick) "381 " + nick + ":You are now an IRC operator"
 /*
 	IRC ERRORS
 */
@@ -63,7 +63,7 @@
 # define ERR_BADCHANNELKEY(nick, chan_name) "475 " + nick + " " + chan_name + " :Cannot join channel (+k)"
 # define ERR_NOSUCHCHANNEL(nick, chan_name)	"403 " + nick + " " + chan_name + " :No such channel"
 # define ERR_NOSUCHNICK(nick, send_to) "401 " + nick + " " + send_to + " :No such nick/channel"
-
+# define ERR_NICKNAMEINUSE(nick, targetnick) "422" + nick + " " + targetnick + ":Nickname is already in use." 
 
 /*
 	FT_IRC SPECIFIC ERRORS
