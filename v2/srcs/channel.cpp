@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/16 13:00:09 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:28:00 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,28 @@ void Channel::pushBroadcast(std::string msg, User *initiator)
 	}
 }
 
-void Channel::welcomeToChannel(User *user)
-{	
-	_users_ptr.push_back(user);
-	
+void Channel::broadcastNames(User *initiator)
+{
 	std::string chans_users_nicks;
 	std::vector<User *>::iterator iter;
+
 	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); ++iter)
 	{
-		if (iter == _users_ptr.begin())
+		if (*iter == _operator)
 			chans_users_nicks.append("@" + (*iter)->getNickName() + " ");
 		else
 			chans_users_nicks.append((*iter)->getNickName() + " ");
 	}
+	this->pushBroadcast(RPL_NAMREPLY(initiator->getNickName(), _name, chans_users_nicks));
+	this->pushBroadcast(RPL_ENDOFNAMES(initiator->getNickName(), _name));
+}
+
+void Channel::welcomeToChannel(User *user)
+{	
+	_users_ptr.push_back(user);
 	
-	user->push(RPL_NAMREPLY(user->getNickName(), _name, chans_users_nicks));
-	user->push(RPL_ENDOFNAMES(user->getNickName(), _name));
 	this->pushBroadcast(RPL_JOIN(user->getSenderPrefix(), _name));
+	broadcastNames(user);
 }
 
 void Channel::quitChannel(User *user)

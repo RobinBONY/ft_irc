@@ -15,3 +15,11 @@
 2023-03-16 12:25:12	victorducoulombier	hello
 2023-03-16 12:25:17	victorducoulombier	sdn
 2023-03-16 12:25:25	--	irc: disconnected from server
+2023-03-16 17:40:47	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 17:40:47	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-16 17:40:49	victorducoulombier	ok
+2023-03-16 17:40:54	--	Mode #test [+l 1] by prout
+2023-03-16 17:41:15	victorducoulombier	ok
+2023-03-16 17:41:24	--	#test: You're not channel operator
+2023-03-16 17:41:28	--	Mode #test [-k] by prout
+2023-03-16 17:41:49	--	#test: You're not channel operator

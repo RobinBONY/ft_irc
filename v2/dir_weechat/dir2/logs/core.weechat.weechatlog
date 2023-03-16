@@ -26,3 +26,10 @@
 2023-03-16 01:38:44		
 2023-03-16 01:38:44		Tous les serveurs :
 2023-03-16 01:38:44		   a
+2023-03-16 14:47:50		Extensions chargées : alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-16 14:47:54		
+2023-03-16 14:47:54		Tous les serveurs :
+2023-03-16 14:47:54		   a
+2023-03-16 15:04:58	=!=	Pas assez de paramètres pour la commande "/msg" (aide sur la commande : /help msg)
+2023-03-16 15:09:25	=!=	irc : la commande "join" doit être exécutée sur un serveur irc connecté
+2023-03-16 15:09:33	=!=	irc : déjà connecté au serveur "a" !

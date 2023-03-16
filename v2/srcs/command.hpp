@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/16 11:59:04 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/16 13:26:51 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ class Command
 	
 	void							errUnknowCommand();
 	int								errNeedMoreParams(int minimalparameterscount);
+	int								errNotOperator(std::string chan_name);
+	int								errNotUserChannel(std::string chan_name);
 	void							errNotRegistred();
 	
 	public :
