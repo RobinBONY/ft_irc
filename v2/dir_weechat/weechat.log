@@ -1,24 +1,51 @@
-[2023-03-16 17:40:00] WeeChat 3.8 (compiled on Jan  8 2023 12:25:25)
-[2023-03-16 17:40:00] Reading configuration file sec.conf
-[2023-03-16 17:40:00] Reading configuration file weechat.conf
-[2023-03-16 17:40:00] Reading configuration file plugins.conf
-[2023-03-16 17:40:00] Reading configuration file charset.conf
-[2023-03-16 17:40:00] Reading configuration file logger.conf
-[2023-03-16 17:40:00] Reading configuration file exec.conf
-[2023-03-16 17:40:00] Reading configuration file trigger.conf
-[2023-03-16 17:40:00] Reading configuration file spell.conf
-[2023-03-16 17:40:00] Reading configuration file alias.conf
-[2023-03-16 17:40:00] Reading configuration file buflist.conf
-[2023-03-16 17:40:00] Reading configuration file fifo.conf
-[2023-03-16 17:40:00] Reading configuration file typing.conf
-[2023-03-16 17:40:00] Reading configuration file xfer.conf
-[2023-03-16 17:40:00] Reading configuration file irc.conf
-[2023-03-16 17:40:00] Reading configuration file relay.conf
-[2023-03-16 17:40:00] Reading configuration file lua.conf
-[2023-03-16 17:40:00] Reading configuration file perl.conf
-[2023-03-16 17:40:00] Reading configuration file python.conf
-[2023-03-16 17:40:00] Reading configuration file ruby.conf
-[2023-03-16 17:40:00] Reading configuration file tcl.conf
-[2023-03-16 17:40:00] Reading configuration file script.conf
-[2023-03-16 17:40:00] Reading configuration file fset.conf
-[2023-03-16 17:40:02] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 18:53:39] WeeChat 3.8 (compiled on Jan  8 2023 12:25:25)
+[2023-03-16 18:53:39] Reading configuration file sec.conf
+[2023-03-16 18:53:39] Reading configuration file weechat.conf
+[2023-03-16 18:53:39] Reading configuration file plugins.conf
+[2023-03-16 18:53:39] Reading configuration file charset.conf
+[2023-03-16 18:53:39] Reading configuration file logger.conf
+[2023-03-16 18:53:39] Reading configuration file exec.conf
+[2023-03-16 18:53:39] Reading configuration file trigger.conf
+[2023-03-16 18:53:39] Reading configuration file spell.conf
+[2023-03-16 18:53:39] Reading configuration file alias.conf
+[2023-03-16 18:53:39] Reading configuration file buflist.conf
+[2023-03-16 18:53:39] Reading configuration file fifo.conf
+[2023-03-16 18:53:39] Reading configuration file typing.conf
+[2023-03-16 18:53:39] Reading configuration file xfer.conf
+[2023-03-16 18:53:39] Reading configuration file irc.conf
+[2023-03-16 18:53:39] Reading configuration file relay.conf
+[2023-03-16 18:53:39] Reading configuration file lua.conf
+[2023-03-16 18:53:39] Reading configuration file perl.conf
+[2023-03-16 18:53:39] Reading configuration file python.conf
+[2023-03-16 18:53:39] Reading configuration file ruby.conf
+[2023-03-16 18:53:39] Reading configuration file tcl.conf
+[2023-03-16 18:53:39] Reading configuration file script.conf
+[2023-03-16 18:53:39] Reading configuration file fset.conf
+[2023-03-16 18:53:46] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 18:54:16] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 18:54:36] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 18:55:16] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 18:56:36] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 18:58:10] irc: connecting to server 127.0.0.1/8080...
+[2023-03-16 19:10:47] Writing configuration file plugins.conf
+[2023-03-16 19:10:47] Writing configuration file ruby.conf
+[2023-03-16 19:10:47] Writing configuration file logger.conf
+[2023-03-16 19:10:47] Writing configuration file exec.conf
+[2023-03-16 19:10:47] Writing configuration file perl.conf
+[2023-03-16 19:10:47] Writing configuration file irc.conf
+[2023-03-16 19:10:47] Writing configuration file alias.conf
+[2023-03-16 19:10:47] Writing configuration file lua.conf
+[2023-03-16 19:10:47] Writing configuration file fifo.conf
+[2023-03-16 19:10:47] Writing configuration file spell.conf
+[2023-03-16 19:10:47] Writing configuration file fset.conf
+[2023-03-16 19:10:47] Writing configuration file trigger.conf
+[2023-03-16 19:10:47] Writing configuration file buflist.conf
+[2023-03-16 19:10:47] Writing configuration file script.conf
+[2023-03-16 19:10:47] Writing configuration file typing.conf
+[2023-03-16 19:10:47] Writing configuration file charset.conf
+[2023-03-16 19:10:47] Writing configuration file python.conf
+[2023-03-16 19:10:47] Writing configuration file xfer.conf
+[2023-03-16 19:10:47] Writing configuration file tcl.conf
+[2023-03-16 19:10:47] Writing configuration file relay.conf
+[2023-03-16 19:10:47] Writing configuration file weechat.conf
+[2023-03-16 19:10:47] Writing configuration file sec.conf

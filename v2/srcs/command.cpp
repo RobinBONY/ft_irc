@@ -156,25 +156,31 @@ void Command::cmdMode(void)
 	Channel *channel = _relative_user->getChannel();
 	bool grant = _parameters[1][0] == '+' ? true : false;
 	size_t parameter_idx = 1;
+	bool k = false; bool l = false; bool n = false; bool o = false;
 	
 	for (size_t i = 1; i < _parameters[1].length(); i++)
 	{
-		if (_parameters[1][i] == 'k')
-		{
-			grant ? parameter_idx++, channel->setPassword(_parameters[parameter_idx]) : channel->setPassword("");
-			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'k', channel->getPassword()));
-		}
-		else if (_parameters[1][i] == 'l')
-		{
-			grant ? parameter_idx++, channel->setMaxUsersLimit(std::stoll(_parameters[parameter_idx])) : channel->setMaxUsersLimit(INT_MAX);
-			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'l', std::to_string(channel->getMaxUsers())));
-		}
-		else if (_parameters[1][i] == 'n')
+		if (_parameters[1][i] == 'n' && !n)
 		{
 			grant ? channel->setOutsideAccess(true) : channel->setOutsideAccess(false);
 			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'n', std::to_string(channel->getOutsideAccess())));
+			n = true;
 		}
-		else if (_parameters[1][i] == 'o')
+		else if (grant && parameter_idx + 1 >= _parameters.size())
+				return;
+		else if (_parameters[1][i] == 'k' && !k)
+		{
+			grant ? parameter_idx++, channel->setPassword(_parameters[parameter_idx]) : channel->setPassword("");
+			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'k', channel->getPassword()));
+			k = true;
+		}
+		else if (_parameters[1][i] == 'l' && !l)
+		{
+			grant ? parameter_idx++, channel->setMaxUsersLimit(std::stoll(_parameters[parameter_idx])) : channel->setMaxUsersLimit(INT_MAX);
+			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'l', std::to_string(channel->getMaxUsers())));
+			l = true;
+		}
+		else if (_parameters[1][i] == 'o' && !o)
 		{
 			if (grant)
 			{
@@ -188,13 +194,14 @@ void Command::cmdMode(void)
 				}
 				catch(const std::exception& e)
 				{
-					_relative_user->push(ERR_USERNOTINCHANNEL(_relative_user->getNickName(), _parameters[parameter_idx], _parameters[0]));
+					_relative_user->push(ERR_NOSUCHNICK(_relative_user->getNickName(), ""));
 				}
 			}
 			else
 				channel->setOperator(nullptr);
+			o = true;
 		}
-		else
+		else if (_parameters[1][i] != 'k' || _parameters[1][i] != 'l' || _parameters[1][i] != 'n' || _parameters[1][i] != 'o')
 		{
 			return (_relative_user->push(ERR_UNKNOWNMODE(_relative_user->getNickName(), _parameters[1][i])));
 		}

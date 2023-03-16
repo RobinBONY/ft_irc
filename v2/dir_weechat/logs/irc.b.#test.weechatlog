@@ -23,3 +23,61 @@
 2023-03-16 17:41:24	--	#test: You're not channel operator
 2023-03-16 17:41:28	--	Mode #test [-k] by prout
 2023-03-16 17:41:49	--	#test: You're not channel operator
+2023-03-16 17:47:01	--	irc: disconnected from server
+2023-03-16 18:24:09	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:24:09	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:24:14	victorducoulombier	hello
+2023-03-16 18:24:32	--	irc: disconnected from server
+2023-03-16 18:29:09	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:29:09	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:29:17	--	irc: disconnected from server
+2023-03-16 18:30:29	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:30:29	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:31:27	--	irc: disconnected from server
+2023-03-16 18:31:32	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:31:32	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:31:44	--	irc: disconnected from server
+2023-03-16 18:37:46	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:37:46	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:37:50	--	irc: disconnected from server
+2023-03-16 18:40:04	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:40:04	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:40:08	--	irc: disconnected from server
+2023-03-16 18:43:44	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:43:44	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:43:46	--	irc: disconnected from server
+2023-03-16 18:44:56	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:44:56	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:45:07	victorducoulombier	hello
+2023-03-16 18:45:13	--	Mode #test [+l 27] by victorducoulombier
+2023-03-16 18:45:31	--	Mode #test [+l 27] by victorducoulombier
+2023-03-16 18:45:57	-->	prout (victorusername@localhost) has joined #test
+2023-03-16 18:45:57	--	Nicks #test: [@victorducoulombier prout]
+2023-03-16 18:45:57	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-16 18:46:14	@victorducoulombier	yes
+2023-03-16 18:46:14	--	#test: No such channel
+2023-03-16 18:46:27	--	#test: No such channel
+2023-03-16 18:46:34	--	irc: disconnected from server
+2023-03-16 18:50:49	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-16 18:50:49	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-16 18:50:52	victorducoulombier	hello
+2023-03-16 18:50:57	victorducoulombier	wesh
+2023-03-16 18:50:59	victorducoulombier	bjr
+2023-03-16 18:51:13	-->	prout (victorusername@localhost) has joined #test
+2023-03-16 18:51:13	--	Nicks #test: [@victorducoulombier prout]
+2023-03-16 18:51:13	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-16 18:51:17	prout	hey 
+2023-03-16 18:51:30	<--	prout (victorusername@localhost) has left #test
+2023-03-16 18:51:35	@victorducoulombier	wesh
+2023-03-16 18:51:41	-->	prout (victorusername@localhost) has joined #test
+2023-03-16 18:51:41	--	Nicks #test: [@victorducoulombier prout]
+2023-03-16 18:51:41	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-16 18:51:43	prout	hey 
+2023-03-16 18:51:52	--	#test: No such channel
+2023-03-16 18:52:14	--	#test: You have joined too many channels
+2023-03-16 18:52:18	@victorducoulombier	wtf
+2023-03-16 18:52:18	--	#test: No such channel
+2023-03-16 18:53:18	--	#test: No such channel
+2023-03-16 18:53:21	@victorducoulombier	hey
+2023-03-16 18:53:21	--	#test: No such channel
+2023-03-16 18:53:27	--	#test: You have joined too many channels
