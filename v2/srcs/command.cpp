@@ -234,7 +234,24 @@ void Command::cmdPart(void)
 
 void Command::cmdKick()
 {
-	//todo
+	if (errNeedMoreParams(2))
+		return ;
+	if (_relative_user->getChannel()->getName() != _parameters[0])
+		return (_relative_user->push(ERR_NOSUCHCHANNEL(_relative_user->getNickName(), _parameters[0])));
+	if (_relative_user->getChannel()->getOperator() != _relative_user)
+		return (_relative_user->push(ERR_CHANOPRIVSNEEDED(_relative_user->getNickName(), _parameters[0])));
+	
+	try {
+		User *target;
+		target = _relative_user->getChannel()->getUserPerNick(_parameters[1]);
+		target->setChannel(nullptr);
+		_relative_user->getChannel()->quitChannel(target);
+		_relative_user->getChannel()->pushBroadcast(RPL_PART(target->getSenderPrefix(), _parameters[0]));
+	}
+	catch (const std::exception &e)
+	{
+		_relative_user->push(ERR_USERNOTINCHANNEL(_relative_user->getNickName(), _parameters[1], _parameters[0]));
+	}
 }
 
 void Command::errUnknowCommand(void)

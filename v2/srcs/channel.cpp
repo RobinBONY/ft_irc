@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/16 12:28:19 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/16 13:00:09 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ Channel::Channel(std::string name, std::string pass)
 
 Channel::~Channel()
 {}
+
+User *Channel::getUserPerNick(std::string usrnick)
+{
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); iter++)
+	{
+		if ((*iter)->getNickName() == usrnick)
+			return *iter;
+	}
+	throw std::runtime_error("No such user"); // to change
+}
 
 void Channel::pushBroadcast(std::string msg, User *initiator)
 {

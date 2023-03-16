@@ -1583,3 +1583,56 @@
 2023-03-16 12:43:48	--	victorducoulombier:You are now an IRC operator
 2023-03-16 12:43:57	--	victorducoulombier:You are now an IRC operator
 2023-03-16 12:43:59	--	MODE: Not enough parameters
+2023-03-16 12:54:56	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 12:54:56	--	irc: connected to 127.0.0.1/8080 (127.0.0.1)
+2023-03-16 12:54:56	--	ft_user5: You may not reregister
+2023-03-16 12:54:56	--	Welcome victorducoulombier to the irc network
+2023-03-16 12:54:59	--	Nicks #bites: [@ft_user5 victorducoulombier]
+2023-03-16 12:54:59	--	#bites: End of /NAMES list.
+2023-03-16 12:56:20	=!=	irc: reading data on socket: error 22 (connection closed by peer)
+2023-03-16 12:56:20	--	irc: disconnecting from server...
+2023-03-16 12:56:20	--	irc: disconnected from server
+2023-03-16 12:56:20	--	irc: reconnecting to server in 10 seconds
+2023-03-16 12:56:30	--	irc: reconnecting to server...
+2023-03-16 12:56:30	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 12:56:30	=!=	irc: connection refused
+2023-03-16 12:56:30	--	irc: reconnecting to server in 20 seconds
+2023-03-16 12:56:50	--	irc: reconnecting to server...
+2023-03-16 12:56:50	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 12:56:50	=!=	irc: connection refused
+2023-03-16 12:56:50	--	irc: reconnecting to server in 40 seconds
+2023-03-16 12:57:30	--	irc: reconnecting to server...
+2023-03-16 12:57:30	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 12:57:30	=!=	irc: connection refused
+2023-03-16 12:57:30	--	irc: reconnecting to server in 1 minute, 20 seconds
+2023-03-16 12:58:50	--	irc: reconnecting to server...
+2023-03-16 12:58:50	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 12:58:50	=!=	irc: connection refused
+2023-03-16 12:58:50	--	irc: reconnecting to server in 2 minutes, 40 seconds
+2023-03-16 13:01:30	--	irc: reconnecting to server...
+2023-03-16 13:01:30	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 13:01:30	=!=	irc: connection refused
+2023-03-16 13:01:30	--	irc: reconnecting to server in 5 minutes, 20 seconds
+2023-03-16 13:06:50	--	irc: reconnecting to server...
+2023-03-16 13:06:50	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 13:06:50	=!=	irc: connection refused
+2023-03-16 13:06:50	--	irc: reconnecting to server in 10 minutes
+2023-03-16 13:07:16	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 13:07:16	--	irc: connected to 127.0.0.1/8080 (127.0.0.1)
+2023-03-16 13:07:16	--	ft_user4: You may not reregister
+2023-03-16 13:07:16	--	Welcome victorducoulombier to the irc network
+2023-03-16 13:07:16	--	#bites: End of /NAMES list.
+2023-03-16 13:07:16	--	victorducoulombier:You are now an IRC operator
+2023-03-16 13:07:31	--	prout: #bites:They aren't on that channel
+2023-03-16 13:09:59	=!=	irc: reading data on socket: error 22 (connection closed by peer)
+2023-03-16 13:09:59	--	irc: disconnecting from server...
+2023-03-16 13:09:59	--	irc: disconnected from server
+2023-03-16 13:09:59	--	irc: reconnecting to server in 10 seconds
+2023-03-16 13:10:04	--	irc: connecting to server 127.0.0.1/8080...
+2023-03-16 13:10:04	--	irc: connected to 127.0.0.1/8080 (127.0.0.1)
+2023-03-16 13:10:04	--	ft_user4: You may not reregister
+2023-03-16 13:10:04	--	Welcome victorducoulombier to the irc network
+2023-03-16 13:10:04	--	#bites: End of /NAMES list.
+2023-03-16 13:10:04	--	victorducoulombier:You are now an IRC operator
+2023-03-16 13:10:11	--	prout: #bites:They aren't on that channel
+2023-03-16 13:10:28	--	fft_user5: #bites:They aren't on that channel
