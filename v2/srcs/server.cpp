@@ -159,7 +159,8 @@ void Server::receiveMsgs(int fd)
 	
 	while (raw_message.find("\r\n") == std::string::npos)
 	{
-		bzero(msgbuff, 513);
+		//bzero(msgbuff, 513);
+		memset(msgbuff, '\0', 513);
 		size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 		if (MsgLen >= 0)
 		{

@@ -20,6 +20,8 @@
 #include <unistd.h>
 #include <poll.h>
 #include <vector>
+#include <climits>
+#include <cstring>
 #include <map>
 
 /*
