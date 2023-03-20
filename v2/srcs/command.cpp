@@ -156,7 +156,7 @@ void Command::cmdMode(void)
 	Channel *channel = _relative_user->getChannel();
 	bool grant = _parameters[1][0] == '+' ? true : false;
 	size_t parameter_idx = 1;
-	bool k = false; bool l = false; bool n = false; bool o = false;
+	bool k = false; bool l = false; bool n = false; bool o = false; bool b = false;
 	
 	for (size_t i = 1; i < _parameters[1].length(); i++)
 	{
@@ -168,6 +168,20 @@ void Command::cmdMode(void)
 		}
 		else if (grant && parameter_idx + 1 >= _parameters.size())
 				return;
+		else if (_parameters[1][i] == 'b' && !b)
+		{
+			try
+			{
+				parameter_idx++;
+				grant ? channel->setNewBan(_parameters[parameter_idx]) : channel->removeBan(_parameters[parameter_idx]);
+				channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'b', _parameters[parameter_idx]));
+			}
+			catch(const std::runtime_error& e)
+			{
+				_relative_user->push(ERR_NOSUCHNICK(_relative_user->getNickName(), ""));
+			}
+			k = true;
+		}
 		else if (_parameters[1][i] == 'k' && !k)
 		{
 			grant ? parameter_idx++, channel->setPassword(_parameters[parameter_idx]) : channel->setPassword("");
@@ -201,7 +215,7 @@ void Command::cmdMode(void)
 				channel->setOperator(nullptr);
 			o = true;
 		}
-		else if (_parameters[1][i] != 'k' || _parameters[1][i] != 'l' || _parameters[1][i] != 'n' || _parameters[1][i] != 'o')
+		else if (_parameters[1][i] != 'k' || _parameters[1][i] != 'l' || _parameters[1][i] != 'n' || _parameters[1][i] != 'o' || _parameters[1][i] != 'b')
 		{
 			return (_relative_user->push(ERR_UNKNOWNMODE(_relative_user->getNickName(), _parameters[1][i])));
 		}

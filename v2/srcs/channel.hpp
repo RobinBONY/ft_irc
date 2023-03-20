@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:30:30 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/16 17:37:56 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/20 15:23:43 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ class Channel
 	void		setPassword(std::string pass) 		{_password = pass; }
 	void		setMaxUsersLimit(long long limit) 	{_max_users = limit; }
 	void		setOutsideAccess(bool authorize)	{_outside_access = authorize; }
+	void		setNewBan(std::string banned_nick);
+	void		removeBan(std::string banned_nick);
 
 	void		welcomeToChannel(User *user);
 	void		pushBroadcast(std::string msg, User *initiator = nullptr);
