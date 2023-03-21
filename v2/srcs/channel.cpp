@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 10:47:35 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:02:21 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void Channel::quitChannel(User *user)
 
 	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); iter++)
 	{
-		if ((*iter)->getFd() == user->getFd())
+		if ((*iter)->getNickName() == user->getNickName())
 		{
 		 	_users_ptr.erase(iter);
 			return;

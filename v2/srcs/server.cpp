@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 11:32:37 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:39:42 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int Server::setSocketFd(int port)
 
 Channel *Server::createChannel(std::string name, std::string pass)
 {
-	Channel channel(name, pass);
+	Channel *channel = new Channel(name, pass);
 	_channels.push_back(channel);
 	
-	return &_channels.back();
+	return _channels.back();
 }
 
 void Server::userHandShake(void)
@@ -111,23 +111,23 @@ User *Server::getReltiveUserPerNick(std::string usrnick)
 
 Channel *Server::getSetRelativeChannel(std::string name, std::string pass)
 {
-	std::vector<Channel>::iterator iter;
+	std::vector<Channel *>::iterator iter;
 	
 	for (iter = _channels.begin(); iter != _channels.end(); iter++)
 	{
-		if ((*iter).getName() == name)
-			return iter.base();
+		if ((*iter)->getName() == name)
+			return *iter;
 	}
 	return createChannel(name, pass);
 }
 
 void Server::deleteChannel(std::string chan_name)
 {
-	std::vector<Channel>::iterator iter;
+	std::vector<Channel *>::iterator iter;
 	
 	for (iter = _channels.begin(); iter != _channels.end(); iter++)
 	{
-		if ((*iter).getName() == chan_name)
+		if ((*iter)->getName() == chan_name)
 		{
 			_channels.erase(iter);
 			return;

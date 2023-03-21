@@ -119,7 +119,7 @@ void Command::cmdJoin(void)
 	std::string channel_pass;
 	Channel		*channel;
 
-	if (_relative_user->getChannel())
+	if (_relative_user->getChannel() != nullptr)
 		return (_relative_user->push(ERR_TOOMANYCHANNELS(_relative_user->getNickName(), channel_name)));
 	if (channel_name[0] != '#')
 		return (_relative_user->push(FTIRC_ERR_BADCHANNELNAME(_relative_user->getNickName(), channel_name)));
@@ -141,7 +141,7 @@ void Command::cmdJoin(void)
 		}
 	}
 	else if (channel->isBanned(_relative_user))
-		_relative_user->push(ERR_BANNEDFROMCHAN(_relative_user->getNickName()));
+		_relative_user->push(ERR_BANNEDFROMCHAN(_relative_user->getNickName(), channel_name));
 	else if (channel->isOnUserLimit())
 		_relative_user->push(ERR_CHANNELISFULL(_relative_user->getNickName(), channel_name));
 	else if (channel->getUsersPtr().empty())
@@ -241,13 +241,12 @@ void Command::cmdPrivmsg(void)
 	for (iter = _parameters.begin() + 1; iter != _parameters.end(); iter++)
 		message += *iter + " ";
 	
-	std::cout << "send to " << send_to << " with payload : " << message << std::endl;
 	if (send_to.front() == '#')
 	{
-		Channel *channel = _relative_user->getChannel();
-		if (!channel || channel->getName() != send_to)
-			return (_relative_user->push(ERR_NOSUCHCHANNEL(_relative_user->getNickName(), send_to)));
+		if (errNotUserChannel(send_to))
+			return;
 		
+		Channel *channel = _relative_user->getChannel();
 		channel->pushBroadcast(RPL_PRIVMSG(_relative_user->getSenderPrefix(), send_to, message), _relative_user); //untested
 	}
 	else

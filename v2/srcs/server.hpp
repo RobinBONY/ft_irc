@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 11:14:54 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 14:38:17 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Server
 
 		std::vector<pollfd> 	_pfds;
 		std::vector<User *>		_users;
-		std::vector<Channel>	_channels;
+		std::vector<Channel *>	_channels;
 		
 		Channel					*createChannel(std::string name, std::string pass);
 		

@@ -127,3 +127,16 @@
 2023-03-21 11:32:59		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
 2023-03-21 11:34:26	=!=	irc: already connected to server "b"!
 2023-03-21 11:38:04		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 13:04:51		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 13:04:54	=!=	irc: command "join" must be executed on irc buffer (server, channel or private)
+2023-03-21 13:04:57	=!=	You can not write text in this buffer
+2023-03-21 13:19:55		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 13:21:39		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 13:56:28		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 13:58:05		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 13:58:15	=!=	Unknown command "/connectb" (type /help for help)
+2023-03-21 14:02:43		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
+2023-03-21 14:39:55	=!=	irc: unable to add temporary server "a" because the addition of temporary servers with command /connect is currently disabled
+2023-03-21 14:39:55	=!=	irc: if you want to add a standard server, use the command "/server add" (see /help server); if you really want to add a temporary server (NOT SAVED), turn on the option irc.look.temporary_servers
+2023-03-21 14:44:19	=!=	irc: already connected to server "b"!
+2023-03-21 14:46:27		Plugins loaded: alias, buflist, charset, exec, fifo, fset, irc, logger, lua, perl, python, relay, ruby, script, spell, tcl, trigger, typing, xfer
