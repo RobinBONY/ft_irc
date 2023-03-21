@@ -6,14 +6,14 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 14:02:21 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:10:39 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
 
 Channel::Channel(std::string name, std::string pass)
-: _name(name), _password(pass), _operator(nullptr)
+: _name(name), _password(pass), _operator(nullptr), _max_users(INT_MAX), _outside_access(false)
 {
 	
 }

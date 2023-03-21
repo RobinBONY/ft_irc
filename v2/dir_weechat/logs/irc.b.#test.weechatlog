@@ -288,3 +288,14 @@
 2023-03-21 14:46:47	ft_user5	oui 
 2023-03-21 14:46:49	@victorducoulombier	oui
 2023-03-21 14:46:52	@victorducoulombier	ok
+2023-03-21 14:47:55	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-21 14:47:55	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 14:47:58	victorducoulombier	oui
+2023-03-21 14:48:07	--	irc: disconnected from server
+2023-03-21 14:57:32	--	irc: disconnected from server
+2023-03-21 14:58:30	--	#test: Cannot join channel (+l)
+2023-03-21 14:58:40	victorducoulombier	hey
+2023-03-21 14:58:40	--	#test: No such channel
+2023-03-21 15:03:08	victorducoulombier	ndej
+2023-03-21 15:03:08	--	#test: No such channel
+2023-03-21 15:03:16	--	#test: Cannot join channel (+l)

@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 14:38:17 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 22:59:03 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class Server
 		
 	public :
 		Server(char *port, char *pass);
+		~Server();
 
 		void							runLoop(void);
 		void							userHandShake(void);

@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 14:39:42 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 23:43:01 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,25 @@ Server::Server(char *port, char *pass)
 	servpfd.fd = this->setSocketFd(atoi(port));
 		
 	_pfds.push_back(servpfd);
+}
+
+Server::~Server()
+{
+	std::vector<User *>::iterator usr_iter;
+	std::vector<Channel *>::iterator chan_iter;
+
+	std::cerr << "DESTRUCTOR CALLED" << std::endl;
+	for (usr_iter = _users.begin(); usr_iter != _users.end(); usr_iter++)
+	{
+		delete *usr_iter;
+	}
+	_users.clear();
+
+	for (chan_iter = _channels.begin(); chan_iter != _channels.end(); chan_iter++)
+	{
+		delete *chan_iter;
+	}
+	_channels.clear();
 }
 
 int Server::setSocketFd(int port)
@@ -61,7 +80,7 @@ Channel *Server::createChannel(std::string name, std::string pass)
 	Channel *channel = new Channel(name, pass);
 	_channels.push_back(channel);
 	
-	return _channels.back();
+	return channel;
 }
 
 void Server::userHandShake(void)
@@ -94,7 +113,7 @@ User *Server::getRelativeUser(int fd)
 		if ((*iter)->getFd() == fd)
 			return *iter;
 	}
-	throw std::runtime_error("No such user"); // to change
+	throw std::runtime_error("No such user");
 }
 
 User *Server::getReltiveUserPerNick(std::string usrnick)
@@ -106,7 +125,7 @@ User *Server::getReltiveUserPerNick(std::string usrnick)
 		if ((*iter)->getNickName() == usrnick)
 			return *iter;
 	}
-	throw std::runtime_error("No such user"); // to change
+	throw std::runtime_error("No such user");
 }
 
 Channel *Server::getSetRelativeChannel(std::string name, std::string pass)
@@ -129,6 +148,7 @@ void Server::deleteChannel(std::string chan_name)
 	{
 		if ((*iter)->getName() == chan_name)
 		{
+			delete *iter;
 			_channels.erase(iter);
 			return;
 		}
@@ -148,11 +168,11 @@ void Server::deleteUser(User *usr)
 			{
 				if ((*pfd_iter).fd == (*iter)->getFd())
 				{
-					//_pfds.erase(pfd_iter);
 					(*pfd_iter).events = POLLHUP;
 					break;
 				}
 			}
+			delete *iter;
 			_users.erase(iter);
 			return;
 		}
@@ -234,28 +254,25 @@ void Server::executeMsgs(int fd)
 
 void Server::runLoop(void)
 {	
-	while (_active)
-	{
-		if(poll(&_pfds[0], _pfds.size(), 100) < 0)
-			throw std::runtime_error("Can't poll");
+	if(poll(&_pfds[0], _pfds.size(), 100) < 0)
+		throw std::runtime_error("Can't poll");
 
-		if (_pfds[0].revents == POLLIN)
+	if (_pfds[0].revents == POLLIN)
+	{
+		userHandShake();
+		return;
+	}
+	for (std::vector<pollfd>::iterator iter = _pfds.begin(); iter != _pfds.end(); iter++)
+	{
+		if ((*iter).revents == POLLIN)
 		{
-			userHandShake();
-			continue ;
+			receiveMsgs((*iter).fd);
+			executeMsgs((*iter).fd);
 		}
-		for (std::vector<pollfd>::iterator iter = _pfds.begin(); iter != _pfds.end(); iter++)
+		else if ((*iter).revents == POLLHUP)
 		{
-			if ((*iter).revents == POLLIN)
-			{
-				receiveMsgs((*iter).fd);
-				executeMsgs((*iter).fd);
-			}
-			else if ((*iter).revents == POLLHUP)
-			{
-				_pfds.erase(iter);
-				break;
-			}
+			_pfds.erase(iter);
+			break;
 		}
 	}
 }
