@@ -130,7 +130,7 @@ void Command::cmdJoin(void)
 	
 	channel = _relative_server->getSetRelativeChannel(channel_name, channel_pass);
 
-	if (channel_pass == channel->getPassword() && !channel->isBanned(_relative_user))
+	if (channel_pass == channel->getPassword() && !channel->isBanned(_relative_user) && !channel->isOnUserLimit())
 	{
 		_relative_user->setChannel(channel);
 		channel->welcomeToChannel(_relative_user);
@@ -142,6 +142,8 @@ void Command::cmdJoin(void)
 	}
 	else if (channel->isBanned(_relative_user))
 		_relative_user->push(ERR_BANNEDFROMCHAN(_relative_user->getNickName()));
+	else if (channel->isOnUserLimit())
+		_relative_user->push(ERR_CHANNELISFULL(_relative_user->getNickName(), channel_name));
 	else if (channel->getUsersPtr().empty())
 		_relative_server->deleteChannel(channel_name);
 	else
@@ -272,8 +274,14 @@ void Command::cmdPing(void)
 
 void Command::cmdQuit(void)
 {
-	cmdPart();
+	if (_relative_user->getChannel() != nullptr)
+	{
+		std::cerr << "USER HAS CHANNEL" << std::endl;
+		_parameters[0] = _relative_user->getChannel()->getName();
+		cmdPart();
+	}
 	_relative_user->push(RPL_QUIT(_relative_user->getSenderPrefix()));
+	_relative_server->deleteUser(_relative_user);
 }
 
 void Command::cmdPart(void)

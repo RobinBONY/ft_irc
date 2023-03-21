@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/15 15:23:15 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:14:54 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ class Server
 
 		int 							setSocketFd(int port);
 		void							deleteChannel(std::string chan_name);
+		void							deleteUser(User *usr);
 };
 #endif

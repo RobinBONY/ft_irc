@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/16 12:38:48 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:32:37 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,30 @@ void Server::deleteChannel(std::string chan_name)
 	}
 }
 
+void Server::deleteUser(User *usr)
+{
+	std::vector<User *>::iterator iter;
+	std::vector<pollfd>::iterator pfd_iter;
+
+	for (iter = _users.begin(); iter != _users.end(); iter++)
+	{
+		if (*iter && (*iter) == usr)
+		{
+			for (pfd_iter = _pfds.begin(); pfd_iter != _pfds.end(); pfd_iter++)
+			{
+				if ((*pfd_iter).fd == (*iter)->getFd())
+				{
+					//_pfds.erase(pfd_iter);
+					(*pfd_iter).events = POLLHUP;
+					break;
+				}
+			}
+			_users.erase(iter);
+			return;
+		}
+	}
+}
+
 std::vector<std::string> getSplittedParams(std::string hay)
 {
 	std::string 				needle(" ");
@@ -159,7 +183,6 @@ void Server::receiveMsgs(int fd)
 	
 	while (raw_message.find("\r\n") == std::string::npos)
 	{
-		//bzero(msgbuff, 513);
 		memset(msgbuff, '\0', 513);
 		size_t MsgLen = recv(fd, &msgbuff, 512, 0);
 		if (MsgLen >= 0)
@@ -229,7 +252,10 @@ void Server::runLoop(void)
 				executeMsgs((*iter).fd);
 			}
 			else if ((*iter).revents == POLLHUP)
-				std::cout << "user " << _users.at((*iter).fd)->getNickName() << " is away, need to disconnect him " << std::endl;
+			{
+				_pfds.erase(iter);
+				break;
+			}
 		}
 	}
 }

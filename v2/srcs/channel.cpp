@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 10:25:24 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:47:35 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@ User *Channel::getUserPerNick(std::string usrnick)
 	throw std::runtime_error("No such user"); // to change
 }
 
+User *Channel::getBannedUserPerNick(std::string bannednick)
+{
+	std::vector<User *>::iterator iter;
+
+	for (iter = _banned_users_ptr.begin(); iter != _banned_users_ptr.end(); iter++)
+	{
+		if ((*iter)->getNickName() == bannednick)
+			return *iter;
+	}
+	throw std::runtime_error("No such user"); // to change
+}
+
 bool Channel::isBanned(User *toverify)
 {
 	std::vector<User *>::iterator iter;
@@ -45,19 +57,28 @@ bool Channel::isBanned(User *toverify)
 	return false;
 }
 
+bool Channel::isOnUserLimit()
+{
+	if (_users_ptr.size() >= _max_users)
+		return true;
+	return false;
+}
+
 void Channel::setNewBan(std::string banned_nick)
 {
 	std::vector<User *>::iterator iter;
 	User *toban = getUserPerNick(banned_nick);
-
-	removeBan(toban->getNickName());
+	
 	_banned_users_ptr.push_back(toban);
+	toban->setChannel(nullptr);
+	quitChannel(toban);
+	pushBroadcast(RPL_PART(toban->getSenderPrefix(), _name));
 }
 
 void Channel::removeBan(std::string banned_nick)
 {
 	std::vector<User *>::iterator iter;
-	User *todeban = getUserPerNick(banned_nick);
+	User *todeban = getBannedUserPerNick(banned_nick);
 	
 	for (iter = _banned_users_ptr.begin(); iter != _banned_users_ptr.end(); iter++)
 	{

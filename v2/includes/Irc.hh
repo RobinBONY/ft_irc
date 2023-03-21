@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 10:22:39 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:50:54 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
 # define ERR_USERNOTINCHANNEL(nick, targetnick, chan_name) "441 " + nick + " " + targetnick + " " + chan_name + " :They aren't on that channel"
 # define ERR_UNKNOWNMODE(nick, mode) "472 " + nick + " " + mode + " :is unknown mode char to me"
 # define ERR_BANNEDFROMCHAN(nick) "474 " + nick + " you're banned from this server"
-
+# define ERR_CHANNELISFULL(nick, chan_name) "471 " + nick + " " + chan_name + " :Cannot join channel (+l)"
 /*
 	FT_IRC SPECIFIC ERRORS
 */

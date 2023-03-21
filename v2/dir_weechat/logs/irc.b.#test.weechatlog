@@ -162,3 +162,61 @@
 2023-03-21 10:23:18	ft_user5	hello 
 2023-03-21 10:23:23	@vico	heloo
 2023-03-21 10:23:27	@vico	bite lol
+2023-03-21 10:26:16	--	irc: disconnected from server
+2023-03-21 10:35:20	-->	vico (victorducoulombier@localhost) has joined #test
+2023-03-21 10:35:20	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-21 10:35:38	-->	ft_user5 (victorusername@localhost) has joined #test
+2023-03-21 10:35:38	--	Nicks #test: [@vico ft_user5]
+2023-03-21 10:35:38	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 10:35:40	ft_user5	ok 
+2023-03-21 10:35:59	<--	ft_user5 (victorusername@localhost) has left #test
+2023-03-21 10:35:59	--	Mode #test [+b ft_user5] by vico
+2023-03-21 10:36:17	--	Mode #test [-n 0] by vico
+2023-03-21 10:37:36	--	irc: disconnected from server
+2023-03-21 10:41:56	-->	vico (victorducoulombier@localhost) has joined #test
+2023-03-21 10:41:56	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-21 10:42:23	-->	ft_user5 (victorusername@localhost) has joined #test
+2023-03-21 10:42:23	--	Nicks #test: [@vico ft_user5]
+2023-03-21 10:42:23	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 10:42:27	ft_user5	hello 
+2023-03-21 10:42:37	<--	ft_user5 (victorusername@localhost) has left #test
+2023-03-21 10:42:37	--	Mode #test [+b ft_user5] by vico
+2023-03-21 10:42:48	--	Mode #test [-b ft_user5] by vico
+2023-03-21 10:42:59	-->	ft_user5 (victorusername@localhost) has joined #test
+2023-03-21 10:42:59	--	Nicks #test: [@vico ft_user5]
+2023-03-21 10:42:59	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 10:43:01	ft_user5	hey 
+2023-03-21 11:08:45	--	irc: disconnected from server
+2023-03-21 11:12:00	-->	vico (victorducoulombier@localhost) has joined #test
+2023-03-21 11:12:00	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-21 11:23:02	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-21 11:23:02	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 11:23:04	victorducoulombier	hello
+2023-03-21 11:23:16	--	irc: disconnected from server
+2023-03-21 11:25:33	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-21 11:25:33	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-21 11:25:43	-->	ft_user5 (victorusername@localhost) has joined #test
+2023-03-21 11:25:43	--	Nicks #test: [@victorducoulombier ft_user5]
+2023-03-21 11:25:43	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 11:25:47	ft_user5	hello 
+2023-03-21 11:33:24	-->	victorducoulombier (victorducoulombier@localhost) has joined #test
+2023-03-21 11:33:24	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 11:33:26	victorducoulombier	hello
+2023-03-21 11:33:34	victorducoulombier	hey
+2023-03-21 11:33:34	--	irc: disconnected from server
+2023-03-21 11:34:22	--	#test: Cannot join channel (+k)
+2023-03-21 11:34:33	-->	ft_user5 (victorducoulombier@localhost) has joined #test
+2023-03-21 11:34:33	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 11:34:36	ft_user5	hello
+2023-03-21 11:38:14	-->	ft_user5 (victorducoulombier@localhost) has joined #test
+2023-03-21 11:38:14	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 11:38:17	ft_user5	hey
+2023-03-21 11:38:25	ft_user5	hola
+2023-03-21 11:38:25	--	irc: disconnected from server
+2023-03-21 13:04:20	-->	ft_user5 (victorducoulombier@localhost) has joined #test
+2023-03-21 13:04:20	--	Channel #test: 1 nick (0 ops, 0 voices, 1 normal)
+2023-03-21 13:04:25	ft_user5	hello
+2023-03-21 13:04:33	-->	victorducoulombier (victorusername@localhost) has joined #test
+2023-03-21 13:04:33	--	Nicks #test: [@ft_user5 victorducoulombier]
+2023-03-21 13:04:33	--	Channel #test: 2 nicks (1 op, 0 voices, 1 normal)
+2023-03-21 13:04:37	victorducoulombier	yeah 
