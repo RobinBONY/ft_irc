@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/20 17:29:38 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:25:24 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@ User *Channel::getUserPerNick(std::string usrnick)
 			return *iter;
 	}
 	throw std::runtime_error("No such user"); // to change
+}
+
+bool Channel::isBanned(User *toverify)
+{
+	std::vector<User *>::iterator iter;
+
+	for (iter = _banned_users_ptr.begin(); iter != _banned_users_ptr.end(); iter++)
+	{
+		if (*iter && *iter == toverify)
+			return true;
+	}
+	return false;
 }
 
 void Channel::setNewBan(std::string banned_nick)

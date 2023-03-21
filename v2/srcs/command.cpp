@@ -130,7 +130,7 @@ void Command::cmdJoin(void)
 	
 	channel = _relative_server->getSetRelativeChannel(channel_name, channel_pass);
 
-	if (channel_pass == channel->getPassword())
+	if (channel_pass == channel->getPassword() && !channel->isBanned(_relative_user))
 	{
 		_relative_user->setChannel(channel);
 		channel->welcomeToChannel(_relative_user);
@@ -140,6 +140,8 @@ void Command::cmdJoin(void)
 			_relative_user->push(RPL_YOUREOPER(_relative_user->getNickName()));
 		}
 	}
+	else if (channel->isBanned(_relative_user))
+		_relative_user->push(ERR_BANNEDFROMCHAN(_relative_user->getNickName()));
 	else if (channel->getUsersPtr().empty())
 		_relative_server->deleteChannel(channel_name);
 	else

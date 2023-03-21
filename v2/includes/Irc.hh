@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/16 17:08:29 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:22:39 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 # define RPL_PART(sender_prefix, chan_name) ":" + sender_prefix + " PART :" + chan_name
 # define RPL_QUIT(sender_prefix) ":" + sender_prefix + " QUIT :Quit: "
 # define RPL_NICK(newnick) " NICK " + newnick
-# define RPL_YOUREOPER(nick) "381 " + nick + ":You are now an IRC operator"
+# define RPL_YOUREOPER(nick) "381 " + nick + " :You are now an IRC operator"
 # define RPL_MODE(sender_prefix, chan_name, new_mode, parameter)	":" + sender_prefix + " MODE " + chan_name + " " + new_mode + " " + parameter
 /*
 	IRC ERRORS
@@ -66,9 +66,10 @@
 # define ERR_BADCHANNELKEY(nick, chan_name) "475 " + nick + " " + chan_name + " :Cannot join channel (+k)"
 # define ERR_NOSUCHCHANNEL(nick, chan_name)	"403 " + nick + " " + chan_name + " :No such channel"
 # define ERR_NOSUCHNICK(nick, send_to) "401 " + nick + " " + send_to + " :No such nick/channel"
-# define ERR_NICKNAMEINUSE(nick, targetnick) "422 " + nick + " " + targetnick + ":Nickname is already in use." 
-# define ERR_USERNOTINCHANNEL(nick, targetnick, chan_name) "441 " + nick + " " + targetnick + " " + chan_name + ":They aren't on that channel"
-# define ERR_UNKNOWNMODE(nick, mode) "472 " + nick + " " + mode + ":is unknown mode char to me"
+# define ERR_NICKNAMEINUSE(nick, targetnick) "422 " + nick + " " + targetnick + " :Nickname is already in use." 
+# define ERR_USERNOTINCHANNEL(nick, targetnick, chan_name) "441 " + nick + " " + targetnick + " " + chan_name + " :They aren't on that channel"
+# define ERR_UNKNOWNMODE(nick, mode) "472 " + nick + " " + mode + " :is unknown mode char to me"
+# define ERR_BANNEDFROMCHAN(nick) "474 " + nick + " you're banned from this server"
 
 /*
 	FT_IRC SPECIFIC ERRORS

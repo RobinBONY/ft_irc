@@ -6,7 +6,7 @@
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:30:30 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/20 15:23:43 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:43:21 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ class Channel
 	long long				getMaxUsers()		{return _max_users; }
 	bool					getOutsideAccess() 	{return _outside_access; }
 	User					*getUserPerNick(std::string usrnick);
+	bool					isBanned(User *to_verify);
 
 	void		setOperator(User *user) 			{_operator = user; };
 	void		setPassword(std::string pass) 		{_password = pass; }
