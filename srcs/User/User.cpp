@@ -1,78 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   User.cpp                                           :+:      :+:    :+:   */
+/*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 22:22:39 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 23:01:51 by vducoulo         ###   ########.fr       */
+/*   Created: 2023/03/03 17:33:53 by vducoulo          #+#    #+#             */
+/*   Updated: 2023/03/22 12:11:37 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
+# include "user.hpp"
 
-User::User(int sockfd, const std::string &host, std::string &servername) 
-: _sockfd(sockfd), _username("NOUSERNAME"), _hostname(host), _servername(servername), _registrationTime(time(0)),
-_timeOfLastMessage(NULL), _timeAfterPing(NULL), _status(RECEIVENOTICE)
-{}
-//_channels uninitialized
-
-User::~User()
-{}
-
-int		User::getSockfd() const
+User::User(int user_fd)
+: _fd(user_fd), _hostname("localhost"), _current_channel(nullptr), _nickname("ft_user" + std::to_string(user_fd))
 {
-	return this->_sockfd;
+	
 }
 
-const std::string	&User::getUsername() const
+std::string User::getSenderPrefix() const
 {
-	return this->_username;
+	std::string sender_prefix;
+
+	if (!(_username.empty()))
+		sender_prefix = _nickname + "!" + _username + "@" + _hostname;
+	else
+		sender_prefix = _nickname + "@" + _hostname;
+	
+	return sender_prefix;
 }
 
-const std::vector<const Channel *>	&User::getChannels() const
+void User::push(std::string msg, bool raw)
 {
-	return this->_channels;
+	std::string message;
+	if (!raw)
+		message =":" + getSenderPrefix() + " " + msg + "\r\n";
+	else
+		message = msg + "\r\n";
+	
+	send (_fd , message.c_str(), message.length(), 0);
+	if (DEBUG)
+		std::cerr << "->    [DEBUG] " << "server answered with =" << message.substr(0, message.length() - 2) << std::endl;
 }
 
-const time_t	&User::getTimeOfLastMessage() const
+void User::welcomeToIrc(void)
 {
-	return this->_timeOfLastMessage;
-}
-
-const time_t	&User::getTimeAfterPing() const
-{
-	return this->_timeAfterPing;
-}
-
-void	User::sendMessage(const std::string &msg) const
-{
-	if (msg.size() > 0)
-		send(this->_sockfd, msg.c_str(), msg.size(), IRC_NOSIGNAL);
-}
-
-void	User::setUsername(const std::string &username)
-{
-	this->_username = username;
-}
-
-void	User::setStatus(unsigned int status)
-{
-	this->_status = status;
-}
-
-unsigned int	User::getStatus() const
-{
-	return this->_status;
-}
-
-void	User::updateTimeOfLastMessage()
-{
-	this->_timeOfLastMessage = time(0);
-}
-
-void	User::updateTimeAfterPing()
-{
-	this->_timeAfterPing = time(0);
+	push(RPL_WELCOME(_nickname));
+	
+	_state = CONNECTED;	
 }

@@ -1,179 +1,277 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
+/*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 21:01:34 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/26 23:20:47 by vducoulo         ###   ########.fr       */
+/*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
+/*   Updated: 2023/03/22 12:16:56 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+# include "server.hpp"
+# include "../command/command.hpp"
 
-Server::Server(int port, const std::string &password) : _name("ircserv"), _port(port), _timeout(1), _password(password), _debug(1)
-{}
+Server::Server(char *port, char *pass)
+: _active(1), _password(pass)
+{
+	if (atoi(port) < 1024 || atoi(port) > 49151)
+		throw std::runtime_error("Bad port range");
+
+	pollfd servpfd;
+
+	servpfd.events = POLLIN;
+	servpfd.fd = this->setSocketFd(atoi(port));
+		
+	_pfds.push_back(servpfd);
+}
 
 Server::~Server()
 {
-	close(this->_sockfd);
-}
+	std::vector<User *>::iterator usr_iter;
+	std::vector<Channel *>::iterator chan_iter;
 
-const int	&Server::getSockfd() const
-{
-	return (_sockfd);
-}
-
-void	Server::createSocket()
-{
-	this->_sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (this->_sockfd == -1)
+	std::cerr << "DESTRUCTOR CALLED" << std::endl;
+	for (usr_iter = _users.begin(); usr_iter != _users.end(); usr_iter++)
 	{
-		std::cerr << "Failed to create socket. errno: " << errno << std::endl;
-		exit(EXIT_FAILURE);
+		delete *usr_iter;
 	}
-	if (this->_debug)
-		std::cout << "[DEBUG]" << "New socket created (" << this->_sockfd << ")" << std::endl;
+	_users.clear();
+
+	for (chan_iter = _channels.begin(); chan_iter != _channels.end(); chan_iter++)
+	{
+		delete *chan_iter;
+	}
+	_channels.clear();
 }
 
-/**
- * @brief 
- * set socket options
- * join the socket to the server listenning adress
- * 
- */
-void	Server::bindSocket()
+int Server::setSocketFd(int port)
 {
-	const int trueFlag = 1;
-	if (setsockopt(this->_sockfd, SOL_SOCKET, SO_REUSEADDR, &trueFlag, sizeof(int)) < 0) //SO_REUSEPORT pour ne pas fail en cas de port déjà écouté
-	{
-		std::cout << "setsockopt failed" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	this->_sockaddr.sin_addr.s_addr = INADDR_ANY; //INADDR_LOOPBACK possible sur localhost uniquement -> sec
-	this->_sockaddr.sin_family = AF_INET;
-	this->_sockaddr.sin_port = htons(this->_port);
-	if (bind(this->_sockfd, (struct sockaddr*)&this->_sockaddr, sizeof(this->_sockaddr)) < 0)
-	{
-		std::cerr << "Failed to bind to port " << this->_port << ". errno: " << errno << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	if (this->_debug)
-		std::cout << "[DEBUG]" << "Socket binded (" << this->_sockfd << ")" << std::endl;
+	int 				sock_fd;
+	const int 			flag = 1;
+	struct sockaddr_in 	serv_sock_addr;
+
+	serv_sock_addr.sin_addr.s_addr	 = INADDR_ANY;
+	serv_sock_addr.sin_family		 = AF_INET;
+	serv_sock_addr.sin_port 		 = htons(port);
+	
+	sock_fd = socket(AF_INET, SOCK_STREAM, 0);
+	if (sock_fd < 0)
+		throw std::runtime_error("Can't create socket");
+	if (setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(int)) < 0)
+		throw std::runtime_error("Can't set socket options");
+	if (bind(sock_fd, (struct sockaddr*)&serv_sock_addr, sizeof(serv_sock_addr)) < 0)
+		throw std::runtime_error("Can't bind socket");
+	if (fcntl(sock_fd, F_SETFL, O_NONBLOCK) < 0)
+		throw std::runtime_error("Can't set socket non-block attribute");
+	if (listen(sock_fd, 1) < 0 )
+		throw std::runtime_error("Can't listen to socket");
+	
+	this->_server_sockaddr = serv_sock_addr;
+
+	std::cout << "[INFO] server up and listening on " << _server_sockaddr.sin_addr.s_addr << ":" << port << std::endl;
+	return (sock_fd);
 }
 
-void	Server::listenSocket()
+Channel *Server::createChannel(std::string name, std::string pass)
 {
-	if (listen(this->_sockfd, 128) < 0) //mode écoute sur le socket, max 128 connections
-	{
-		std::cerr << "Failed to listen on socket. errno: " << errno << std::endl;
-		exit(EXIT_FAILURE);
-	}
-	fcntl(this->_sockfd, F_SETFL, O_NONBLOCK); //attributs du socket_fd
-	if (this->_debug)
-		std::cout << "[DEBUG]" << "Listening on socket (" << this->_sockfd << ")" << std::endl;
+	Channel *channel = new Channel(name, pass);
+	_channels.push_back(channel);
+	
+	return channel;
 }
 
-/**
- * @brief 
- * checks if a user is trying to connect to the server
- * 
- * server-scope join
- */
-void	Server::grabConnection()
+void Server::userHandShake(void)
 {
-	size_t addrlen = sizeof(this->_sockaddr);
-	int connection = accept(this->_sockfd, (struct sockaddr*)&this->_sockaddr, (socklen_t*)&addrlen); //retourne un fd sur le socket de l'utilisateur
-	if (connection >= 0)
+	size_t addr_len = sizeof(_server_sockaddr);
+
+	int NewConnection = accept(_pfds[0].fd, (struct sockaddr *)&_server_sockaddr, (socklen_t*)&addr_len);
+	if (NewConnection >= 0)
 	{
-		char	host[INET_ADDRSTRLEN];
-		inet_ntop(AF_INET, &(this->_sockaddr.sin_addr), host, INET_ADDRSTRLEN); //convert binary server addr to human-readable 
-		struct pollfd	pfd;
-		pfd.fd = connection; //user fd
-		std::cout << "new user fd : " << pfd.fd << std::endl;
-		pfd.events = POLLIN; //spécifie données en attente de lecture sur le pollfd //événenments attendus
-		pfd.revents = 0; //éléments détectés
-		this->_userFDs.push_back(pfd);
-		this->_connectedUsers.push_back(new User(connection, host, this->_name));
-		if (this->_debug)
-			std::cout << "[DEBUG]" << "New client connected (" << this->_connectedUsers.back()->getUsername() << ")" << std::endl;
+		User *new_user = new User(NewConnection);
+		pollfd 	user_pfd;
+	
+		user_pfd.fd = NewConnection;
+		user_pfd.revents = 0;
+		user_pfd.events = POLLIN;
+		_pfds.push_back(user_pfd);
+		_users.push_back(new_user);
+
+		if (DEBUG)
+			std::cerr << "[DEBUG] " << "new user just entered HANDSHAKE mode" << std::endl;
 	}
 }
 
-/**
- * @brief 
- * give BREAKCONNECTION status to a must-be-kickedoff user
- * if the user did not respond to the ping commmand response delay on time
- */
-void	Server::checkConnectionWithUsers()     //pas obligé de PING tout le monde Revents retourne POLLHUP en cas de connexion brisée
+User *Server::getRelativeUser(int fd)
 {
-	for (size_t i = 0; i < this->_connectedUsers.size(); i++)
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users.begin(); iter != _users.end(); iter++)
 	{
-		if (this->_connectedUsers[i]->getStatus() & REGISTERED)
+		if ((*iter)->getFd() == fd)
+			return *iter;
+	}
+	throw std::runtime_error("No such user");
+}
+
+User *Server::getReltiveUserPerNick(std::string usrnick)
+{
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users.begin(); iter != _users.end(); iter++)
+	{
+		if ((*iter)->getNickName() == usrnick)
+			return *iter;
+	}
+	throw std::runtime_error("No such user");
+}
+
+Channel *Server::getSetRelativeChannel(std::string name, std::string pass)
+{
+	std::vector<Channel *>::iterator iter;
+	
+	for (iter = _channels.begin(); iter != _channels.end(); iter++)
+	{
+		if ((*iter)->getName() == name)
+			return *iter;
+	}
+	return createChannel(name, pass);
+}
+
+void Server::deleteChannel(std::string chan_name)
+{
+	std::vector<Channel *>::iterator iter;
+	
+	for (iter = _channels.begin(); iter != _channels.end(); iter++)
+	{
+		if ((*iter)->getName() == chan_name)
 		{
-			if (time(0) - this->_connectedUsers[i]->getTimeOfLastMessage() > static_cast<time_t>(MAXINACTIVETIMEOUT) )
+			delete *iter;
+			_channels.erase(iter);
+			return;
+		}
+	}
+}
+
+void Server::deleteUser(User *usr)
+{
+	std::vector<User *>::iterator iter;
+	std::vector<pollfd>::iterator pfd_iter;
+
+	for (iter = _users.begin(); iter != _users.end(); iter++)
+	{
+		if (*iter && (*iter) == usr)
+		{
+			for (pfd_iter = _pfds.begin(); pfd_iter != _pfds.end(); pfd_iter++)
 			{
-				this->_connectedUsers[i]->sendMessage(":" + this->_name + " PING :" + this->_name + "\n");
-				this->_connectedUsers[i]->updateTimeAfterPing();
-				this->_connectedUsers[i]->updateTimeOfLastMessage();
-				this->_connectedUsers[i]->setStatus(PINGING);
+				if ((*pfd_iter).fd == (*iter)->getFd())
+				{
+					(*pfd_iter).events = POLLHUP;
+					break;
+				}
 			}
-			if ((this->_connectedUsers[i]->getStatus() & PINGING) && time(0) - this->_connectedUsers[i]->getTimeAfterPing() > static_cast<time_t>(MAXRESPONSETIMEOUT))
-				this->_connectedUsers[i]->setStatus(BREAKCONNECTION);
+			delete *iter;
+			_users.erase(iter);
+			return;
 		}
 	}
 }
 
-/**
- * @brief 
- * kicks of the users flagged with the BREAKCONNECTION status,
- * notify all channels where the user is present
- * 
- * channel-scope kick
- * server-scope kick
- */
-void	Server::deleteBrokenConnections()
+std::vector<std::string> getSplittedParams(std::string hay)
 {
-	for (size_t i = 0; i < this->_connectedUsers.size(); ++i)
+	std::string 				needle(" ");
+	size_t						needle_position = 0;
+	std::vector<std::string> 	res;
+	
+	while (needle_position != std::string::npos)
 	{
-		if (this->_connectedUsers[i]->getStatus() & BREAKCONNECTION)
+		size_t tmp_needle = hay.find(needle, needle_position + 1);
+		res.push_back(hay.substr(needle_position + 1, tmp_needle - needle_position - 1));
+		needle_position = tmp_needle;
+	}
+	return res;
+}
+
+void Server::receiveMsgs(int fd)
+{
+	char 						msgbuff[513];
+	size_t						last_breaker_pos = 0;
+	std::string 				raw_message;
+	std::vector<std::string> 	raw_msgs;
+	
+	while (raw_message.find("\r\n") == std::string::npos)
+	{
+		memset(msgbuff, '\0', 513);
+		size_t MsgLen = recv(fd, &msgbuff, 512, 0);
+		if (MsgLen >= 0)
 		{
-			notifyUsers(*(this->_connectedUsers[i]), ":" + this->_connectedUsers[i]->getUsername() + " QUIT : Fin\n");
-			close(this->_connectedUsers[i]->getSockfd());
-			std::map<std::string, Channel *>::iterator	beg = this->_channels.begin();
-			std::map<std::string, Channel *>::iterator	end = this->_channels.end();
-			for (; beg != end; ++beg)
-				if ((*beg).second->containsNickname(this->_connectedUsers[i]->getUsername()))
-					(*beg).second->disconnect(*(this->_connectedUsers[i]));
-			delete this->_connectedUsers[i];
-			this->_connectedUsers.erase(this->_connectedUsers.begin() + i);
-			this->_userFDs.erase(this->_userFDs.begin() + i);
-			--i;
-			if (this->_debug)
-				std::cout << "[DEBUG]" << "kicked-off (" << this->_connectedUsers[i]->getUsername() << ")" << std::endl;
+			msgbuff[MsgLen + 1] = '\0';
+			raw_message.append(msgbuff);
 		}
+		else
+			throw::std::runtime_error("Can't read buffer !");
+	}
+	
+	while (last_breaker_pos != std::string::npos)
+	{
+		std::string cmd_str;
+		size_t		tmp_breaker_pos = 0;
+
+		std::cerr << std::endl;
+		tmp_breaker_pos = raw_message.find("\n", last_breaker_pos + 1);
+		if (tmp_breaker_pos < std::string::npos)
+		{
+				cmd_str = raw_message.substr(last_breaker_pos, tmp_breaker_pos - 1);
+				cmd_str = cmd_str.substr(0, cmd_str.find("\r\n"));
+				raw_msgs.push_back(cmd_str);
+				tmp_breaker_pos ++;
+				if (DEBUG)
+					std::cerr << "<- [DEBUG] " << "fd " << fd << " received " << cmd_str << "\"" << std::endl;
+		}
+		last_breaker_pos = tmp_breaker_pos;
+	}
+
+	getRelativeUser(fd)->setMsgs(raw_msgs);
+}
+
+void Server::executeMsgs(int fd)
+{
+	User *relative_user = getRelativeUser(fd);
+	std::vector<std::string> msgs = relative_user->getMsgs();
+	std::vector<std::string>::iterator iter;
+	
+	for (iter = msgs.begin(); iter != msgs.end(); iter++)
+	{
+		std::string command((*iter).substr(0, (*iter).find(" ")));
+		std::vector<std::string> parameters = getSplittedParams((*iter).substr(command.length(), (*iter).length()));
+
+		Command new_command(command, parameters, relative_user, this);
+		new_command.execute();
 	}
 }
 
-/**
- * @brief 
- * sends a message to all channels where the user is present
- * the user is the sender
- */
-void	Server::notifyUsers(User &user, const std::string &notification)
-{
-	const std::vector<const Channel *> chans = user.getChannels();
-	for (size_t i = 0; i < this->_connectedUsers.size(); i++)
+void Server::runLoop(void)
+{	
+	if(poll(&_pfds[0], _pfds.size(), 100) < 0)
+		throw std::runtime_error("Can't poll");
+
+	if (_pfds[0].revents == POLLIN)
 	{
-		for (size_t j = 0; j < chans.size(); j++)
+		userHandShake();
+		return;
+	}
+	for (std::vector<pollfd>::iterator iter = _pfds.begin(); iter != _pfds.end(); iter++)
+	{
+		if ((*iter).revents == POLLIN)
 		{
-			if (chans[j]->containsNickname(this->_connectedUsers[i]->getUsername()))
-			{
-				this->_connectedUsers[i]->sendMessage(notification);
-				break ;
-			}
+			receiveMsgs((*iter).fd);
+			executeMsgs((*iter).fd);
+		}
+		else if ((*iter).revents == POLLHUP)
+		{
+			_pfds.erase(iter);
+			break;
 		}
 	}
-	printf("notify");
 }

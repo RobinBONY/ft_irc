@@ -1,67 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 20:39:19 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/21 11:07:30 by vducoulo         ###   ########.fr       */
+/*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
+/*   Updated: 2023/03/22 12:17:00 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-class User;
-class Channel;
+#ifndef CPP_SERVER_HPP
+# define CPP_SERVER_HPP
 
-#ifndef SERVER_HPP
-#define SERVER_HPP
-
-#include "../../includes/Irc.hh"
-
-#define MAXINACTIVETIMEOUT	120
-#define MAXRESPONSETIMEOUT	60
-
-#ifdef __APPLE__
-#define IRC_NOSIGNAL SO_NOSIGPIPE
-#else
-#define IRC_NOSIGNAL MSG_NOSIGNAL
-#endif
+# include "../../includes/Irc.hh"
+# include "../user/user.hpp"
+# include "../channel/channel.hpp"
 
 class Server
 {
+	private :
+		bool					_active;
+		std::string				_password;
+		sockaddr_in				_server_sockaddr;
 
-private:
-    std::string                         _name;
-    int			                        _port;
-	const id_t	                        _timeout;
-    std::string	                        _password;
-    int			                        _sockfd;
-	sockaddr_in	                        _sockaddr;
-    std::vector<struct pollfd>          _userFDs;
-    std::vector<User *>                 _connectedUsers;
-    std::map<std::string, Channel *>    _channels;
-    int                                 _debug;
+		std::vector<pollfd> 	_pfds;
+		std::vector<User *>		_users;
+		std::vector<Channel *>	_channels;
+		
+		Channel					*createChannel(std::string name, std::string pass);
+		
+	public :
+		Server(char *port, char *pass);
+		~Server();
 
-    Server();
-    Server(const Server &form);
-    Server &operator=(const Server &form);
+		void							runLoop(void);
+		void							userHandShake(void);
+		void							receiveMsgs(int fd);
+		void							executeMsgs(int fd);
 
-    void		notifyUsers(User &user, const std::string &notification);
-    
-public:
-    Server(int port, const std::string &password);
-    ~Server();
+		User							*getRelativeUser(int fd);
+		User							*getReltiveUserPerNick(std::string usrnick);
+		Channel							*getSetRelativeChannel(std::string name, std::string pass);
+		std::string						getPassword(void) { return _password; };
 
-	const int	&getSockfd() const;
-
-	void		createSocket();
-	void		bindSocket();
-	void		listenSocket();
-    void        grabConnection();
-    void        checkConnectionWithUsers();
-    void        deleteBrokenConnections();
+		int 							setSocketFd(int port);
+		void							deleteChannel(std::string chan_name);
+		void							deleteUser(User *usr);
 };
-
-std::ostream &operator<<(std::ostream &os, const Server &f);
-
 #endif

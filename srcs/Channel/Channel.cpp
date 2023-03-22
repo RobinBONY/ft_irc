@@ -1,93 +1,140 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Channel.cpp                                        :+:      :+:    :+:   */
+/*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 13:03:44 by rbony             #+#    #+#             */
-/*   Updated: 2023/02/20 12:29:48 by vducoulo         ###   ########.fr       */
+/*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
+/*   Updated: 2023/03/21 15:10:39 by vducoulo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Channel.hpp"
+#include "channel.hpp"
 
-Channel::Channel(const std::string &name, const User &creator, const std::string &pass) : _name(name), _password(pass)
+Channel::Channel(std::string name, std::string pass)
+: _name(name), _password(pass), _operator(nullptr), _max_users(INT_MAX), _outside_access(false)
 {
-	this->_users.push_back(&creator);
-	this->_operators.push_back(&creator);
-	sendMessage("JOIN :" + this->_name + "\n", creator, true);
+	
 }
 
 Channel::~Channel()
 {}
 
-void	Channel::sendMessage(const std::string &message, const User &from, bool includeUser) const
+User *Channel::getUserPerNick(std::string usrnick)
 {
-	std::string	msg;
-	msg += ":" + from.getUsername() + " " + message;
-	std::vector<const User *>::const_iterator	begin = this->_users.begin();
-	std::vector<const User *>::const_iterator	end = this->_users.end();
-	for (; begin != end; ++begin)
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); iter++)
 	{
-		if (includeUser || *begin != &from)
-			(*begin)->sendMessage(msg);
+		if ((*iter)->getNickName() == usrnick)
+			return *iter;
 	}
+	throw std::runtime_error("No such user"); // to change
 }
 
-const std::string	&Channel::getName() const
+User *Channel::getBannedUserPerNick(std::string bannednick)
 {
-	return (this->_name);
+	std::vector<User *>::iterator iter;
+
+	for (iter = _banned_users_ptr.begin(); iter != _banned_users_ptr.end(); iter++)
+	{
+		if ((*iter)->getNickName() == bannednick)
+			return *iter;
+	}
+	throw std::runtime_error("No such user"); // to change
 }
 
-bool	Channel::isOperator(const User &user) const
+bool Channel::isBanned(User *toverify)
 {
-	for (size_t i = 0; i < this->_operators.size(); i++)
-		if (this->_operators[i]->getUsername() == user.getUsername())
+	std::vector<User *>::iterator iter;
+
+	for (iter = _banned_users_ptr.begin(); iter != _banned_users_ptr.end(); iter++)
+	{
+		if (*iter && *iter == toverify)
 			return true;
+	}
 	return false;
 }
 
-bool	Channel::containsNickname(const std::string &nickname) const
+bool Channel::isOnUserLimit()
 {
-	std::vector<const User *>::const_iterator	beg = this->_users.begin();
-	std::vector<const User *>::const_iterator	end = this->_users.end();
-	for (; beg != end; ++beg)
-		if ((*beg)->getUsername() == nickname)
-			return (true);
-	return (false);
+	if (_users_ptr.size() >= _max_users)
+		return true;
+	return false;
 }
 
-void	Channel::addOperator(const User &user)
+void Channel::setNewBan(std::string banned_nick)
 {
-	if (!isOperator(user))
-		this->_operators.push_back(&user);
+	std::vector<User *>::iterator iter;
+	User *toban = getUserPerNick(banned_nick);
+	
+	_banned_users_ptr.push_back(toban);
+	toban->setChannel(nullptr);
+	quitChannel(toban);
+	pushBroadcast(RPL_PART(toban->getSenderPrefix(), _name));
 }
 
-void	Channel::removeOperator(const User &user)
+void Channel::removeBan(std::string banned_nick)
 {
-	if (isOperator(user))
+	std::vector<User *>::iterator iter;
+	User *todeban = getBannedUserPerNick(banned_nick);
+	
+	for (iter = _banned_users_ptr.begin(); iter != _banned_users_ptr.end(); iter++)
 	{
-		size_t	i;
-		for (i = 0; i < this->_operators.size(); i++)
-			if (this->_operators[i] == &user)
-				break;
-		this->_operators.erase(this->_operators.begin() + i);
-		if (this->_operators.size() == 0 && this->_users.size() > 0)
+		if (*iter && todeban == *iter)
 		{
-			this->_operators.push_back(this->_users[0]);
-			sendMessage("MODE " + this->_name + " +o "  + this->_users[0]->getUsername() + "\n", user, true);
+			_banned_users_ptr.erase(iter);
+			return;
 		}
 	}
 }
 
-void	Channel::disconnect(const User &user)
+void Channel::pushBroadcast(std::string msg, User *initiator)
 {
-	std::vector<const User *>::iterator	begin = this->_users.begin();
-	std::vector<const User *>::iterator	end = this->_users.end();
-	for (; begin != end; ++begin)
-		if (*begin == &user)
-			break ;
-	this->_users.erase(begin);
-	removeOperator(user);
+	std::vector<User *>::iterator iter;
+	
+	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); iter++)
+	{
+		if (*iter != initiator)
+			(*iter)->push(msg, true);
+	}
+}
+
+void Channel::broadcastNames(User *initiator)
+{
+	std::string chans_users_nicks;
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); ++iter)
+	{
+		if (*iter == _operator)
+			chans_users_nicks.append("@" + (*iter)->getNickName() + " ");
+		else
+			chans_users_nicks.append((*iter)->getNickName() + " ");
+	}
+	this->pushBroadcast(RPL_NAMREPLY(initiator->getNickName(), _name, chans_users_nicks));
+	this->pushBroadcast(RPL_ENDOFNAMES(initiator->getNickName(), _name));
+}
+
+void Channel::welcomeToChannel(User *user)
+{	
+	_users_ptr.push_back(user);
+	
+	this->pushBroadcast(RPL_JOIN(user->getSenderPrefix(), _name));
+	broadcastNames(user);
+}
+
+void Channel::quitChannel(User *user)
+{
+	std::vector<User *>::iterator iter;
+
+	for (iter = _users_ptr.begin(); iter != _users_ptr.end(); iter++)
+	{
+		if ((*iter)->getNickName() == user->getNickName())
+		{
+		 	_users_ptr.erase(iter);
+			return;
+		}
+	}
 }
