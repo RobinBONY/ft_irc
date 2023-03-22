@@ -66,7 +66,7 @@ an IRCop user can administrate his own channel thanks to /kick and /mode command
 
 #set a max users limit
 
-**/mode +l {INT_LIMIT}
+**/mode +l {INT_LIMIT}**
 
 #ban a user
 
@@ -78,7 +78,7 @@ an IRCop user can administrate his own channel thanks to /kick and /mode command
 
 #remove policies
 
-**/mode -{n / b / l / k} {TARGETTED_NICK}
+**/mode -{n / b / l / k} {TARGETTED_NICK}**
 
 
 
