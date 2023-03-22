@@ -76,9 +76,13 @@ an IRCop user can administrate his own channel thanks to /kick and /mode command
 
 **/mode +n**
 
+#transmit IRCop priviledge to anothe channel user
+
+**/mode +o {NICK}**
+
 #remove policies
 
-**/mode -{n / b / l / k} {TARGETTED_NICK}**
+**/mode -{n / b / l / k / o} {TARGETTED_NICK}**
 
 
 
