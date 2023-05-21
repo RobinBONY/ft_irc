@@ -21,7 +21,8 @@ SRCS =	srcs/channel/channel.cpp \
 HEADERS =	srcs/channel/channel.hpp \
 			srcs/user/user.hpp \
 			srcs/command/command.hpp \
-			srcs/server/server.hpp
+			srcs/server/server.hpp	\
+			includes/Irc.hh
 
 CC = c++
 RM = rm -f
