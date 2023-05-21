@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:16:56 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:44:13 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ void Server::receiveMsgs(int fd)
 	{
 		memset(msgbuff, '\0', 513);
 		size_t MsgLen = recv(fd, &msgbuff, 512, 0);
-		if (MsgLen >= 0)
+		if (MsgLen > 0)
 		{
 			msgbuff[MsgLen + 1] = '\0';
 			raw_message.append(msgbuff);

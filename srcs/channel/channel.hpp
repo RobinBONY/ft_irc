@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:30:30 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:10:29 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:28:59 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CPP_CHANNEL_HPP
 # define CPP_CHANNEL_HPP
 
-# include "../../includes/Irc.hh"
+# include "../../includes/irc.hh"
 
 class Channel;
 
@@ -24,9 +24,9 @@ class Channel
 	private : 
 
 	std::string			_name;
-	User				*_operator;
-
 	std::string			_password;
+
+	User				*_operator;
 	long long			_max_users;
 	bool				_outside_access;
 
@@ -57,7 +57,7 @@ class Channel
 	void		removeBan(std::string banned_nick);
 
 	void		welcomeToChannel(User *user);
-	void		pushBroadcast(std::string msg, User *initiator = nullptr);
+	void		pushBroadcast(std::string msg, User *initiator = NULL);
 	void		quitChannel(User *user);
 	void		broadcastNames(User *initiator);
 };

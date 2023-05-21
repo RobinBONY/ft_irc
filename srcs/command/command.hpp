@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:10:54 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:29:35 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CPP_COMMAND_HPP
 # define CPP_COMMAND_HPP
 
-# include "../../includes/Irc.hh"
+# include "../../includes/irc.hh"
 # include "../user/user.hpp"
 # include "../server/server.hpp"
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: rbony <rbony@corobizar.com>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 21:28:58 by rbony             #+#    #+#              #
-#    Updated: 2023/02/21 10:58:36 by vducoulo         ###   ########.fr        #
+#    Updated: 2023/05/21 18:28:46 by rbony            ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ HEADERS =	srcs/channel/channel.hpp \
 			srcs/user/user.hpp \
 			srcs/command/command.hpp \
 			srcs/server/server.hpp	\
-			includes/Irc.hh
+			includes/irc.hh
 
 CC = c++
 RM = rm -f
 
-FLAGS = #-fsanitize=address -g #-Wall -Wextra -Werror -std=c++98 
+FLAGS = -Wall -Wextra -Werror -std=c++98 
 
 OBJS = ${SRCS:.cpp=.o}
 

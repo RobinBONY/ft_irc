@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Irc.hh                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 23:26:28 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:13:36 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 #include <vector>
 #include <climits>
 #include <cstring>
+#include <string>
+#include <sstream>
 #include <cstdlib>
 #include <map>
+
 
 /*
 	USER STATES DEFINES

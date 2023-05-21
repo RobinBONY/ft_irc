@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 18:31:51 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/21 15:10:39 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:38:31 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "channel.hpp"
 
 Channel::Channel(std::string name, std::string pass)
-: _name(name), _password(pass), _operator(nullptr), _max_users(INT_MAX), _outside_access(false)
+: _name(name), _password(pass), _operator(NULL), _max_users(INT_MAX), _outside_access(false)
 {
 	
 }
@@ -59,7 +59,7 @@ bool Channel::isBanned(User *toverify)
 
 bool Channel::isOnUserLimit()
 {
-	if (_users_ptr.size() >= _max_users)
+	if (_users_ptr.size() >= (size_t)_max_users)
 		return true;
 	return false;
 }
@@ -70,7 +70,7 @@ void Channel::setNewBan(std::string banned_nick)
 	User *toban = getUserPerNick(banned_nick);
 	
 	_banned_users_ptr.push_back(toban);
-	toban->setChannel(nullptr);
+	toban->setChannel(NULL);
 	quitChannel(toban);
 	pushBroadcast(RPL_PART(toban->getSenderPrefix(), _name));
 }

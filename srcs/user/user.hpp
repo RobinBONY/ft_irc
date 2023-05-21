@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   user.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:55 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:11:47 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:29:10 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CPP_USER_HPP
 # define CPP_USER_HPP
 
-# include "../../includes/Irc.hh"
+# include "../../includes/irc.hh"
 class User;
 # include "../channel/channel.hpp"
 
@@ -22,13 +22,13 @@ class User
 	private : 
 		int							_fd;
 		std::string		 			_hostname;
-		std::vector<std::string> 	_msgs;
-
+		Channel				*_current_channel;
 		std::string			_nickname;
+		
+		std::vector<std::string> 	_msgs;
 		std::string			_username;
 		std::string			_realname;
 		int					_state;
-		Channel				*_current_channel;
 
 	public :
 		User(int user_fd);

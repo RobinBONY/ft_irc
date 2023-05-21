@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:35:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:17:00 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:29:21 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CPP_SERVER_HPP
 # define CPP_SERVER_HPP
 
-# include "../../includes/Irc.hh"
+# include "../../includes/irc.hh"
 # include "../user/user.hpp"
 # include "../channel/channel.hpp"
 

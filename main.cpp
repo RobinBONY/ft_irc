@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:13:58 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:17:14 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:29:56 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/Irc.hh"
+#include "includes/irc.hh"
 #include "srcs/server/server.hpp"
 bool g_isactive = true;
 
 void sig_handler(int signum)
 {
 	g_isactive = false;
-	std::cout << "called" << std::endl;
+	std::cout << signum << "called" << std::endl;
 }
 
 int main(int argc, char** argv)

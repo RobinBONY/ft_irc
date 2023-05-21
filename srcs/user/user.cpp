@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:33:53 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/03/22 12:11:37 by vducoulo         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:42:15 by rbony            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "user.hpp"
 
 User::User(int user_fd)
-: _fd(user_fd), _hostname("localhost"), _current_channel(nullptr), _nickname("ft_user" + std::to_string(user_fd))
+: _fd(user_fd), _hostname("localhost"), _current_channel(NULL), _nickname("ft_user" + user_fd)
 {
 	
 }

@@ -104,7 +104,7 @@ void Command::cmdNick(void)
 	{
 		_relative_user->push(RPL_NICK(_parameters[0]));
 		_relative_user->setNickName(_parameters[0]);
-		if (_relative_user->getChannel() != nullptr)
+		if (_relative_user->getChannel() != NULL)
 			_relative_user->getChannel()->broadcastNames(_relative_user);
 	}
 }
@@ -118,7 +118,7 @@ void Command::cmdJoin(void)
 	std::string channel_pass;
 	Channel		*channel;
 
-	if (_relative_user->getChannel() != nullptr)
+	if (_relative_user->getChannel() != NULL)
 		return (_relative_user->push(ERR_TOOMANYCHANNELS(_relative_user->getNickName(), channel_name)));
 	if (channel_name[0] != '#')
 		return (_relative_user->push(FTIRC_ERR_BADCHANNELNAME(_relative_user->getNickName(), channel_name)));
@@ -137,7 +137,7 @@ void Command::cmdJoin(void)
 	{
 		_relative_user->setChannel(channel);
 		channel->welcomeToChannel(_relative_user);
-		if (channel->getOperator() == nullptr)
+		if (channel->getOperator() == NULL)
 		{
 			channel->setOperator(_relative_user);
 			_relative_user->push(RPL_YOUREOPER(_relative_user->getNickName()));
@@ -169,8 +169,9 @@ void Command::cmdMode(void)
 	{
 		if (_parameters[1][i] == 'n' && !n)
 		{
+			std::string str = channel->getOutsideAccess() ? "true" : "false";
 			grant ? channel->setOutsideAccess(true) : channel->setOutsideAccess(false);
-			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'n', std::to_string(channel->getOutsideAccess())));
+			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'n', str));
 			n = true;
 		}
 		else if (grant && parameter_idx + 1 >= _parameters.size())
@@ -197,8 +198,10 @@ void Command::cmdMode(void)
 		}
 		else if (_parameters[1][i] == 'l' && !l)
 		{
-			grant ? parameter_idx++, channel->setMaxUsersLimit(std::stoll(_parameters[parameter_idx])) : channel->setMaxUsersLimit(INT_MAX);
-			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'l', std::to_string(channel->getMaxUsers())));
+			std::stringstream ss;
+			ss << channel->getMaxUsers();
+			grant ? parameter_idx++, channel->setMaxUsersLimit(atoll(_parameters[parameter_idx].c_str())) : channel->setMaxUsersLimit(INT_MAX);
+			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'l', ss.str()));
 			l = true;
 		}
 		else if (_parameters[1][i] == 'o' && !o)
@@ -219,7 +222,7 @@ void Command::cmdMode(void)
 				}
 			}
 			else
-				channel->setOperator(nullptr);
+				channel->setOperator(NULL);
 			o = true;
 		}
 		else if (_parameters[1][i] != 'k' || _parameters[1][i] != 'l' || _parameters[1][i] != 'n' || _parameters[1][i] != 'o' || _parameters[1][i] != 'b')
@@ -248,7 +251,7 @@ void Command::cmdPrivmsg(void)
 		std::cout << message << std::endl;
 	}
 	
-	if (send_to.front() == '#')
+	if (send_to.c_str()[0] == '#')
 	{
 		if (errNotUserChannel(send_to))
 			return;
@@ -282,7 +285,7 @@ void Command::cmdPing(void)
 
 void Command::cmdQuit(void)
 {
-	if (_relative_user->getChannel() != nullptr)
+	if (_relative_user->getChannel() != NULL)
 	{
 		std::cerr << "USER HAS CHANNEL" << std::endl;
 		_parameters[0] = _relative_user->getChannel()->getName();
@@ -309,13 +312,13 @@ void Command::cmdPart(void)
 	else if (channel->getUsersPtr().size() == 1)
 	{
 		_relative_server->deleteChannel(channel->getName());
-		_relative_user->setChannel(nullptr);
+		_relative_user->setChannel(NULL);
 		return ;
 	}
 	channel->pushBroadcast(RPL_PART(_relative_user->getSenderPrefix(), _parameters[0]));
 	channel->quitChannel(_relative_user);
 	channel->broadcastNames(_relative_user);
-	_relative_user->setChannel(nullptr);
+	_relative_user->setChannel(NULL);
 }
 
 void Command::cmdKick()
@@ -326,7 +329,7 @@ void Command::cmdKick()
 	try {
 		User *target;
 		target = _relative_user->getChannel()->getUserPerNick(_parameters[1]);
-		target->setChannel(nullptr);
+		target->setChannel(NULL);
 		_relative_user->getChannel()->quitChannel(target);
 		_relative_user->getChannel()->pushBroadcast(RPL_PART(target->getSenderPrefix(), _parameters[0]));
 	}
@@ -343,7 +346,7 @@ void Command::errUnknowCommand(void)
 
 int Command::errNeedMoreParams(int minimalparameterscount)
 {
-	if (_parameters.size() < minimalparameterscount)
+	if (_parameters.size() < (size_t)minimalparameterscount)
 	{
 		_relative_user->push(ERR_NEEDMOREPARAMS(_relative_user->getNickName(), _name));
 		return 1;
@@ -363,7 +366,7 @@ int Command::errNotOperator(std::string chan_name)
 
 int Command::errNotUserChannel(std::string chan_name)
 {
-	if (_relative_user->getChannel()==nullptr || _relative_user->getChannel()->getName() != chan_name)
+	if (_relative_user->getChannel()==NULL || _relative_user->getChannel()->getName() != chan_name)
 	{
 		_relative_user->push(ERR_NOSUCHCHANNEL(_relative_user->getNickName(), chan_name));
 		return 1;
