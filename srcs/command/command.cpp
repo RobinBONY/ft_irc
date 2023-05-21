@@ -240,10 +240,13 @@ void Command::cmdPrivmsg(void)
 	User		*dest_usr;
 
 	if (_parameters[1][0] == ':')
-		_parameters[1] = _parameters[1].substr(1, _parameters[0].length());
+		_parameters[1] = _parameters[1].substr(1, _parameters[1].length());
 	
 	for (iter = _parameters.begin() + 1; iter != _parameters.end(); iter++)
+	{
 		message += *iter + " ";
+		std::cout << message << std::endl;
+	}
 	
 	if (send_to.front() == '#')
 	{

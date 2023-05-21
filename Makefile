@@ -12,19 +12,21 @@
 
 NAME = ircserv
 
-SRCS =	srcs/Channel/Channel.cpp \
-		srcs/User/User.cpp \
-		srcs/Server/Server.cpp \
+SRCS =	srcs/channel/channel.cpp \
+		srcs/user/user.cpp \
+		srcs/server/server.cpp \
+		srcs/command/command.cpp \
 		main.cpp
 
-HEADERS =	srcs/Channel/Channel.hpp \
-			srcs/User/User.hpp \
-			srcs/Server/Server.hpp
+HEADERS =	srcs/channel/channel.hpp \
+			srcs/user/user.hpp \
+			srcs/command/command.hpp \
+			srcs/server/server.hpp
 
 CC = c++
 RM = rm -f
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = #-fsanitize=address -g #-Wall -Wextra -Werror -std=c++98 
 
 OBJS = ${SRCS:.cpp=.o}
 

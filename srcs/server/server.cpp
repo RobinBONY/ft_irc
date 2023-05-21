@@ -189,7 +189,9 @@ std::vector<std::string> getSplittedParams(std::string hay)
 		size_t tmp_needle = hay.find(needle, needle_position + 1);
 		res.push_back(hay.substr(needle_position + 1, tmp_needle - needle_position - 1));
 		needle_position = tmp_needle;
+		std::cout << hay.substr(needle_position + 1, tmp_needle - needle_position - 1) << std::endl;
 	}
+	
 	return res;
 }
 
