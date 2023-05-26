@@ -13,9 +13,15 @@
 # include "user.hpp"
 
 User::User(int user_fd)
-: _fd(user_fd), _hostname("localhost"), _current_channel(NULL), _nickname("ft_user" + user_fd)
+: _fd(user_fd), _hostname("localhost"), _current_channel(NULL)
 {
-	
+	std::stringstream ss("");
+	std::string fd_str;
+
+	ss << user_fd;
+	fd_str = ss.str();
+	_nickname = std::string("ft_user");
+	_nickname += fd_str;
 }
 
 std::string User::getSenderPrefix() const
@@ -40,7 +46,7 @@ void User::push(std::string msg, bool raw)
 	
 	send (_fd , message.c_str(), message.length(), 0);
 	if (DEBUG)
-		std::cerr << "->    [DEBUG] " << "server answered with =" << message.substr(0, message.length() - 2) << std::endl;
+		std::cerr << "->    [DEBUG] " << "server answered with =\"" << message.substr(0, message.length() - 2) << "\"" << std::endl;
 }
 
 void User::welcomeToIrc(void)

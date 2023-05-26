@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 					exit(EXIT_SUCCESS);
 			}
 		}
-		catch (const std::exception &e)
+		catch (const std::runtime_error &e)
 		{
 			std::cerr << "[ERROR] " << e.what() << std::endl;
 		}

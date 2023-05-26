@@ -44,7 +44,7 @@ class Server
 		Channel							*getSetRelativeChannel(std::string name, std::string pass);
 		std::string						getPassword(void) { return _password; };
 
-		int 							setSocketFd(int port);
+		int 							setSocketFd(uint16_t port);
 		void							deleteChannel(std::string chan_name);
 		void							deleteUser(User *usr);
 };

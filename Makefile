@@ -27,7 +27,8 @@ HEADERS =	srcs/channel/channel.hpp \
 CC = c++
 RM = rm -f
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 
+FLAGS = -Wall -Wextra -Werror -std=c++98 -Wpointer-arith -Wcast-qual -Wno-missing-braces -fsanitize=address -g
+
 
 OBJS = ${SRCS:.cpp=.o}
 

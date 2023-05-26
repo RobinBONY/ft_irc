@@ -46,7 +46,7 @@ Server::~Server()
 	_channels.clear();
 }
 
-int Server::setSocketFd(int port)
+int Server::setSocketFd(uint16_t port)
 {
 	int 				sock_fd;
 	const int 			flag = 1;
@@ -189,7 +189,6 @@ std::vector<std::string> getSplittedParams(std::string hay)
 		size_t tmp_needle = hay.find(needle, needle_position + 1);
 		res.push_back(hay.substr(needle_position + 1, tmp_needle - needle_position - 1));
 		needle_position = tmp_needle;
-		std::cout << hay.substr(needle_position + 1, tmp_needle - needle_position - 1) << std::endl;
 	}
 	
 	return res;
@@ -202,6 +201,7 @@ void Server::receiveMsgs(int fd)
 	std::string 				raw_message;
 	std::vector<std::string> 	raw_msgs;
 	
+	std::cerr << "trying to read from fd :" << fd << std::endl;
 	while (raw_message.find("\r\n") == std::string::npos)
 	{
 		memset(msgbuff, '\0', 513);
@@ -212,7 +212,22 @@ void Server::receiveMsgs(int fd)
 			raw_message.append(msgbuff);
 		}
 		else
-			throw::std::runtime_error("Can't read buffer !");
+		{
+			getRelativeUser(fd)->setMsgs(std::vector<std::string>());
+			std::vector<pollfd>::iterator pfd_iter;
+			for (pfd_iter = _pfds.begin(); pfd_iter != _pfds.end(); pfd_iter++)
+			{
+				if ((*pfd_iter).fd == fd)
+				{
+					(*pfd_iter).events = POLLHUP;
+					(*pfd_iter).revents = POLLHUP;
+
+					break;
+				}
+			}
+			return;
+			//throw::std::runtime_error("Can't read buffer !");
+		}
 	}
 	
 	while (last_breaker_pos != std::string::npos)
@@ -220,7 +235,6 @@ void Server::receiveMsgs(int fd)
 		std::string cmd_str;
 		size_t		tmp_breaker_pos = 0;
 
-		std::cerr << std::endl;
 		tmp_breaker_pos = raw_message.find("\n", last_breaker_pos + 1);
 		if (tmp_breaker_pos < std::string::npos)
 		{
@@ -229,7 +243,7 @@ void Server::receiveMsgs(int fd)
 				raw_msgs.push_back(cmd_str);
 				tmp_breaker_pos ++;
 				if (DEBUG)
-					std::cerr << "<- [DEBUG] " << "fd " << fd << " received " << cmd_str << "\"" << std::endl;
+					std::cerr << "<- [DEBUG] " << "fd " << fd << " received \"" << cmd_str << "\"" << std::endl;
 		}
 		last_breaker_pos = tmp_breaker_pos;
 	}

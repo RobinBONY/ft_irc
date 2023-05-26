@@ -118,15 +118,29 @@ void Command::cmdJoin(void)
 	std::string channel_pass;
 	Channel		*channel;
 
+
+	for (std::vector<std::string>::iterator iter = _parameters.begin() + 1; iter != _parameters.end(); iter++)
+	{
+		std::cout << "param :" << *iter << std::endl;
+	}
+
 	if (_relative_user->getChannel() != NULL)
 		return (_relative_user->push(ERR_TOOMANYCHANNELS(_relative_user->getNickName(), channel_name)));
 	if (channel_name[0] != '#')
 		return (_relative_user->push(FTIRC_ERR_BADCHANNELNAME(_relative_user->getNickName(), channel_name)));
 	try
 	{	
-		channel_pass = _parameters[2];
-		if (channel_pass == "+k")
-			channel_pass = _parameters[3];
+		if (_parameters.size() > 1)
+		{
+			std::cerr << "debug param:" << _parameters[1] << std::endl;
+			channel_pass = _parameters[1];
+			std::cerr << _parameters[1] << std::endl;
+			if (_parameters.size() > 2 && channel_pass == "+k")
+			{
+				std::cerr << "ENTERED" << std::endl;
+				channel_pass = _parameters[2];
+			}
+		}
 	}
 	catch (const std::out_of_range &e)
 	{	channel_pass = "";				}
@@ -193,7 +207,7 @@ void Command::cmdMode(void)
 		else if (_parameters[1][i] == 'k' && !k)
 		{
 			grant ? parameter_idx++, channel->setPassword(_parameters[parameter_idx]) : channel->setPassword("");
-			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'k', "#" + channel->getPassword() + "#"));
+			channel->pushBroadcast(RPL_MODE(_relative_user->getSenderPrefix(), _parameters[0], _parameters[1][0] + 'k', channel->getPassword()));
 			k = true;
 		}
 		else if (_parameters[1][i] == 'l' && !l)
@@ -248,7 +262,7 @@ void Command::cmdPrivmsg(void)
 	for (iter = _parameters.begin() + 1; iter != _parameters.end(); iter++)
 	{
 		message += *iter + " ";
-		std::cout << message << std::endl;
+		std::cout << "param :" << message << std::endl;
 	}
 	
 	if (send_to.c_str()[0] == '#')
