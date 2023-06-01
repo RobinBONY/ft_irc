@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: alakhdar <alakhdar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 12:49:24 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/05/21 18:29:35 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 13:13:09 by alakhdar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ class Command
 	typedef void 					(Command::* cmdPtr)();
 	std::map<std::string, cmdPtr> 	_cmd_ptr;
 	std::string 					_name;
-	bool							_auth_required;
 	std::vector<std::string>		_parameters;
 	User							*_relative_user;
 	Server							*_relative_server;

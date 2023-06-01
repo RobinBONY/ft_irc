@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbony <rbony@corobizar.com>                +#+  +:+       +#+         #
+#    By: alakhdar <alakhdar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 21:28:58 by rbony             #+#    #+#              #
-#    Updated: 2023/05/21 18:28:46 by rbony            ###   ########lyon.fr    #
+#    Updated: 2023/06/01 13:14:42 by alakhdar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,7 @@ HEADERS =	srcs/channel/channel.hpp \
 CC = c++
 RM = rm -f
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -Wpointer-arith -Wcast-qual -Wno-missing-braces -fsanitize=address -g
-
+FLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 
 OBJS = ${SRCS:.cpp=.o}
 

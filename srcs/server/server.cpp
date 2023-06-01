@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbony <rbony@corobizar.com>                +#+  +:+       +#+        */
+/*   By: alakhdar <alakhdar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:42:01 by vducoulo          #+#    #+#             */
-/*   Updated: 2023/05/21 17:44:13 by rbony            ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 13:27:28 by alakhdar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # include "../command/command.hpp"
 
 Server::Server(char *port, char *pass)
-: _active(1), _password(pass)
+:_password(pass)
 {
 	if (atoi(port) < 1024 || atoi(port) > 49151)
 		throw std::runtime_error("Bad port range");
@@ -256,11 +256,20 @@ void Server::executeMsgs(int fd)
 	User *relative_user = getRelativeUser(fd);
 	std::vector<std::string> msgs = relative_user->getMsgs();
 	std::vector<std::string>::iterator iter;
+	std::string command;
+	std::vector<std::string> parameters;
 	
 	for (iter = msgs.begin(); iter != msgs.end(); iter++)
 	{
-		std::string command((*iter).substr(0, (*iter).find(" ")));
-		std::vector<std::string> parameters = getSplittedParams((*iter).substr(command.length(), (*iter).length()));
+		if ((*iter).find(" ") != std::string::npos)
+		{
+			command = (*iter).substr(0, (*iter).find(" "));
+			parameters = getSplittedParams((*iter).substr(command.length(), (*iter).length()));
+		}
+		else
+		{
+			command = *iter;
+		}
 
 		Command new_command(command, parameters, relative_user, this);
 		new_command.execute();
